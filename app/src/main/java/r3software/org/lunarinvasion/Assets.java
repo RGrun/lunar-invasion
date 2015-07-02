@@ -345,14 +345,15 @@ public class Assets {
         green = new TextureRegion(menuAtlas, 11 * 32, 12 * 32, 6 * 32, 2 * 32);
         blue = new TextureRegion(menuAtlas, 11 * 32, 14 * 32, 4 * 32, 2 * 32);
         purple = new TextureRegion(menuAtlas, 11 * 32, 16 * 32, 6 * 32, 2 * 32);
-        red = new TextureRegion(menuAtlas, 11 * 32, 18 * 32, 3 * 32, 2 * 32);
+        red = new TextureRegion(menuAtlas, 11 * 32, 18 * 32, 4 * 32, 2 * 32);
         credits_small = new TextureRegion(menuAtlas, 11 * 32, 20 * 32, 7 * 32, 2 * 32);
         help_small = new TextureRegion(menuAtlas, 11 * 32, 22 * 32, 4 * 32, 2 * 32);
         play = new TextureRegion(menuAtlas, 11 * 32, 24 * 32, 6 * 32, 3 * 32);
 
-        noel = new TextureRegion(menuAtlas, 19 * 32, 12 * 32, 13 * 32, 3 * 32);
-        chris = new TextureRegion(menuAtlas, 19 * 32, 15 * 32, 13 * 32, 3 * 32);
-        richard = new TextureRegion(menuAtlas, 19 * 32, 18 * 32, 13 * 32, 3 * 32);
+        noel = new TextureRegion(menuAtlas, 19 * 32, 15 * 32, 13 * 32, 3 * 32);
+        chris = new TextureRegion(menuAtlas, 20 * 32, 18 * 32, 11 * 32, 3 * 32);
+        //TODO: Programming is spelled wrong on the atlas
+        richard = new TextureRegion(menuAtlas, 19 * 32, 21 * 32, 13 * 32, 3 * 32);
 
         orange_shot_menu = new TextureRegion(menuAtlas, 17 * 32, 7 * 32, 3 * 32, 3 * 32);
         green_shot_menu = new TextureRegion(menuAtlas, 20 * 32, 7 * 32, 3 * 32, 3 * 32);

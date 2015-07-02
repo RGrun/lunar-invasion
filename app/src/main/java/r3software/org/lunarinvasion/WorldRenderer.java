@@ -270,9 +270,9 @@ public class WorldRenderer {
         renderProjectiles();
         renderProjectileTails();
         renderShotBounces();
+        renderCannons();
         renderTeleportEffects();
         renderShieldEffects();
-        renderCannons();
         renderTargets();
         batcher.endBatch();
         gl.glDisable(GL10.GL_BLEND);
