@@ -16,37 +16,36 @@ import r3software.org.lunarinvasion.engine.math.Rectangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
 
 /**
- * Created by Jeff on 7/2/2015.
+ * Created by Jeff on 7/4/2015.
  *
- * This is the help menu.
+ * This is the power ups TOC
  */
-public class HelpScreen extends GLScreen {
+public class PowerUpsScreen extends GLScreen {
 
     Vector2 touchPoint;
     Camera2D guiCam;
     SpriteBatcher batcher;
     Rectangle back;
+    Rectangle toMenu;
     Rectangle soundToggle;
 
-    Rectangle story;
-    Rectangle gamePlay;
-    Rectangle weapons;
-    Rectangle powerUps;
+    Rectangle health;
+    Rectangle shield;
+    Rectangle weapon;
 
-    public HelpScreen(Game game) {
+    public PowerUpsScreen(Game game) {
         super(game);
         guiCam = new Camera2D(glGraphics, 720, 1280);
         batcher = new SpriteBatcher(glGraphics, 100);
 
         back = new Rectangle(96, 1280 -  288, 128, 128);
+        toMenu = new Rectangle(300, 1280 - 128, 128, 128);
         soundToggle = new Rectangle(0, 1280 - 32, 64, 64);
-
         touchPoint = new Vector2();
 
-        story = new Rectangle(128, 256, 384, 96);
-        gamePlay = new Rectangle(128, 384, 384, 96);
-        weapons = new Rectangle(128, 512, 384, 96);
-        powerUps = new Rectangle(128, 640, 384, 96);
+        health = new Rectangle(8 * 32, 8 * 32, 6 * 32, 3 * 32);
+        shield = new Rectangle(8 * 32, 12 * 32, 6 * 32, 3 * 32);
+        weapon = new Rectangle(8 * 32, 16 * 32, 6 * 32, 3 * 32);
     }
 
 
@@ -60,42 +59,42 @@ public class HelpScreen extends GLScreen {
 
             touchPoint.set(event.x, event.y);
 
-            if(event.type == Input.TouchEvent.TOUCH_UP) {
+            if (event.type == Input.TouchEvent.TOUCH_UP) {
 
-                if(OverlapTester.pointInRectangle(story, touchPoint)) {
+                if (OverlapTester.pointInRectangle(health, touchPoint)) {
                     //Assets.playSound(Assets.clickSound);
-                    //game.setScreen(new StoryPage1(game));
+                    //game.setScreen(new HealthPage(game));
                     return;
                 }
 
-                if(OverlapTester.pointInRectangle(gamePlay, touchPoint)) {
+                if (OverlapTester.pointInRectangle(shield, touchPoint)) {
                     //Assets.playSound(Assets.clickSound);
-                    game.setScreen(new GamePlayScreen(game));
+                    //game.setScreen(new ShieldPage(game));
                     return;
                 }
 
-                if(OverlapTester.pointInRectangle(weapons, touchPoint)) {
+                if (OverlapTester.pointInRectangle(weapon, touchPoint)) {
                     // Assets.playSound(Assets.clickSound);
-                    game.setScreen(new WeaponsScreen(game));
+                    //game.setScreen(new WeaponPage(game));
                     return;
                 }
 
-                if(OverlapTester.pointInRectangle(powerUps, touchPoint)) {
+                if (OverlapTester.pointInRectangle(toMenu, touchPoint)) {
                     // Assets.playSound(Assets.clickSound);
-                    game.setScreen(new PowerUpsScreen(game));
+                    game.setScreen(new MainMenuScreen(game));
                     return;
                 }
 
                 if (OverlapTester.pointInRectangle(back, touchPoint)) {
                     //Assets.playSound(Assets.clickSound);
-                    game.setScreen(new MainMenuScreen(game));
+                    game.setScreen(new HelpScreen(game));
                     return;
                 }
 
-                if(OverlapTester.pointInRectangle(soundToggle, touchPoint)) {
+                if (OverlapTester.pointInRectangle(soundToggle, touchPoint)) {
                     // Assets.playSound(Assets.clickSound);
                     Settings.soundEnabled = !Settings.soundEnabled;
-                    if(Settings.soundEnabled) {
+                    if (Settings.soundEnabled) {
                         // Assets.music.play();
                     } else {
                         // Assets.music.pause();
@@ -123,13 +122,21 @@ public class HelpScreen extends GLScreen {
 
         batcher.beginBatch(Assets.menuAtlas);
 
-        batcher.drawSprite(360, 1280 - 128, 14 * 32, 5 * 32, Assets.help);
-        batcher.drawSprite(360, 1280 - (9.5f * 32), 12 * 32, 3 * 32, Assets.story);
-        batcher.drawSprite(360, 1280 - (13.5f * 32), 12 * 32, 3 * 32, Assets.game_play_small);
-        batcher.drawSprite(360, 1280 - (17.5f * 32), 12 * 32, 3 * 32, Assets.weapons_small);
-        batcher.drawSprite(360, 1280 - (21.5f * 32), 12 * 32, 3 * 32, Assets.power_ups_small);
+
+        batcher.drawSprite(360, 1280 - (4.5f * 32), 14 * 32, 5 * 32, Assets.power_ups);
+
+        //shot pictures
+        batcher.drawSprite(5.5f * 32, 1280 - (9.5f * 32), 3 * 32, 3 * 32, Assets.health_pu_menu);
+        batcher.drawSprite(5.5f * 32, 1280 - (13.5f * 32), 3 * 32, 3 * 32, Assets.shield_pu_menu);
+        batcher.drawSprite(5.5f * 32, 1280 - (17.5f * 32), 3 * 32, 3 * 32, Assets.weapon_pu_menu);
+
+        //menu items
+        batcher.drawSprite(11 * 32, 1280 - (9.5f * 32), 6 * 32, 3 * 32, Assets.health_menu);
+        batcher.drawSprite(11 * 32, 1280 - (13.5f * 32), 6 * 32, 3 * 32, Assets.shield_menu);
+        batcher.drawSprite(11 * 32, 1280 - (17.5f * 32), 6 * 32, 3 * 32, Assets.weapon_menu);
 
         batcher.drawSprite(128, 224, 128, 128, Assets.left_arrow);
+        batcher.drawSprite(360, 2.5f * 32, 128, 128, Assets.down_arrow);
 
         batcher.drawSprite(32, 32, 64, 64, (Settings.soundEnabled ?
                 Assets.soundOn : Assets.soundOff));
@@ -137,7 +144,6 @@ public class HelpScreen extends GLScreen {
         batcher.endBatch();
 
         gl.glDisable(GL10.GL_BLEND);
-
     }
 
     @Override
