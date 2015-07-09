@@ -105,9 +105,8 @@ public class Assets {
     public static TextureRegion teleportMeter;
     public static TextureRegion teleportBorder;
 
-    // 'x' circles
-    public static TextureRegion redX;
-    public static TextureRegion blackX;
+    //gear button
+    public static TextureRegion gearButton;
 
     // explosions
     public static Animation shipExplosion;
@@ -120,6 +119,10 @@ public class Assets {
     //weapon menus
     public static TextureRegion humanMenu;
     public static TextureRegion alienMenu;
+
+    //pause menu stuff
+    public static Texture blackOverlay;
+    public static TextureRegion blackOverlayRegion;
 
 
     //pictures of the individual weapons
@@ -185,11 +188,15 @@ public class Assets {
 
         //background = new Texture(game, "Space_BG_2.png");
         background = new Texture(game, "Space_BG_2_pwr2.png");
-        atlas = new Texture(game, "Sprite_Atlas_10_pwr2.png");
-        menuAtlas = new Texture(game, "Menu_Sheet_1_pwr2.png");
+        atlas = new Texture(game, "Sprite_Atlas_11.png");
+        menuAtlas = new Texture(game, "Menu_Sheet_2.png");
         backgroundRegion = new TextureRegion(background, 0, 0, 512, 1024);
         menuBackground = new Texture (game, "Menu_BG_2_pwr2.png");
         menuBackgroundRegion = new TextureRegion(menuBackground, 0, 0, 512, 1024);
+
+        //black overlay for game screen
+        blackOverlay = new Texture(game, "Pause_Shade.png");
+        blackOverlayRegion = new TextureRegion(blackOverlay, 0, 0, 512, 1024);
 
         humanShip = new TextureRegion(atlas, 0, 0, 64, 64);
         alienShip = new TextureRegion(atlas, 64, 0, 64, 64);
@@ -283,8 +290,7 @@ public class Assets {
         teleportMeter = new TextureRegion(atlas, 22 * 32, 6 * 32, 2 * 32, 3 * 32);
         teleportBorder = new TextureRegion(atlas, 22 * 32, 6 * 32, 2 * 32, 3 * 32);
 
-        redX = new TextureRegion(atlas, 26 * 32, 6 * 32, 2 * 32, 2 * 32);
-        blackX = new TextureRegion(atlas, 28 * 32, 6 * 32, 2 * 32, 2 * 32);
+        gearButton = new TextureRegion(atlas, 24 * 32, 6 * 32, 2 * 32, 2 * 32);
 
         shipExplosion   = new Animation(0.1f,
                 new TextureRegion(atlas, 16 * 32, 9 * 32, 3 * 32, 3 * 32),

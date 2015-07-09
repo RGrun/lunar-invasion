@@ -70,7 +70,7 @@ public class WorldRenderer {
         this.batcher = batcher;
 
         this.circle = new Texture((GLGame)world.game, "Distance_Sprite_pwr2.png");
-        this.atlas = new Texture((GLGame)world.game, "Sprite_Atlas_10_pwr2.png");
+        this.atlas = new Texture((GLGame)world.game, "Sprite_Atlas_11.png");
 
         this.teleportCircleRegion = new TextureRegion(circle, 0, 0,
                 1024, 1024);
@@ -115,7 +115,10 @@ public class WorldRenderer {
         renderButtons();
         renderEnergyBars();
         renderWeaponOverlay();
+
     }
+
+
 
     private void renderBackground() {
         batcher.beginBatch(Assets.background);
@@ -147,10 +150,10 @@ public class WorldRenderer {
 
             batcher.drawSprite(14, 14, 12, 8, keyFrame);
 
-            Assets.blackFont.drawText(batcher, greenAmmo + "", 15f, 14.75f, "world");
-            Assets.blackFont.drawText(batcher, missileAmmo + "", 19f, 14.75f, "world");
-            Assets.blackFont.drawText(batcher, redAmmo + "", 11f, 10.75f, "world");
-            Assets.blackFont.drawText(batcher, blueAmmo + "", 15f, 10.75f, "world");
+            Assets.blackFont.drawText(batcher, greenAmmo + "", 15f, 15f, "world");
+            Assets.blackFont.drawText(batcher, missileAmmo + "", 19f, 15f, "world");
+            Assets.blackFont.drawText(batcher, redAmmo + "", 11f, 11f, "world");
+            Assets.blackFont.drawText(batcher, blueAmmo + "", 15f, 11f, "world");
 
             batcher.endBatch();
 
@@ -173,10 +176,10 @@ public class WorldRenderer {
 
             batcher.drawSprite(14, 26, 12, -8, keyFrame);
 
-            Assets.blackFont.drawText(batcher, missileAmmo + "", 19.25f, 25.25f, true, "world");
-            Assets.blackFont.drawText(batcher, greenAmmo + "", 15.25f, 25.25f, true, "world");
-            Assets.blackFont.drawText(batcher, blueAmmo + "", 15.25f, 29.25f, true, "world");
-            Assets.blackFont.drawText(batcher, redAmmo + "", 11.25f, 29.25f, true, "world");
+            Assets.blackFont.drawText(batcher, missileAmmo + "", 19f, 25f, true, "world");
+            Assets.blackFont.drawText(batcher, greenAmmo + "", 15f, 25f, true, "world");
+            Assets.blackFont.drawText(batcher, blueAmmo + "", 15f, 29f, true, "world");
+            Assets.blackFont.drawText(batcher, redAmmo + "", 11f, 29f, true, "world");
 
             batcher.endBatch();
 
@@ -220,6 +223,13 @@ public class WorldRenderer {
 
     private void renderButtons() {
 
+        GL10 gl = glGraphics.getGL();
+
+        gl.glEnable(GL10.GL_BLEND);
+        gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+
         batcher.beginBatch(Assets.atlas);
         //draw move buttons in their various states
         //human move button
@@ -245,6 +255,11 @@ public class WorldRenderer {
             batcher.drawSprite(world.alienMoveButton.pos().x, world.alienMoveButton.pos().y,
                     -2, -3, Assets.disabledButton);
         }
+
+        //pause menu button
+
+        batcher.drawSprite(world.pauseButton.pos().x, world.pauseButton.pos().y,
+                2, 2, Assets.gearButton);
 
         batcher.endBatch();
 

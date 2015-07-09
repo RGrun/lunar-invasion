@@ -47,8 +47,8 @@ public class Cannon extends GameObject {
     public final float TELEPORT_DISTANCE_MAX = 14;
     public float currentTeleportEnergy;
     public float energyRatio;
-    public final float FIVE_PERCENT_OF_ENERGY = TELEPORT_DISTANCE_MAX * 0.05f;
     public final float FIFTEEN_PERCENT_OF_ENERGY = TELEPORT_DISTANCE_MAX * 0.15f;
+    public final float TWENTYFIVE_PERCENT_OF_ENERGY = TELEPORT_DISTANCE_MAX * 0.25f;
 
     public float health;
 
@@ -283,7 +283,7 @@ public class Cannon extends GameObject {
 
             if (currentTeleportEnergy < TELEPORT_DISTANCE_MAX) {
                 //give 15% of total energy back each time ship is hit
-                currentTeleportEnergy += FIFTEEN_PERCENT_OF_ENERGY;
+                currentTeleportEnergy += TWENTYFIVE_PERCENT_OF_ENERGY;
 
 
                 //do not allow > 100%

@@ -71,6 +71,7 @@ public class World {
     public static final int A_SHOOT = 5;
     public static final int H_SELECT = 6;
     public static final int A_SELECT = 7;
+    public static final int GAME_PAUSED = 8;
 
     //cannon IDs
     public static final int HUMAN_CANNON = 0;
@@ -102,6 +103,10 @@ public class World {
     public final WorldListener listener;
 
     public int state;
+
+    //this is so that we can remember the last state
+    //we were in when the game was paused
+    public int prevState;
 
     public Screen screen;
     public Game game;
@@ -143,6 +148,9 @@ public class World {
     public GameObject aMissileBox = new GameObject(18, 24, 4, 4);
     public GameObject aRedBox = new GameObject(10, 28, 4, 4);
     public GameObject aBlueBox = new GameObject(14, 28, 4, 4);
+
+    // "gear" pause button
+    public GameObject pauseButton = new GameObject(21.65f, 19.8f, 2, 2);
 
     //random
     public Random rand;
@@ -199,20 +207,21 @@ public class World {
                 aCannon.pos().y - TARGET_DISTANCE_MAX, 1, 1);
 
         //button placement
-        this.humanMoveButton = new GameObject(21.65f, 10, 2, 3);
+        this.humanMoveButton = new GameObject(21.65f, 9.7f, 2, 3);
         this.alienMoveButton = new GameObject(21.65f, 30, 2, 3);
 
         this.humanWeaponButton = new GameObject(21.65f, 17.5f, 2, 3);
         this.alienWeaponButton = new GameObject(21.65f, 22.5f, 2, 3);
 
         //energy bar placement
-        this.humanEnergyBar = new GameObject(21.65f, 14, 2, 3);
+        this.humanEnergyBar = new GameObject(21.65f, 13.7f, 2, 3);
         this.alienEnergyBar = new GameObject(21.65f, 26, 2, 3);
 
         this.humanTargetOn = true;
         this.alienTargetOn = true;
 
         Log.d(TAG, "Entering H_CANNON_AIM");
+        this.prevState = -1;
         this.state = H_CANNON_AIM;
 
     }
@@ -286,16 +295,20 @@ public class World {
 
     public void update(float deltaTime) {
 
-        updateCannons(deltaTime);
-        updateProjectiles(deltaTime);
-        updateShotBounces(deltaTime);
-        updateTeleportEffects(deltaTime);
-        updateExplodingPlatforms(deltaTime);
-        updateShieldEffects(deltaTime);
-        updatePowerUps(deltaTime);
-        updateDrones(deltaTime);
-        checkDroneCollisions();
-        checkCannonPowerUpCollisions();
+        if(state != GAME_PAUSED) {
+
+            updateCannons(deltaTime);
+            updateProjectiles(deltaTime);
+            updateShotBounces(deltaTime);
+            updateTeleportEffects(deltaTime);
+            updateExplodingPlatforms(deltaTime);
+            updateShieldEffects(deltaTime);
+            updatePowerUps(deltaTime);
+            updateDrones(deltaTime);
+            checkDroneCollisions();
+            checkCannonPowerUpCollisions();
+
+        }
 
 
         switch (state) {
@@ -329,6 +342,10 @@ public class World {
 
             case A_SHOOT:
                 updateAShoot();
+                break;
+
+            case GAME_PAUSED:
+                updatePaused();
                 break;
 
         }
@@ -484,17 +501,19 @@ public class World {
                     //check for payload to drop
                     float payload = rand.nextFloat();
 
-                    //probability is 33% each
 
-                    if(payload <= (1f / 3f)) {
+                    if(payload <= 0.11f) {
                         powerUps.add(new
                                 ShieldPU(dr.pos().x, dr.pos().y));
-                    } else if(payload > (1f / 3f) && payload <= ((1f / 3f) * 2)) {
+                    } else if(payload > 0.11f && payload <= 0.22f) {
                         powerUps.add(new
                                 WeaponPU(dr.pos().x, dr.pos().y));
-                    } else if(payload > ((1f / 3f) * 2)) {
+                    } else if(payload > 0.22f && payload <= 0.33f) {
                         powerUps.add(new
                                 HealthPU(dr.pos().x, dr.pos().y));
+
+                    } else if (payload > 0.33f) {
+                        //drop nothing
                     }
 
                     drones.remove(i);
@@ -585,6 +604,16 @@ public class World {
                     humanTouchPoint)) {
                 game.getInput().getTouchEvents().clear();
                 state = H_SELECT;
+                break;
+            }
+
+            // check for pause button press
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    humanTouchPoint)) {
+                game.getInput().getTouchEvents().clear();
+                prevState = H_CANNON_AIM;
+                state = GAME_PAUSED;
                 break;
             }
 
@@ -684,6 +713,16 @@ public class World {
 
             bounds.move(testPoint);
 
+            // check for pause button press
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    testPoint)) {
+                game.getInput().getTouchEvents().clear();
+                prevState = H_MOVE;
+                state = GAME_PAUSED;
+                break;
+            }
+
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(humanMoveButton.bounds, testPoint)) {
                 game.getInput().getTouchEvents().clear();
@@ -717,7 +756,7 @@ public class World {
             if(!invalidMove && event.type == Input.TouchEvent.TOUCH_UP) {
                 cannon.teleport(testPoint, teleportEffects);
                 game.getInput().getTouchEvents().clear();
-                state = H_CANNON_AIM;
+                state = A_CANNON_AIM;
             } else if(invalidMove) {
                 //TODO: add "bad move" sound effect
                 game.getInput().getTouchEvents().clear();
@@ -744,6 +783,16 @@ public class World {
                     (event.x / (float) cam.glGraphics.getWidth() * WORLD_WIDTH);
             humanTouchPoint.y =
                     (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
+
+            // check for pause button press
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    humanTouchPoint)) {
+                game.getInput().getTouchEvents().clear();
+                prevState = H_SELECT;
+                state = GAME_PAUSED;
+                break;
+            }
 
             //did the user select a new weapon?
             if(OverlapTester.pointInRectangle(hOrgangeBox.bounds, humanTouchPoint)) {
@@ -821,7 +870,7 @@ public class World {
 
             if(cannon.currentTeleportEnergy < cannon.TELEPORT_DISTANCE_MAX) {
                 //give 5% of total energy back each turn
-                cannon.currentTeleportEnergy += cannon.FIVE_PERCENT_OF_ENERGY;
+                cannon.currentTeleportEnergy += cannon.FIFTEEN_PERCENT_OF_ENERGY;
 
 
                 //do not allow > 100%
@@ -868,6 +917,16 @@ public class World {
                     alienTouchPoint)) {
                 game.getInput().getTouchEvents().clear();
                 state = A_SELECT;
+                break;
+            }
+
+            // check for pause button press
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    alienTouchPoint)) {
+                game.getInput().getTouchEvents().clear();
+                prevState = A_CANNON_AIM;
+                state = GAME_PAUSED;
                 break;
             }
 
@@ -947,6 +1006,16 @@ public class World {
 
             bounds.move(testPoint);
 
+            // check for pause button press
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    testPoint)) {
+                game.getInput().getTouchEvents().clear();
+                prevState = A_MOVE;
+                state = GAME_PAUSED;
+                break;
+            }
+
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(alienMoveButton.bounds, testPoint)) {
                 game.getInput().getTouchEvents().clear();
@@ -980,7 +1049,7 @@ public class World {
             if(!invalidMove && event.type == Input.TouchEvent.TOUCH_UP) {
                 cannon.teleport(testPoint, teleportEffects);
                 game.getInput().getTouchEvents().clear();
-                state = A_CANNON_AIM;
+                state = H_CANNON_AIM;
             } else if(invalidMove) {
                 //TODO: add "bad move" sound effect
                 game.getInput().getTouchEvents().clear();
@@ -1007,6 +1076,16 @@ public class World {
                     (event.x / (float) cam.glGraphics.getWidth() * WORLD_WIDTH);
             alienTouchPoint.y =
                     (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
+
+            // check for pause button press
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    alienTouchPoint)) {
+                game.getInput().getTouchEvents().clear();
+                prevState = A_SELECT;
+                state = GAME_PAUSED;
+                break;
+            }
 
             //did the user select a new weapon?
             if(OverlapTester.pointInRectangle(aOrgangeBox.bounds, alienTouchPoint)) {
@@ -1084,7 +1163,7 @@ public class World {
 
             if(cannon.currentTeleportEnergy < cannon.TELEPORT_DISTANCE_MAX) {
                 //give 5% of total energy back each turn
-                cannon.currentTeleportEnergy += cannon.FIVE_PERCENT_OF_ENERGY;
+                cannon.currentTeleportEnergy += cannon.FIFTEEN_PERCENT_OF_ENERGY;
 
 
                 //do not allow > 100%
@@ -1099,6 +1178,37 @@ public class World {
 
         }
 
+    }
+
+    private void updatePaused() {
+        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        int len = touchEvents.size();
+        for(int i = 0; i < len; i++) {
+            Input.TouchEvent event = touchEvents.get(i);
+
+            Vector2 pausedTouchPoint = new Vector2(event.x, event.y);
+
+            //translate screen coords to world coords
+            pausedTouchPoint.x =
+                    (event.x / (float) cam.glGraphics.getWidth() * WORLD_WIDTH);
+            pausedTouchPoint.y =
+                    (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
+
+            // return to previous game state
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    pausedTouchPoint)) {
+                game.getInput().getTouchEvents().clear();
+                state = prevState;
+                prevState = -1;
+                break;
+            }
+
+
+            //TODO: Check for pause menu button presses
+
+
+        }
     }
 
 
@@ -1811,18 +1921,19 @@ public class World {
                             ptfm.explode();
                             //check for payload to drop
                             float payload = rand.nextFloat();
-                            //probability is 25% each
-                            if(payload <= 0.25f) {
+                            
+                            if(payload <= 0.11f) {
                                 powerUps.add(new
                                         ShieldPU(ptfm.pos().x, ptfm.pos().y));
-                            } else if(payload > 0.25f && payload <= 0.5f) {
+                            } else if(payload > 0.11f && payload <= 0.22f) {
                                 powerUps.add(new
                                         WeaponPU(ptfm.pos().x, ptfm.pos().y));
-                            } else if(payload > 0.5f && payload <= 0.75f) {
+                            } else if(payload > 0.22f && payload <= 0.33f) {
                                 powerUps.add(new
                                         HealthPU(ptfm.pos().x, ptfm.pos().y));
-                            } else if (payload > 0.75f) {
-                                // drop nothing
+
+                            } else if (payload > 0.33f) {
+                                //drop nothing
                             }
 
 

@@ -191,8 +191,6 @@ public class GameScreen extends GLScreen {
 
         renderer.render(); //this renders the game
 
-        //GUI RENDERING NOT IMPLEMENTED YET
-
         guiCam.setViewportAndMatrices(); //set up GUI
         gl.glEnable(GL10.GL_BLEND); //enable blending
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA); //blending equations
@@ -217,6 +215,8 @@ public class GameScreen extends GLScreen {
                 break;
         }
         UIbatcher.endBatch(); //draw sprites
+
+
         gl.glDisable(GL10.GL_BLEND); //disable blending
 
         counter.logFrame();
@@ -230,6 +230,13 @@ public class GameScreen extends GLScreen {
     }
 
     private void presentRunning() {
+
+        GL10 gl = glGraphics.getGL();
+
+        gl.glEnable(GL10.GL_BLEND);
+        gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 
         Cannon hCannon = world.cannons.get(World.HUMAN_CANNON);
         Cannon aCannon = world.cannons.get(World.ALIEN_CANNON);
@@ -387,7 +394,7 @@ public class GameScreen extends GLScreen {
 
         Assets.blackFont.drawText(UIbatcher, humanEnergyString,
                 xValue,
-                64 * 6);
+                (64 * 6) - 10);
 
 
         //draw alien power bar as text
@@ -412,7 +419,7 @@ public class GameScreen extends GLScreen {
 
 
         // draw weapon select buttons
-        UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 64,
+        UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 74,
                 64, 64, Assets.humanButton);
 
         //scaling for weapon sprite
@@ -422,23 +429,23 @@ public class GameScreen extends GLScreen {
         Projectile.TYPE selectedType = hCannon.curWeapon;
         switch(selectedType) {
             case ORANGE:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 64,
+                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 74,
                         SIZE, SIZE, Assets.orangeShot);
                 break;
             case BLUE:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 64,
+                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 74,
                         SIZE, SIZE, Assets.blueShot);
                 break;
             case GREEN:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 64,
+                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 74,
                         SIZE, SIZE, Assets.greenShot);
                 break;
             case RED:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 64,
+                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 74,
                         SIZE, SIZE, Assets.redShot);
                 break;
             case MISSILE:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 64,
+                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 74,
                         SIZE, SIZE, Assets.missile);
                 break;
         }
@@ -479,11 +486,11 @@ public class GameScreen extends GLScreen {
         if(hCannon.curWeapon == Projectile.TYPE.ORANGE) {
             Assets.blackFont.drawText(UIbatcher, "inf",
                     720 - (96 / 2) - 10,
-                    (1280 / 2) - 110);
+                    (1280 / 2) - 120);
         } else  {
             Assets.blackFont.drawText(UIbatcher, "" + hCurrentAmmo,
                     720 - (96 / 2) + 5,
-                    (1280 / 2) - 110);
+                    (1280 / 2) - 120);
         }
 
         int aCurrentAmmo = aCannon.getCurrentAmmo();
@@ -497,6 +504,23 @@ public class GameScreen extends GLScreen {
                     (720 - (96 / 2) + 5),
                     ((1280 / 2) + 110
                     ), true);
+        }
+
+        //draw paused menu
+        if(world.state == World.GAME_PAUSED) {
+
+
+            //draw black square over game world
+            batcher.beginBatch(Assets.blackOverlay);
+
+            batcher.drawSprite(720 / 2, 1280 / 2,
+                    720, 1280,
+                    Assets.blackOverlayRegion);
+
+            batcher.endBatch();
+
+            //TODO: draw pause menu on screen once I have it
+
         }
 
 
