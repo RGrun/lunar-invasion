@@ -2,6 +2,7 @@ package r3software.org.lunarinvasion;
 
 import r3software.org.lunarinvasion.engine.framework.Animation;
 import r3software.org.lunarinvasion.engine.framework.Font;
+import r3software.org.lunarinvasion.engine.framework.Music;
 import r3software.org.lunarinvasion.engine.framework.TextureRegion;
 import r3software.org.lunarinvasion.engine.impl.GLGame;
 import r3software.org.lunarinvasion.engine.impl.Texture;
@@ -184,6 +185,9 @@ public class Assets {
     public static TextureRegion soundOn;
     public static TextureRegion soundOff;
 
+    // music and sounds
+    public static Music spacebeat;
+
     public static void load(GLGame game) {
 
         //background = new Texture(game, "Space_BG_2.png");
@@ -358,7 +362,6 @@ public class Assets {
 
         noel = new TextureRegion(menuAtlas, 19 * 32, 15 * 32, 13 * 32, 3 * 32);
         chris = new TextureRegion(menuAtlas, 20 * 32, 18 * 32, 11 * 32, 3 * 32);
-        //TODO: Programming is spelled wrong on the atlas
         richard = new TextureRegion(menuAtlas, 19 * 32, 21 * 32, 13 * 32, 3 * 32);
 
         orange_shot_menu = new TextureRegion(menuAtlas, 17 * 32, 7 * 32, 3 * 32, 3 * 32);
@@ -378,6 +381,14 @@ public class Assets {
         soundOn = new TextureRegion(menuAtlas, 17 * 32, 4 * 32, 2 * 32, 2 * 32);
         soundOff = new TextureRegion(menuAtlas, 19 * 32, 4 * 32, 2 * 32, 2 * 32);
 
+        // music and sounds
+        spacebeat = game.getAudio().newMusic("spacebeat.ogg");
+        spacebeat.setLooping(true);
+        spacebeat.setVolume(0.5f);
+        if(Settings.soundEnabled)
+            spacebeat.play();
+
+
 	}
 	
 	public static void reload() {
@@ -385,6 +396,11 @@ public class Assets {
         //only texture files are lost
         background.reload();
         atlas.reload();
+
+        //...and sounds
+        if(Settings.soundEnabled) {
+            spacebeat.play();
+        }
 
 	}
 	

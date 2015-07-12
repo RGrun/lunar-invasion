@@ -34,4 +34,13 @@ public class CannonGameActivity extends GLGame {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(Settings.soundEnabled) {
+            Assets.spacebeat.pause();
+        }
+
+    }
+
 }

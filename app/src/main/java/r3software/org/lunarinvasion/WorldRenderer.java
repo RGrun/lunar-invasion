@@ -101,6 +101,12 @@ public class WorldRenderer {
                 0, 1, 2, 2, 3, 0
         }, 0, 6);
 
+        //play music
+
+        if(Settings.soundEnabled) {
+            Assets.spacebeat.play();
+        }
+
     }
 
 

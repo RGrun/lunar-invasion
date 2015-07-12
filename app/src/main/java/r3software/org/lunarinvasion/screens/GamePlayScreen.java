@@ -95,9 +95,9 @@ public class GamePlayScreen extends GLScreen {
                     // Assets.playSound(Assets.clickSound);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
-                        // Assets.music.play();
+                         Assets.spacebeat.play();
                     } else {
-                        // Assets.music.pause();
+                         Assets.spacebeat.pause();
                     }
                 }
             }

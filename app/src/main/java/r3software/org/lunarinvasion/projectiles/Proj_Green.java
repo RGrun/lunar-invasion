@@ -3,6 +3,7 @@ package r3software.org.lunarinvasion.projectiles;
 import java.util.List;
 
 import r3software.org.lunarinvasion.World;
+import r3software.org.lunarinvasion.engine.math.Circle;
 import r3software.org.lunarinvasion.engine.math.OverlapTester;
 import r3software.org.lunarinvasion.engine.math.Vector2;
 import r3software.org.lunarinvasion.platforms.Platform;
@@ -29,6 +30,9 @@ public class Proj_Green extends Projectile {
 
     public static final float BREAK_TIME = 1f;
 
+    public Circle breakSafetyRadius;
+    private boolean safeToBreak;
+
     //constructor used at firing
     public Proj_Green(float x, float y, float width, float height,
                      float mass, float maxSpeed, float maxForce,
@@ -37,20 +41,25 @@ public class Proj_Green extends Projectile {
 
         this.projType = TYPE.GREEN;
         this.curState = GREEN_STATE.PRE_BREAK;
+        this.breakSafetyRadius = new Circle(x, y, 1f);
+        this.safeToBreak = false;
         this.stateTime = 0f;
 
 
     }
 
-    //constructros used during break
+    //constructor used during break
     public Proj_Green(float x, float y, float width, float height,
                       float mass, float maxSpeed, float maxForce,
-                      float radius, Vector2 newVel) {
+                      float radius, Vector2 newVel, float curTime,
+                      Circle oldBrakRadius) {
         super(x, y, width, height, mass, maxSpeed, maxForce, radius);
 
         this.projType = TYPE.GREEN;
         this.curState = GREEN_STATE.POST_BREAK;
-        this.stateTime = 0;
+        this.existedTime = curTime;
+        this.stateTime = 0f;
+        this.breakSafetyRadius = oldBrakRadius;
 
         this.velocity.set(newVel);
 
@@ -64,16 +73,38 @@ public class Proj_Green extends Projectile {
 
     public boolean update(float deltaTime,
                        List<Projectile> projectiles,
-                       int index)  {
+                          List<Platform> platforms,
+                            int index)  {
+
         position.add(velocity.x * deltaTime, velocity.y * deltaTime);
         bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
         boundingCircle.center.set(position);
+        breakSafetyRadius.center.set(position);
 
         this.existedTime += deltaTime;
         this.stateTime += deltaTime;
 
+        //check against all platforms every update step
+        //to see if it's safe to break
+        for(Platform ptfm : platforms) {
+            if((ptfm.type != Platform.PLATFORM_TYPE.TYPE_ANGLED_2X2) &&
+                    (ptfm.type != Platform.PLATFORM_TYPE.TYPE_ANGLED_4X4) &&
+                    (ptfm.type != Platform.PLATFORM_TYPE.TYPE_ANGLED_6X6)) {
+
+                safeToBreak = !OverlapTester.overlapCircleRectangle(breakSafetyRadius,
+                        ptfm.bounds);
+
+            } else {
+                safeToBreak = !OverlapTester.checkAngledPlatformCollisions(ptfm, this);
+            }
+        }
+
+
+        // check to see if it's time to break
+        // if we're too close to a platform, delay break
         if(curState == GREEN_STATE.PRE_BREAK &&
-                existedTime >= BREAK_TIME) {
+                existedTime >= BREAK_TIME &&
+                safeToBreak) {
             //break into three
             separate(projectiles);
             projectiles.remove(index);
@@ -106,17 +137,17 @@ public class Proj_Green extends Projectile {
         //add proj to left
         projectiles.add(new Proj_Green(pos().x, pos().y, bounds.width,
                 bounds.height, mass, maxSpeed, maxForce, boundingCircle.radius,
-                 leftVel));
+                 leftVel, existedTime, breakSafetyRadius));
 
         //add canter proj
         projectiles.add(new Proj_Green(pos().x, pos().y, bounds.width,
                 bounds.height, mass, maxSpeed, maxForce, boundingCircle.radius,
-                curVel));
+                curVel, existedTime, breakSafetyRadius));
 
         //add proj to right
         projectiles.add(new Proj_Green(pos().x, pos().y, bounds.width,
                 bounds.height, mass, maxSpeed, maxForce, boundingCircle.radius,
-                 rightVel));
+                 rightVel, existedTime, breakSafetyRadius));
 
     }
 

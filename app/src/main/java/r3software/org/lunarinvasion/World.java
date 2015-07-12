@@ -386,8 +386,6 @@ public class World {
 
                         hCannon.addAmmo(payload, amount);
                         ((WeaponPU) pup).pickup(HUMAN_CANNON, amount);
-
-                        projectiles.remove(i);
                         break;
 
                     }
@@ -1466,13 +1464,8 @@ public class World {
                     break;
 
                 case GREEN:
-                    if(((Proj_Green)proj).update(deltaTime, projectiles, i)) {
-                       // check to see if any of the broken-off projectiles
-                       // are intide a block
-                        Proj_Green.checkGreenProjectiles(projectiles, platforms);
-                        i = 0;
-                        continue;
-                    }
+                    ((Proj_Green)proj).update(deltaTime, projectiles,
+                            platforms, i);
                     break;
 
                 case RED:
@@ -1921,7 +1914,7 @@ public class World {
                             ptfm.explode();
                             //check for payload to drop
                             float payload = rand.nextFloat();
-                            
+
                             if(payload <= 0.11f) {
                                 powerUps.add(new
                                         ShieldPU(ptfm.pos().x, ptfm.pos().y));

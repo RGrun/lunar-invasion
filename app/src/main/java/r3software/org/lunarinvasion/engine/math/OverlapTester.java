@@ -1,5 +1,11 @@
 package r3software.org.lunarinvasion.engine.math;
 
+import r3software.org.lunarinvasion.platforms.Platform;
+import r3software.org.lunarinvasion.platforms.Platform_Angled_2X2;
+import r3software.org.lunarinvasion.platforms.Platform_Angled_4X4;
+import r3software.org.lunarinvasion.platforms.Platform_Angled_6X6;
+import r3software.org.lunarinvasion.projectiles.Proj_Green;
+
 public class OverlapTester {
 
     public enum REC_SIDE {
@@ -25,8 +31,57 @@ public class OverlapTester {
 		else
 			return false;
 	}
-	
-	public static boolean overlapCircleRectangle(Circle c, Rectangle r) {
+
+    public static boolean checkAngledPlatformCollisions(Platform ptfm, Proj_Green proj) {
+        Triangle tri;
+
+        Circle testCircle = new Circle(proj.breakSafetyRadius);
+
+        testCircle.center.set(proj.pos());
+
+        switch(ptfm.type) {
+            case TYPE_ANGLED_2X2:
+                tri = ((Platform_Angled_2X2)ptfm).triBounds;
+                break;
+            case TYPE_ANGLED_4X4:
+                tri = ((Platform_Angled_4X4)ptfm).triBounds;
+                break;
+            case TYPE_ANGLED_6X6:
+                tri = ((Platform_Angled_6X6)ptfm).triBounds;
+                break;
+            default:
+                tri = ((Platform_Angled_2X2)ptfm).triBounds;
+        }
+
+        //corner of triangle hit?
+        if(pointInCircle(testCircle, tri.A) ||
+                pointInCircle(testCircle, tri.B) ||
+                pointInCircle(testCircle, tri.C)) {
+
+            return true;
+            //check against hypot
+        } else if(Geometry.LineSegmentCircleIntersection(tri.A, tri.C,
+                testCircle.center, testCircle.radius)) {
+
+            return true;
+            //check against bottom
+        } else if(Geometry.LineSegmentCircleIntersection(tri.B, tri.C,
+                testCircle.center, testCircle.radius)) {
+
+
+            return true;
+            //check against side
+        } else if(Geometry.LineSegmentCircleIntersection(tri.B, tri.A,
+                testCircle.center, testCircle.radius)) {
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public static boolean overlapCircleRectangle(Circle c, Rectangle r) {
 		float closestX = c.center.x;
 		float closestY = c.center.y;
 		
