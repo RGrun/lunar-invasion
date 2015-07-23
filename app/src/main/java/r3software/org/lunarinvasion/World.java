@@ -126,7 +126,7 @@ public class World {
 
     //bounds for weapon buttons
     public GameObject humanWeaponButton;
-    public GameObject alienWeaponButton; //test
+    public GameObject alienWeaponButton;
 
     //energy bars
     public GameObject humanEnergyBar;
