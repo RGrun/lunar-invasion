@@ -15,7 +15,15 @@ public class Assets {
     //basic
     public static Texture background;
     public static Texture atlas;
+    public static Texture atlas2;
     public static TextureRegion backgroundRegion;
+
+
+    //in-game menu
+    public static Texture gameMenuSoundOn;
+    public static Texture gameMenuSoundOff;
+    public static TextureRegion gameMenuSoundOnRegion;
+    public static TextureRegion gameMenuSoundOffRegion;
 
 
     //ships
@@ -185,18 +193,31 @@ public class Assets {
     public static TextureRegion soundOn;
     public static TextureRegion soundOff;
 
+    //shot explosions
+    //these are on the second sprite sheet
+    public static Animation orangeExplosion;
+    public static Animation greenExplosion;
+    public static Animation redExplosion;
+    public static Animation blueExplosion;
+    public static Animation purpleExplosion;
+
     // music and sounds
     public static Music spacebeat;
 
     public static void load(GLGame game) {
 
-        //background = new Texture(game, "Space_BG_2.png");
         background = new Texture(game, "Space_BG_2_pwr2.png");
-        atlas = new Texture(game, "Sprite_Atlas_11.png");
+        atlas = new Texture(game, "Sprite_Atlas_A_1.png");
+        atlas2 = new Texture(game, "Sprite_Atlas_B_1.png");
         menuAtlas = new Texture(game, "Menu_Sheet_2.png");
         backgroundRegion = new TextureRegion(background, 0, 0, 512, 1024);
         menuBackground = new Texture (game, "Menu_BG_2_pwr2.png");
         menuBackgroundRegion = new TextureRegion(menuBackground, 0, 0, 512, 1024);
+
+        gameMenuSoundOn = new Texture(game, "Pause_Menu_1.png");
+        gameMenuSoundOff = new Texture(game, "Pause_Menu_2.png");
+        gameMenuSoundOnRegion = new TextureRegion(gameMenuSoundOn, 0, 0, 1024, 1024);
+        gameMenuSoundOffRegion = new TextureRegion(gameMenuSoundOff, 0, 0, 1024, 1024);
 
         //black overlay for game screen
         blackOverlay = new Texture(game, "Pause_Shade.png");
@@ -259,11 +280,11 @@ public class Assets {
         emptyHealth = new TextureRegion(atlas, 28 * 32, 17 * 32, 2 * 32, 1 * 32);
 
         shield = new Animation(0.1f,
-                                new TextureRegion(atlas, (16 * 32) + 2, (0 * 32) + 2, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas, 19 * 32, 0 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas, 22 * 32, 0 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas, 25 * 32, 0 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas, 28 * 32, 0 * 32, 3 * 32, 3 * 32));
+                                new TextureRegion(atlas2, (16 * 32) + 2, (0 * 32) + 2, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas2, 19 * 32, 0 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas2, 22 * 32, 0 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas2, 25 * 32, 0 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas2, 28 * 32, 0 * 32, 3 * 32, 3 * 32));
 
         shotBounce = new Animation(0.1f,
                                 new TextureRegion(atlas, 0 * 32, 3 * 32, 32, 32),
@@ -273,18 +294,18 @@ public class Assets {
                                 new TextureRegion(atlas, 4 * 32, 3 * 32, 32, 32));
 
         teleport = new Animation(0.1f,
-                                new TextureRegion(atlas, 16 * 32, 3 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas, 19 * 32, 3 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas, 22 * 32, 3 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas, 25 * 32, 3 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas, 28 * 32, 3 * 32, 3 * 32, 3 * 32));
+                                new TextureRegion(atlas2, 16 * 32, 3 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas2, 19 * 32, 3 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas2, 22 * 32, 3 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas2, 25 * 32, 3 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas2, 28 * 32, 3 * 32, 3 * 32, 3 * 32));
 
         reverseTeleport = new Animation(0.1f,
-                new TextureRegion(atlas, 28 * 32, 3 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 25 * 32, 3 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 22 * 32, 3 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 19 * 32, 3 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 16 * 32, 3 * 32, 3 * 32, 3 * 32));
+                new TextureRegion(atlas2, 28 * 32, 3 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 25 * 32, 3 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 22 * 32, 3 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 19 * 32, 3 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 16 * 32, 3 * 32, 3 * 32, 3 * 32));
 
 
         enabledButton = new TextureRegion(atlas, 16 * 32, 6 * 32, 2 * 32, 3 * 32);
@@ -297,18 +318,18 @@ public class Assets {
         gearButton = new TextureRegion(atlas, 24 * 32, 6 * 32, 2 * 32, 2 * 32);
 
         shipExplosion   = new Animation(0.1f,
-                new TextureRegion(atlas, 16 * 32, 9 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 19 * 32, 9 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 22 * 32, 9 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 25 * 32, 9 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 28 * 32, 9 * 32, 3 * 32, 3 * 32));
+                new TextureRegion(atlas2, 16 * 32, 9 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 19 * 32, 9 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 22 * 32, 9 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 25 * 32, 9 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 28 * 32, 9 * 32, 3 * 32, 3 * 32));
 
         blueShotExplosion = new Animation(0.05f,
-                new TextureRegion(atlas, 16 * 32, 12 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 19 * 32, 12 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 22 * 32, 12 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 25 * 32, 12 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas, 28 * 32, 12 * 32, 3 * 32, 3 * 32));
+                new TextureRegion(atlas2, 16 * 32, 12 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 19 * 32, 12 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 22 * 32, 12 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 25 * 32, 12 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas2, 28 * 32, 12 * 32, 3 * 32, 3 * 32));
 
         humanButton = new TextureRegion(atlas, 30 * 32, 20 * 32, 2 * 32, 2 * 32);
         alienButton = new TextureRegion(atlas, 28 * 32, 20 * 32, 2 * 32, 2 * 32);
@@ -380,6 +401,44 @@ public class Assets {
 
         soundOn = new TextureRegion(menuAtlas, 17 * 32, 4 * 32, 2 * 32, 2 * 32);
         soundOff = new TextureRegion(menuAtlas, 19 * 32, 4 * 32, 2 * 32, 2 * 32);
+
+        //shot explosions
+        orangeExplosion = new Animation(0.1f,
+                new TextureRegion(atlas2, 0, 0, 32, 32),
+                new TextureRegion(atlas2, 32, 0, 32, 32),
+                new TextureRegion(atlas2, 2 * 32, 0, 32, 32),
+                new TextureRegion(atlas2, 3 * 32, 0, 32, 32),
+                new TextureRegion(atlas2, 4 * 32, 0, 32, 32));
+
+        greenExplosion = new Animation(0.1f,
+                new TextureRegion(atlas2, 0 * 32, 32, 32, 32),
+                new TextureRegion(atlas2, 1 * 32, 32, 32, 32),
+                new TextureRegion(atlas2, 2 * 32, 32, 32, 32),
+                new TextureRegion(atlas2, 3 * 32, 32, 32, 32),
+                new TextureRegion(atlas2, 4 * 32, 32, 32, 32));
+
+        redExplosion = new Animation(0.1f,
+                new TextureRegion(atlas2, 0 * 32, 2 * 32, 32, 32),
+                new TextureRegion(atlas2, 1 * 32, 2 * 32, 32, 32),
+                new TextureRegion(atlas2, 2 * 32, 2 * 32, 32, 32),
+                new TextureRegion(atlas2, 3 * 32, 2 * 32, 32, 32),
+                new TextureRegion(atlas2, 4 * 32, 2 * 32, 32, 32));
+
+        blueExplosion = new Animation(0.1f,
+                new TextureRegion(atlas2, 0 * 32, 3 * 32, 32, 32),
+                new TextureRegion(atlas2, 1 * 32, 3 * 32, 32, 32),
+                new TextureRegion(atlas2, 2 * 32, 3 * 32, 32, 32),
+                new TextureRegion(atlas2, 3 * 32, 3 * 32, 32, 32),
+                new TextureRegion(atlas2, 4 * 32, 3 * 32, 32, 32));
+
+        purpleExplosion = new Animation(0.1f,
+                new TextureRegion(atlas2, 0 * 32, 4 * 32, 32, 32),
+                new TextureRegion(atlas2, 1 * 32, 4 * 32, 32, 32),
+                new TextureRegion(atlas2, 2 * 32, 4 * 32, 32, 32),
+                new TextureRegion(atlas2, 3 * 32, 4 * 32, 32, 32),
+                new TextureRegion(atlas2, 4 * 32, 4 * 32, 32, 32));
+
+
 
         // music and sounds
         spacebeat = game.getAudio().newMusic("spacebeat.ogg");
