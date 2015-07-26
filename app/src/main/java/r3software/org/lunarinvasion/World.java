@@ -34,6 +34,7 @@ import r3software.org.lunarinvasion.projectiles.Proj_Missile;
 import r3software.org.lunarinvasion.projectiles.Proj_Orange;
 import r3software.org.lunarinvasion.projectiles.Proj_Red;
 import r3software.org.lunarinvasion.projectiles.Projectile;
+import r3software.org.lunarinvasion.screens.MainMenuScreen;
 
 import static r3software.org.lunarinvasion.engine.math.OverlapTester.pointInCircle;
 import static r3software.org.lunarinvasion.engine.math.Vector2.mul;
@@ -143,7 +144,7 @@ public class World {
     public GameObject hRedBox = new GameObject(10, 12, 4, 4);
     public GameObject hBlueBox = new GameObject(14, 12, 4, 4);
 
-    public GameObject aOrgangeBox = new GameObject(10, 24, 4, 4);
+    public GameObject aOrangeBox = new GameObject(10, 24, 4, 4);
     public GameObject aGreenBox = new GameObject(14, 24, 4, 4);
     public GameObject aMissileBox = new GameObject(18, 24, 4, 4);
     public GameObject aRedBox = new GameObject(10, 28, 4, 4);
@@ -151,6 +152,14 @@ public class World {
 
     // "gear" pause button
     public GameObject pauseButton = new GameObject(21.65f, 19.8f, 2, 2);
+
+    //other pause menu buttons
+    public GameObject resumeButton = new GameObject((WORLD_WIDTH - 3) / 2, (WORLD_HEIGHT / 2) + 1,
+            15, 3.5f);
+    public GameObject quitButton = new GameObject((WORLD_WIDTH) / 2, (WORLD_HEIGHT / 2) - 3,
+            7, 3f);
+    public GameObject soundToggleButton = new GameObject((WORLD_WIDTH / 2) + 5, (WORLD_HEIGHT / 2) - 6,
+            7, 2.5f);
 
     //random
     public Random rand;
@@ -1086,7 +1095,7 @@ public class World {
             }
 
             //did the user select a new weapon?
-            if(OverlapTester.pointInRectangle(aOrgangeBox.bounds, alienTouchPoint)) {
+            if(OverlapTester.pointInRectangle(aOrangeBox.bounds, alienTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.ORANGE)) {
                     //TODO: play denial sound effect
                 } else {
@@ -1202,8 +1211,37 @@ public class World {
                 break;
             }
 
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(resumeButton.bounds,
+                    pausedTouchPoint)) {
+                game.getInput().getTouchEvents().clear();
+                state = prevState;
+                prevState = -1;
+                break;
+            }
 
-            //TODO: Check for pause menu button presses
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(quitButton.bounds,
+                    pausedTouchPoint)) {
+                game.getInput().getTouchEvents().clear();
+                game.setScreen(new MainMenuScreen(game));
+                break;
+            }
+
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(soundToggleButton.bounds,
+                    pausedTouchPoint)) {
+                game.getInput().getTouchEvents().clear();
+
+                Settings.soundEnabled = !Settings.soundEnabled;
+                if(Settings.soundEnabled) {
+                    Assets.spacebeat.play();
+                } else {
+                    Assets.spacebeat.pause();
+                }
+
+                break;
+            }
 
 
         }
@@ -1479,8 +1517,8 @@ public class World {
 
             }
 
-            //remove projectile if it's existed for 5 seconds
-            if(proj.existedTime > 5) {
+            //remove projectile if it's existed for 5 seconds and its fizzling
+            if(proj.fizzleTime > 0.5f && proj.fizzleState == Projectile.FIZZLE_STATE.FIZZLING) {
                 projectiles.remove(i);
             }
 

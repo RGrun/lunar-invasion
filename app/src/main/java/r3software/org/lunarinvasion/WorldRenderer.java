@@ -283,25 +283,103 @@ public class WorldRenderer {
         //before I move them
         renderTeleportCircle();
 
+
+        //render things from the first sprite sheet
         batcher.beginBatch(Assets.atlas);
 
         renderPowerUps();
         renderPlatforms();
         renderDrones();
         renderProjectiles();
+        renderFizzlingProjectiles();
         renderProjectileTails();
         renderShotBounces();
         renderCannons();
+        renderTargets();
         renderTeleportEffects();
         renderShieldEffects();
-        renderTargets();
+        renderBlueShotExplosion();
         batcher.endBatch();
+
+
         gl.glDisable(GL10.GL_BLEND);
 
     }
 
+    private void renderFizzlingProjectiles() {
+        for(Projectile proj : world.projectiles) {
+
+            //only render fizzling projectiles
+            if(proj.fizzleState != Projectile.FIZZLE_STATE.FIZZLING) continue;
+
+            TextureRegion keyFrame = null;
+
+            switch(proj.projType) {
+                case ORANGE:
+                    keyFrame = Assets.orangeExplosion.getKeyFrame(proj.fizzleTime,
+                            Animation.ANIMATION_NONLOOPING);
+                    break;
+                case BLUE:
+                    keyFrame = Assets.blueExplosion.getKeyFrame(proj.fizzleTime,
+                            Animation.ANIMATION_NONLOOPING);
+                    break;
+                case GREEN:
+                    keyFrame = Assets.greenExplosion.getKeyFrame(proj.fizzleTime,
+                            Animation.ANIMATION_NONLOOPING);
+                    break;
+                case RED:
+                    keyFrame = Assets.redExplosion.getKeyFrame(proj.fizzleTime,
+                            Animation.ANIMATION_NONLOOPING);
+                    break;
+                case MISSILE:
+                    keyFrame = Assets.purpleExplosion.getKeyFrame(proj.fizzleTime,
+                            Animation.ANIMATION_NONLOOPING);
+                    break;
+
+                default:
+                    keyFrame = Assets.orangeExplosion.getKeyFrame(proj.fizzleTime,
+                            Animation.ANIMATION_NONLOOPING);
+            }
+
+            //for safety with pointer below
+            if(keyFrame == null) {
+                keyFrame = Assets.orangeExplosion.getKeyFrame(proj.fizzleTime,
+                        Animation.ANIMATION_NONLOOPING);
+            }
+
+            batcher.drawSprite(proj.position.x, proj.position.y,
+                    Projectile.PROJECTILE_WIDTH, Projectile.PROJECTILE_HEIGHT, keyFrame);
+
+        }
+    }
+
+    private void renderBlueShotExplosion() {
+
+        for(Projectile proj : world.projectiles) {
+
+            if(proj.projType == Projectile.TYPE.BLUE) {
+
+                if(((Proj_Blue)proj).curState == Proj_Blue.BLUE_STATE.EXPLODING) {
+
+                    TextureRegion keyFrame =
+                            Assets.blueShotExplosion.getKeyFrame(((Proj_Blue) proj).stateTime,
+                            Animation.ANIMATION_NONLOOPING);
+
+
+                    batcher.drawSprite(((Proj_Blue) proj).position.x,
+                            ((Proj_Blue) proj).position.y,
+                            5, 5, keyFrame);
+
+
+                }
+            }
+        }
+    }
+
     private void renderProjectileTails() {
         for(Projectile proj : world.projectiles) {
+
+            if(proj.fizzleState == Projectile.FIZZLE_STATE.FIZZLING) continue;
 
             Vector2 tail1 = proj.tail1;
             Vector2 tail2 = proj.tail2;
@@ -608,6 +686,9 @@ public class WorldRenderer {
         for(int i = 0; i < len; i++) {
             Projectile proj = world.projectiles.get(i);
 
+            // only render non-fizzling projectiles
+            if(proj.fizzleState == Projectile.FIZZLE_STATE.FIZZLING) continue;
+
             TextureRegion keyFrame = null;
 
             switch(proj.projType) {
@@ -615,14 +696,15 @@ public class WorldRenderer {
                     keyFrame = Assets.orangeShot;
                     break;
                 case BLUE:
-                    //so ugly
                     if(((Proj_Blue)proj).curState == Proj_Blue.BLUE_STATE.NORMAL) {
+
                         keyFrame = Assets.blueShot;
-                    } else if(((Proj_Blue)proj).curState == Proj_Blue.BLUE_STATE.EXPLODING) {
-                        keyFrame = Assets.blueShotExplosion
-                                .getKeyFrame(((Proj_Blue) proj).stateTime,
-                                        Animation.ANIMATION_NONLOOPING);
+
+                    } else {
+                        //defer explosion rendering to second sprite sheet
+                        continue;
                     }
+
                     break;
                 case GREEN:
                     keyFrame = Assets.greenShot;
@@ -645,14 +727,14 @@ public class WorldRenderer {
 
             //need special case for blue shot's explosion
             if(proj.projType == Projectile.TYPE.BLUE) {
-                if(((Proj_Blue)proj).curState == Proj_Blue.BLUE_STATE.EXPLODING) {
-                    batcher.drawSprite(((Proj_Blue) proj).position.x,
-                            ((Proj_Blue) proj).position.y,
-                            5, 5, keyFrame);
-                } else {
+
+                if(((Proj_Blue)proj).curState == Proj_Blue.BLUE_STATE.NORMAL) {
                     batcher.drawSprite(proj.position.x, proj.position.y,
                             Projectile.PROJECTILE_WIDTH,
                             Projectile.PROJECTILE_HEIGHT, keyFrame);
+
+                } else {
+                    continue;
                 }
             //need special case for missile
             } else if(proj.projType == Projectile.TYPE.MISSILE) {

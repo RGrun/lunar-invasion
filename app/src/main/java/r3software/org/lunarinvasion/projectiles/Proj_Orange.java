@@ -23,17 +23,25 @@ public class Proj_Orange extends Projectile {
     @Override
     public void update(float deltaTime)  {
 
-        position.add(velocity.x * deltaTime, velocity.y * deltaTime);
-        bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
-        boundingCircle.center.set(position);
+        if(this.fizzleState == FIZZLE_STATE.FIZZLING) {
+            this.fizzleTime += deltaTime;
+        } else {
+            position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+            bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
+            boundingCircle.center.set(position);
 
-        this.existedTime += deltaTime;
+            this.existedTime += deltaTime;
 
-        this.tailCounter++;
+            if(this.existedTime > 5) {
+                this.toggleFizzleState();
+            }
 
-        if(tailCounter >= 5) {
-            addPosToTail(pos());
-            tailCounter = 0;
+            this.tailCounter++;
+
+            if(tailCounter >= 5) {
+                addPosToTail(pos());
+                tailCounter = 0;
+            }
         }
 
     }

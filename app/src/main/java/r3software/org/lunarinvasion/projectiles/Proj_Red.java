@@ -42,25 +42,33 @@ public class Proj_Red extends Projectile {
 
     public void update(float deltaTime, int index) {
 
-        position.add(velocity.x * deltaTime, velocity.y * deltaTime);
-        bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
-        boundingCircle.center.set(position);
+        if(fizzleState == FIZZLE_STATE.FIZZLING) {
+            this.fizzleTime += deltaTime;
 
-        this.existedTime += deltaTime;
-        this.lifeTimer += deltaTime;
+           if(fizzleTime > 5) {
+               projectiles.remove(index);
+           }
 
-        if(lifeTimer >= LIFE_TIME) {
-            projectiles.remove(index);
+        } else {
+            position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+            bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
+            boundingCircle.center.set(position);
+
+            this.existedTime += deltaTime;
+            this.lifeTimer += deltaTime;
+
+
+            if(lifeTimer >= LIFE_TIME) {
+                this.toggleFizzleState();
+            }
+
+            this.tailCounter++;
+
+            if(tailCounter >= 5) {
+                addPosToTail(pos());
+                tailCounter = 0;
+            }
         }
-
-        this.tailCounter++;
-
-        if(tailCounter >= 5) {
-            addPosToTail(pos());
-            tailCounter = 0;
-        }
-
-
 
     }
 

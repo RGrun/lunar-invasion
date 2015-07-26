@@ -72,6 +72,14 @@ public abstract class Projectile extends DynamicGameObject {
 
     public int tailCounter;
 
+    public enum FIZZLE_STATE {
+        NORMAL,
+        FIZZLING
+    }
+
+    public FIZZLE_STATE fizzleState;
+    public float fizzleTime;
+
     public Projectile(float x, float y, float width, float height,
                       float mass, float maxSpeed, float maxForce,
                       float radius) {
@@ -89,15 +97,25 @@ public abstract class Projectile extends DynamicGameObject {
 
         this.tailCounter = 0;
 
+        this.fizzleState = FIZZLE_STATE.NORMAL;
+        this.fizzleTime = 0;
+
+    }
+
+    public void toggleFizzleState() {
+        this.fizzleState = FIZZLE_STATE.FIZZLING;
     }
 
     public void update(float deltaTime)  {
+
 
        position.add(velocity.x * deltaTime, velocity.y * deltaTime);
        bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
         boundingCircle.center.set(position);
 
         this.existedTime += deltaTime;
+
+
 
         this.tailCounter++;
 

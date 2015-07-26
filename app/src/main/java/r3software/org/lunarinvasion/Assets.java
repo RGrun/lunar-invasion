@@ -15,7 +15,7 @@ public class Assets {
     //basic
     public static Texture background;
     public static Texture atlas;
-    public static Texture atlas2;
+   // public static Texture atlas2;
     public static TextureRegion backgroundRegion;
 
 
@@ -207,8 +207,8 @@ public class Assets {
     public static void load(GLGame game) {
 
         background = new Texture(game, "Space_BG_2_pwr2.png");
-        atlas = new Texture(game, "Sprite_Atlas_A_1.png");
-        atlas2 = new Texture(game, "Sprite_Atlas_B_1.png");
+        atlas = new Texture(game, "Sprite_Atlas_C_1.png");
+        //atlas2 = new Texture(game, "Sprite_Atlas_B_1.png");
         menuAtlas = new Texture(game, "Menu_Sheet_2.png");
         backgroundRegion = new TextureRegion(background, 0, 0, 512, 1024);
         menuBackground = new Texture (game, "Menu_BG_2_pwr2.png");
@@ -280,11 +280,11 @@ public class Assets {
         emptyHealth = new TextureRegion(atlas, 28 * 32, 17 * 32, 2 * 32, 1 * 32);
 
         shield = new Animation(0.1f,
-                                new TextureRegion(atlas2, (16 * 32) + 2, (0 * 32) + 2, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas2, 19 * 32, 0 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas2, 22 * 32, 0 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas2, 25 * 32, 0 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas2, 28 * 32, 0 * 32, 3 * 32, 3 * 32));
+                                new TextureRegion(atlas, (16 * 32) + 2, (0 * 32) + 2, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas, 19 * 32, 0 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas, 22 * 32, 0 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas, 25 * 32, 0 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas, 28 * 32, 0 * 32, 3 * 32, 3 * 32));
 
         shotBounce = new Animation(0.1f,
                                 new TextureRegion(atlas, 0 * 32, 3 * 32, 32, 32),
@@ -294,18 +294,18 @@ public class Assets {
                                 new TextureRegion(atlas, 4 * 32, 3 * 32, 32, 32));
 
         teleport = new Animation(0.1f,
-                                new TextureRegion(atlas2, 16 * 32, 3 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas2, 19 * 32, 3 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas2, 22 * 32, 3 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas2, 25 * 32, 3 * 32, 3 * 32, 3 * 32),
-                                new TextureRegion(atlas2, 28 * 32, 3 * 32, 3 * 32, 3 * 32));
+                                new TextureRegion(atlas, 16 * 32, 3 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas, 19 * 32, 3 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas, 22 * 32, 3 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas, 25 * 32, 3 * 32, 3 * 32, 3 * 32),
+                                new TextureRegion(atlas, 28 * 32, 3 * 32, 3 * 32, 3 * 32));
 
         reverseTeleport = new Animation(0.1f,
-                new TextureRegion(atlas2, 28 * 32, 3 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 25 * 32, 3 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 22 * 32, 3 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 19 * 32, 3 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 16 * 32, 3 * 32, 3 * 32, 3 * 32));
+                new TextureRegion(atlas, 28 * 32, 3 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 25 * 32, 3 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 22 * 32, 3 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 19 * 32, 3 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 16 * 32, 3 * 32, 3 * 32, 3 * 32));
 
 
         enabledButton = new TextureRegion(atlas, 16 * 32, 6 * 32, 2 * 32, 3 * 32);
@@ -318,18 +318,18 @@ public class Assets {
         gearButton = new TextureRegion(atlas, 24 * 32, 6 * 32, 2 * 32, 2 * 32);
 
         shipExplosion   = new Animation(0.1f,
-                new TextureRegion(atlas2, 16 * 32, 9 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 19 * 32, 9 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 22 * 32, 9 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 25 * 32, 9 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 28 * 32, 9 * 32, 3 * 32, 3 * 32));
+                new TextureRegion(atlas, 16 * 32, 9 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 19 * 32, 9 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 22 * 32, 9 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 25 * 32, 9 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 28 * 32, 9 * 32, 3 * 32, 3 * 32));
 
         blueShotExplosion = new Animation(0.05f,
-                new TextureRegion(atlas2, 16 * 32, 12 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 19 * 32, 12 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 22 * 32, 12 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 25 * 32, 12 * 32, 3 * 32, 3 * 32),
-                new TextureRegion(atlas2, 28 * 32, 12 * 32, 3 * 32, 3 * 32));
+                new TextureRegion(atlas, 16 * 32, 12 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 19 * 32, 12 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 22 * 32, 12 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 25 * 32, 12 * 32, 3 * 32, 3 * 32),
+                new TextureRegion(atlas, 28 * 32, 12 * 32, 3 * 32, 3 * 32));
 
         humanButton = new TextureRegion(atlas, 30 * 32, 20 * 32, 2 * 32, 2 * 32);
         alienButton = new TextureRegion(atlas, 28 * 32, 20 * 32, 2 * 32, 2 * 32);
@@ -404,39 +404,39 @@ public class Assets {
 
         //shot explosions
         orangeExplosion = new Animation(0.1f,
-                new TextureRegion(atlas2, 0, 0, 32, 32),
-                new TextureRegion(atlas2, 32, 0, 32, 32),
-                new TextureRegion(atlas2, 2 * 32, 0, 32, 32),
-                new TextureRegion(atlas2, 3 * 32, 0, 32, 32),
-                new TextureRegion(atlas2, 4 * 32, 0, 32, 32));
+                new TextureRegion(atlas, 28 * 32, 24 * 32, 32, 32),
+                new TextureRegion(atlas, 29 * 32, 24 * 32, 32, 32),
+                new TextureRegion(atlas, 30 * 32, 24 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 24 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 10 * 32, 32, 32));
 
         greenExplosion = new Animation(0.1f,
-                new TextureRegion(atlas2, 0 * 32, 32, 32, 32),
-                new TextureRegion(atlas2, 1 * 32, 32, 32, 32),
-                new TextureRegion(atlas2, 2 * 32, 32, 32, 32),
-                new TextureRegion(atlas2, 3 * 32, 32, 32, 32),
-                new TextureRegion(atlas2, 4 * 32, 32, 32, 32));
+                new TextureRegion(atlas, 28 * 32, 25 * 32, 32, 32),
+                new TextureRegion(atlas, 29 * 32, 25 * 32, 32, 32),
+                new TextureRegion(atlas, 30 * 32, 25 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 25 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 11 * 32, 32, 32));
 
         redExplosion = new Animation(0.1f,
-                new TextureRegion(atlas2, 0 * 32, 2 * 32, 32, 32),
-                new TextureRegion(atlas2, 1 * 32, 2 * 32, 32, 32),
-                new TextureRegion(atlas2, 2 * 32, 2 * 32, 32, 32),
-                new TextureRegion(atlas2, 3 * 32, 2 * 32, 32, 32),
-                new TextureRegion(atlas2, 4 * 32, 2 * 32, 32, 32));
+                new TextureRegion(atlas, 28 * 32, 26 * 32, 32, 32),
+                new TextureRegion(atlas, 29 * 32, 26 * 32, 32, 32),
+                new TextureRegion(atlas, 30 * 32, 26 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 26 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 12 * 32, 32, 32));
 
         blueExplosion = new Animation(0.1f,
-                new TextureRegion(atlas2, 0 * 32, 3 * 32, 32, 32),
-                new TextureRegion(atlas2, 1 * 32, 3 * 32, 32, 32),
-                new TextureRegion(atlas2, 2 * 32, 3 * 32, 32, 32),
-                new TextureRegion(atlas2, 3 * 32, 3 * 32, 32, 32),
-                new TextureRegion(atlas2, 4 * 32, 3 * 32, 32, 32));
+                new TextureRegion(atlas, 28 * 32, 27 * 32, 32, 32),
+                new TextureRegion(atlas, 29 * 32, 27 * 32, 32, 32),
+                new TextureRegion(atlas, 30 * 32, 27 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 27 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 13 * 32, 32, 32));
 
         purpleExplosion = new Animation(0.1f,
-                new TextureRegion(atlas2, 0 * 32, 4 * 32, 32, 32),
-                new TextureRegion(atlas2, 1 * 32, 4 * 32, 32, 32),
-                new TextureRegion(atlas2, 2 * 32, 4 * 32, 32, 32),
-                new TextureRegion(atlas2, 3 * 32, 4 * 32, 32, 32),
-                new TextureRegion(atlas2, 4 * 32, 4 * 32, 32, 32));
+                new TextureRegion(atlas, 28 * 32, 28 * 32, 32, 32),
+                new TextureRegion(atlas, 29 * 32, 28 * 32, 32, 32),
+                new TextureRegion(atlas, 30 * 32, 28 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 28 * 32, 32, 32),
+                new TextureRegion(atlas, 31 * 32, 14 * 32, 32, 32));
 
 
 

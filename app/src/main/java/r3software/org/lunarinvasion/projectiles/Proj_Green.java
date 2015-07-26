@@ -76,51 +76,63 @@ public class Proj_Green extends Projectile {
                           List<Platform> platforms,
                             int index)  {
 
-        position.add(velocity.x * deltaTime, velocity.y * deltaTime);
-        bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
-        boundingCircle.center.set(position);
-        breakSafetyRadius.center.set(position);
+        if(fizzleState == FIZZLE_STATE.FIZZLING) {
+            this.fizzleTime += deltaTime;
 
-        this.existedTime += deltaTime;
-        this.stateTime += deltaTime;
 
-        //check against all platforms every update step
-        //to see if it's safe to break
-        for(Platform ptfm : platforms) {
-            if((ptfm.type != Platform.PLATFORM_TYPE.TYPE_ANGLED_2X2) &&
-                    (ptfm.type != Platform.PLATFORM_TYPE.TYPE_ANGLED_4X4) &&
-                    (ptfm.type != Platform.PLATFORM_TYPE.TYPE_ANGLED_6X6)) {
+            return false;
+        } else {
 
-                safeToBreak = !OverlapTester.overlapCircleRectangle(breakSafetyRadius,
-                        ptfm.bounds);
+            position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+            bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
+            boundingCircle.center.set(position);
+            breakSafetyRadius.center.set(position);
 
-            } else {
-                safeToBreak = !OverlapTester.checkAngledPlatformCollisions(ptfm, this);
+            this.existedTime += deltaTime;
+            this.stateTime += deltaTime;
+
+            if(existedTime > 5) {
+                toggleFizzleState();
             }
+
+            //check against all platforms every update step
+            //to see if it's safe to break
+            for (Platform ptfm : platforms) {
+                if ((ptfm.type != Platform.PLATFORM_TYPE.TYPE_ANGLED_2X2) &&
+                        (ptfm.type != Platform.PLATFORM_TYPE.TYPE_ANGLED_4X4) &&
+                        (ptfm.type != Platform.PLATFORM_TYPE.TYPE_ANGLED_6X6)) {
+
+                    safeToBreak = !OverlapTester.overlapCircleRectangle(breakSafetyRadius,
+                            ptfm.bounds);
+
+                } else {
+                    safeToBreak = !OverlapTester.checkAngledPlatformCollisions(ptfm, this);
+                }
+            }
+
+
+            // check to see if it's time to break
+            // if we're too close to a platform, delay break
+            if (curState == GREEN_STATE.PRE_BREAK &&
+                    existedTime >= BREAK_TIME &&
+                    safeToBreak) {
+                //break into three
+                separate(projectiles);
+                projectiles.remove(index);
+
+                return true;
+            }
+
+            this.tailCounter++;
+
+            if (tailCounter >= 5) {
+                addPosToTail(pos());
+                tailCounter = 0;
+            }
+
+
+            return false;
         }
-
-
-        // check to see if it's time to break
-        // if we're too close to a platform, delay break
-        if(curState == GREEN_STATE.PRE_BREAK &&
-                existedTime >= BREAK_TIME &&
-                safeToBreak) {
-            //break into three
-            separate(projectiles);
-            projectiles.remove(index);
-
-            return true;
-        }
-
-        this.tailCounter++;
-
-        if(tailCounter >= 5) {
-            addPosToTail(pos());
-            tailCounter = 0;
-        }
-
-
-        return false;
 
     }
 

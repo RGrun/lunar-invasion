@@ -88,44 +88,54 @@ public class Proj_Missile extends Projectile {
     }
 
     public void update(float deltaTime, int index) {
-        steeringForce = calculate();
 
-        accel = div(steeringForce, mass);
+        if(this.fizzleState == FIZZLE_STATE.FIZZLING) {
+            this.fizzleTime += deltaTime;
+        } else {
 
-        velocity.add(accel.x * deltaTime, accel.y * deltaTime );
+            steeringForce = calculate();
 
-        velocity.truncate(maxForce);
+            accel = div(steeringForce, mass);
 
-        position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+            velocity.add(accel.x * deltaTime, accel.y * deltaTime);
 
-        bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
-        boundingCircle.center.set(position);
+            velocity.truncate(maxForce);
+
+            position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+
+            bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
+            boundingCircle.center.set(position);
 
 
-        this.existedTime += deltaTime;
-        this.stateTime += deltaTime;
+            this.existedTime += deltaTime;
+            this.stateTime += deltaTime;
 
-        if(wallsHit >= MAX_WALLS_HIT) {
-            projectiles.remove(index);
-        }
-
-        //check for switch to SEEK
-        if(this.curState == STATE.ARRIVE) {
-            float distToTarget = target.dist(position);
-
-            //change state
-            if(distToTarget <= 0.2f) {
-                this.curState = STATE.SEEK;
-                this.stateTime = 0;
-                this.target = enemyShipLocation;
+            if(this.existedTime >= 5) {
+                this.toggleFizzleState();
             }
-        }
 
-        this.tailCounter++;
+            if (wallsHit >= MAX_WALLS_HIT) {
+                projectiles.remove(index);
+            }
 
-        if(tailCounter >= 5) {
-            addPosToTail(pos());
-            tailCounter = 0;
+            //check for switch to SEEK
+            if (this.curState == STATE.ARRIVE) {
+                float distToTarget = target.dist(position);
+
+                //change state
+                if (distToTarget <= 0.2f) {
+                    this.curState = STATE.SEEK;
+                    this.stateTime = 0;
+                    this.target = enemyShipLocation;
+                }
+            }
+
+            this.tailCounter++;
+
+            if (tailCounter >= 5) {
+                addPosToTail(pos());
+                tailCounter = 0;
+            }
         }
 
     }

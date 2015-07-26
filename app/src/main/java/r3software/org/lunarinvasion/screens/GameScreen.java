@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import r3software.org.lunarinvasion.Assets;
 import r3software.org.lunarinvasion.Cannon;
+import r3software.org.lunarinvasion.Settings;
 import r3software.org.lunarinvasion.World;
 import r3software.org.lunarinvasion.WorldRenderer;
 import r3software.org.lunarinvasion.engine.framework.Camera2D;
@@ -215,6 +216,28 @@ public class GameScreen extends GLScreen {
                 break;
         }
         UIbatcher.endBatch(); //draw sprites
+
+        //draw pause menu if game is paused
+        if(world.state == World.GAME_PAUSED) {
+            if (Settings.soundEnabled) {
+                batcher.beginBatch(Assets.gameMenuSoundOn);
+
+                batcher.drawSprite(720 / 2, 1280 / 2,
+                        20 * 32, 20 * 32,
+                        Assets.gameMenuSoundOnRegion);
+
+                batcher.endBatch();
+
+            } else {
+                batcher.beginBatch(Assets.gameMenuSoundOff);
+
+                batcher.drawSprite(720 / 2, 1280 / 2,
+                        20 * 32, 20 * 32,
+                        Assets.gameMenuSoundOffRegion);
+
+                batcher.endBatch();
+            }
+        }
 
 
         gl.glDisable(GL10.GL_BLEND); //disable blending
@@ -519,7 +542,25 @@ public class GameScreen extends GLScreen {
 
             batcher.endBatch();
 
-            //TODO: draw pause menu on screen once I have it
+            /*if(Settings.soundEnabled) {
+                batcher.beginBatch(Assets.gameMenuSoundOn);
+
+                batcher.drawSprite(720 / 2, 1280 / 2,
+                        720 - 200, 1280 / 2,
+                        Assets.gameMenuSoundOnRegion);
+
+                batcher.endBatch();
+
+            } else {
+                batcher.beginBatch(Assets.gameMenuSoundOff);
+
+                batcher.drawSprite(720 / 2, 1280 / 2,
+                        720 - 100, 1280 / 2,
+                        Assets.gameMenuSoundOffRegion);
+
+                batcher.endBatch();
+            }*/
+
 
         }
 

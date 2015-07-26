@@ -52,28 +52,40 @@ public class Proj_Blue extends Projectile {
     @Override
     public void update(float deltaTime)  {
 
-        //only move if we're in the normal state
-        if(curState == BLUE_STATE.NORMAL) {
-            position.add(velocity.x * deltaTime, velocity.y * deltaTime);
-            bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
-            boundingCircle.center.set(position);
-            explosionCheck.center.set(position);
+        if(fizzleState == FIZZLE_STATE.FIZZLING) {
+            this.fizzleTime += deltaTime;
 
-            //check to see if we should explode
-            checkRadius(enemyCannon.cannonCircle);
+        } else {
 
-            this.tailCounter++;
+            //only move if we're in the normal state
+            if (curState == BLUE_STATE.NORMAL) {
+                position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+                bounds.bottomLeft.set(position).sub(bounds.width / 2, bounds.height / 2);
+                boundingCircle.center.set(position);
+                explosionCheck.center.set(position);
 
-            if(tailCounter >= 5) {
-                addPosToTail(pos());
-                tailCounter = 0;
+                //check to see if we should explode
+                checkRadius(enemyCannon.cannonCircle);
+
+                this.tailCounter++;
+
+                if (tailCounter >= 5) {
+                    addPosToTail(pos());
+                    tailCounter = 0;
+                }
+
+
+            }
+
+            this.existedTime += deltaTime;
+            this.stateTime += deltaTime;
+
+            if(existedTime > 5 && curState != BLUE_STATE.EXPLODING) {
+                this.toggleFizzleState();
             }
 
 
         }
-
-        this.existedTime += deltaTime;
-        this.stateTime += deltaTime;
 
 
     }

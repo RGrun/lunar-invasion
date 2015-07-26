@@ -36,7 +36,8 @@ public class SpriteBatcher {
 		}
 		vertices.setIndices(indices, 0, indices.length);
 	}
-	
+
+
 	public void beginBatch(Texture texture) {
 		texture.bind();
 		numSprites = 0;
