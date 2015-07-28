@@ -597,6 +597,11 @@ public class World {
             humanTouchPoint.y =
                     (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
 
+            if(event.type == Input.TouchEvent.TOUCH_UP) {
+
+                Log.i(TAG, "X: " + humanTouchPoint.x + " Y: " + humanTouchPoint.y);
+            }
+
             //check for move button press
             if(event.type == Input.TouchEvent.TOUCH_UP
                 && OverlapTester.pointInRectangle(humanMoveButton.bounds, humanTouchPoint)) {

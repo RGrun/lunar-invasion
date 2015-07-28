@@ -1,5 +1,7 @@
 package r3software.org.lunarinvasion.screens;
 
+import android.util.Log;
+
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -38,15 +40,16 @@ public class HelpScreen extends GLScreen {
         guiCam = new Camera2D(glGraphics, 720, 1280);
         batcher = new SpriteBatcher(glGraphics, 100);
 
-        back = new Rectangle(96, 1280 -  288, 128, 128);
-        soundToggle = new Rectangle(0, 1280 - 32, 64, 64);
+        back = new Rectangle(2, 5, 4, 4);
+        soundToggle = new Rectangle(0, 0, 2, 2);
+
 
         touchPoint = new Vector2();
 
-        story = new Rectangle(128, 256, 384, 96);
-        gamePlay = new Rectangle(128, 384, 384, 96);
-        weapons = new Rectangle(128, 512, 384, 96);
-        powerUps = new Rectangle(128, 640, 384, 96);
+        story = new Rectangle(5, 29, 12, 3);
+        gamePlay = new Rectangle(5, 25, 12, 3);
+        weapons = new Rectangle(5, 21, 12, 3);
+        powerUps = new Rectangle(5, 17, 12, 3);
     }
 
 
@@ -59,6 +62,16 @@ public class HelpScreen extends GLScreen {
             Input.TouchEvent event = touchEvents.get(i);
 
             touchPoint.set(event.x, event.y);
+
+            touchPoint.x =
+                    (event.x / (float) guiCam.glGraphics.getWidth() * Settings.WORLD_WIDTH);
+            touchPoint.y =
+                    (1 - event.y / (float) guiCam.glGraphics.getHeight()) * Settings.WORLD_HEIGHT;
+
+            if(event.type == Input.TouchEvent.TOUCH_UP && Settings.logging) {
+
+                Log.i(MainMenuScreen.TAG, "X: " + touchPoint.x + " Y: " + touchPoint.y);
+            }
 
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 

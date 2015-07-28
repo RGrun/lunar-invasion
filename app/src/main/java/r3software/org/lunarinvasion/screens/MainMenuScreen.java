@@ -41,10 +41,11 @@ public class MainMenuScreen extends GLScreen {
         guiCam = new Camera2D(glGraphics, 720, 1280);
         batcher = new SpriteBatcher(glGraphics, 100);
 
-        play = new Rectangle(128, 512, 384, 128);
-        help = new Rectangle(160, 704, 320, 128);
-        credits = new Rectangle(160, 864, 320, 128);
-        soundToggle = new Rectangle(0, 1280 - 32, 64, 64);
+        play = new Rectangle(5, 19, 12, 4);
+        help = new Rectangle(6, 14, 10, 4);
+        credits = new Rectangle(6, 9, 10, 4);
+        soundToggle = new Rectangle(0, 0, 2, 2);
+
 
         touchPoint = new Vector2();
 
@@ -61,6 +62,16 @@ public class MainMenuScreen extends GLScreen {
             Input.TouchEvent event = touchEvents.get(i);
 
             touchPoint.set(event.x, event.y);
+
+            touchPoint.x =
+                    (event.x / (float) guiCam.glGraphics.getWidth() * Settings.WORLD_WIDTH);
+            touchPoint.y =
+                    (1 - event.y / (float) guiCam.glGraphics.getHeight()) * Settings.WORLD_HEIGHT;
+
+            if(event.type == Input.TouchEvent.TOUCH_UP && Settings.logging) {
+
+                Log.i(TAG, "X: " + touchPoint.x + " Y: " + touchPoint.y);
+            }
 
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 

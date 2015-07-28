@@ -1,5 +1,7 @@
 package r3software.org.lunarinvasion.screens;
 
+import android.util.Log;
+
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -40,16 +42,16 @@ public class WeaponsScreen extends GLScreen {
         guiCam = new Camera2D(glGraphics, 720, 1280);
         batcher = new SpriteBatcher(glGraphics, 100);
 
-        back = new Rectangle(96, 1280 -  288, 128, 128);
-        toMenu = new Rectangle(300, 1280 - 128, 128, 128);
-        soundToggle = new Rectangle(0, 1280 - 32, 64, 64);
+        back = new Rectangle(2, 5, 4, 4);
+        toMenu = new Rectangle(9f, 0f, 4, 4);
+        soundToggle = new Rectangle(0, 0, 2, 2);
         touchPoint = new Vector2();
 
-        orange = new Rectangle(8 * 32, 8 * 32, 6 * 32, 3 * 32);
-        green = new Rectangle(8 * 32, 12 * 32, 6 * 32, 3 * 32);
-        blue = new Rectangle(8 * 32, 16 * 32, 6 * 32, 3 * 32);
-        purple = new Rectangle(8 * 32, 20 * 32, 6 * 32, 3 * 32);
-        red = new Rectangle(8 * 32, 24 * 32, 6 * 32, 3 * 32);
+        orange = new Rectangle(8, 29, 6, 3);
+        green = new Rectangle(8, 25, 6, 3);
+        blue = new Rectangle(8, 21, 6, 3);
+        purple = new Rectangle(8, 17, 6, 3);
+        red = new Rectangle(8, 13, 6, 3);
 
     }
 
@@ -64,6 +66,16 @@ public class WeaponsScreen extends GLScreen {
             Input.TouchEvent event = touchEvents.get(i);
 
             touchPoint.set(event.x, event.y);
+
+            touchPoint.x =
+                    (event.x / (float) guiCam.glGraphics.getWidth() * Settings.WORLD_WIDTH);
+            touchPoint.y =
+                    (1 - event.y / (float) guiCam.glGraphics.getHeight()) * Settings.WORLD_HEIGHT;
+
+            if(event.type == Input.TouchEvent.TOUCH_UP && Settings.logging) {
+
+                Log.i(MainMenuScreen.TAG, "X: " + touchPoint.x + " Y: " + touchPoint.y);
+            }
 
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 
