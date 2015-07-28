@@ -208,7 +208,6 @@ public class Assets {
 
         background = new Texture(game, "Space_BG_2_pwr2.png");
         atlas = new Texture(game, "Sprite_Atlas_C_1.png");
-        //atlas2 = new Texture(game, "Sprite_Atlas_B_1.png");
         menuAtlas = new Texture(game, "Menu_Sheet_2.png");
         backgroundRegion = new TextureRegion(background, 0, 0, 512, 1024);
         menuBackground = new Texture (game, "Menu_BG_2_pwr2.png");

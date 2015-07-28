@@ -70,7 +70,7 @@ public class WorldRenderer {
         this.batcher = batcher;
 
         this.circle = new Texture((GLGame)world.game, "Distance_Sprite_pwr2.png");
-        this.atlas = new Texture((GLGame)world.game, "Sprite_Atlas_11.png");
+        this.atlas = new Texture((GLGame)world.game, "Sprite_Atlas_C_1.png");
 
         this.teleportCircleRegion = new TextureRegion(circle, 0, 0,
                 1024, 1024);
