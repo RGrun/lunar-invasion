@@ -18,11 +18,11 @@ import r3software.org.lunarinvasion.engine.math.Rectangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
 
 /**
- * Created by Jeff on 7/2/2015.
+ * Created by richard on 8/11/15.
  *
- * This is the weapons TOC
+ * Red weapon tutorial
  */
-public class WeaponsScreen extends GLScreen {
+public class RedPage extends GLScreen {
 
     Vector2 touchPoint;
     Camera2D guiCam;
@@ -31,13 +31,8 @@ public class WeaponsScreen extends GLScreen {
     Rectangle toMenu;
     Rectangle soundToggle;
 
-    Rectangle orange;
-    Rectangle green;
-    Rectangle blue;
-    Rectangle purple;
-    Rectangle red;
+    public RedPage(Game game) {
 
-    public WeaponsScreen(Game game) {
         super(game);
         guiCam = new Camera2D(glGraphics, 720, 1280);
         batcher = new SpriteBatcher(glGraphics, 100);
@@ -45,20 +40,13 @@ public class WeaponsScreen extends GLScreen {
         back = new Rectangle(2, 5, 4, 4);
         toMenu = new Rectangle(9f, 0f, 4, 4);
         soundToggle = new Rectangle(0, 0, 2, 2);
+
+
         touchPoint = new Vector2();
-
-        orange = new Rectangle(9, 29, 8, 3);
-        green = new Rectangle(9, 25, 8, 3);
-        blue = new Rectangle(8, 21, 6, 3);
-        purple = new Rectangle(9, 17, 8, 3);
-        red = new Rectangle(8, 13, 6, 3);
-
     }
-
 
     @Override
     public void update(float deltaTime) {
-
         List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
         int len = touchEvents.size();
 
@@ -79,33 +67,10 @@ public class WeaponsScreen extends GLScreen {
 
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 
-                if(OverlapTester.pointInRectangle(orange, touchPoint)) {
+
+                if (OverlapTester.pointInRectangle(back, touchPoint)) {
                     //Assets.playSound(Assets.clickSound);
-                    game.setScreen(new OrangePage(game));
-                    return;
-                }
-
-                if(OverlapTester.pointInRectangle(green, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
-                    game.setScreen(new GreenPage(game));
-                    return;
-                }
-
-                if(OverlapTester.pointInRectangle(blue, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
-                    game.setScreen(new BluePage(game));
-                    return;
-                }
-
-                if(OverlapTester.pointInRectangle(purple, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
-                    game.setScreen(new PurplePage(game));
-                    return;
-                }
-
-                if(OverlapTester.pointInRectangle(red, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
-                    game.setScreen(new RedPage(game));
+                    game.setScreen(new WeaponsScreen(game));
                     return;
                 }
 
@@ -115,61 +80,35 @@ public class WeaponsScreen extends GLScreen {
                     return;
                 }
 
-                if (OverlapTester.pointInRectangle(back, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
-                    game.setScreen(new HelpScreen(game));
-                    return;
-                }
-
                 if(OverlapTester.pointInRectangle(soundToggle, touchPoint)) {
                     // Assets.playSound(Assets.clickSound);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
-                         Assets.spacebeat.play();
+                        Assets.spacebeat.play();
                     } else {
-                         Assets.spacebeat.pause();
+                        Assets.spacebeat.pause();
                     }
                 }
             }
         }
-
     }
 
     @Override
     public void present(float deltaTime) {
-
         GL10 gl = glGraphics.getGL();
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         guiCam.setViewportAndMatrices();
 
         gl.glEnable(GL10.GL_TEXTURE_2D);
 
-        batcher.beginBatch(Assets.menuBackground);
-        batcher.drawSprite(360, 640, 720, 1280, Assets.menuBackgroundRegion);
+        batcher.beginBatch(Assets.redPage);
+        batcher.drawSprite(360, 640, 720, 1280, Assets.redPageRegion);
         batcher.endBatch();
 
         gl.glEnable(GL10.GL_BLEND);
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
         batcher.beginBatch(Assets.menuAtlas);
-
-
-        batcher.drawSprite(360, 1280 - (4.5f * 32), 14 * 32, 5 * 32, Assets.weapons);
-
-        //shot pictures
-        batcher.drawSprite(5.5f * 32, 1280 - (9.5f * 32), 3 * 32, 3 * 32, Assets.orange_shot_menu);
-        batcher.drawSprite(5.5f * 32, 1280 - (13.5f * 32), 3 * 32, 3 * 32, Assets.green_shot_menu);
-        batcher.drawSprite(5.5f * 32, 1280 - (17.5f * 32), 3 * 32, 3 * 32, Assets.blue_shot_menu);
-        batcher.drawSprite(5.5f * 32, 1280 - (21.5f * 32), 3 * 32, 3 * 32, Assets.purple_shot_menu);
-        batcher.drawSprite(5.5f * 32, 1280 - (25.5f * 32), 3 * 32, 3 * 32, Assets.red_shot_menu);
-
-        //menu items
-        batcher.drawSprite(12 * 32, 1280 - (9.5f * 32), 8 * 32, 3 * 32, Assets.orange);
-        batcher.drawSprite(12 * 32, 1280 - (13.5f * 32), 8 * 32, 3 * 32, Assets.green);
-        batcher.drawSprite(11 * 32, 1280 - (17.5f * 32), 6 * 32, 3 * 32, Assets.blue);
-        batcher.drawSprite(12 * 32, 1280 - (21.5f * 32), 8 * 32, 3 * 32, Assets.purple);
-        batcher.drawSprite(11 * 32, 1280 - (25.5f * 32), 6 * 32, 3 * 32, Assets.red);
-
 
         batcher.drawSprite(128, 224, 128, 128, Assets.left_arrow);
         batcher.drawSprite(360, 2.5f * 32, 128, 128, Assets.down_arrow);
@@ -180,7 +119,6 @@ public class WeaponsScreen extends GLScreen {
         batcher.endBatch();
 
         gl.glDisable(GL10.GL_BLEND);
-
     }
 
     @Override

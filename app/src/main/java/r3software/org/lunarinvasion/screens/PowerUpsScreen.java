@@ -45,9 +45,9 @@ public class PowerUpsScreen extends GLScreen {
         soundToggle = new Rectangle(0, 0, 2, 2);
         touchPoint = new Vector2();
 
-        health = new Rectangle(8, 29, 6, 3);
-        shield = new Rectangle(8, 25, 6, 3);
-        weapon = new Rectangle(8, 21, 6, 3);
+        health = new Rectangle(9, 29, 8, 3);
+        shield = new Rectangle(9, 25, 8, 3);
+        weapon = new Rectangle(9, 21, 8, 3);
     }
 
 
@@ -75,19 +75,19 @@ public class PowerUpsScreen extends GLScreen {
 
                 if (OverlapTester.pointInRectangle(health, touchPoint)) {
                     //Assets.playSound(Assets.clickSound);
-                    //game.setScreen(new HealthPage(game));
+                    game.setScreen(new HealthPage(game));
                     return;
                 }
 
                 if (OverlapTester.pointInRectangle(shield, touchPoint)) {
                     //Assets.playSound(Assets.clickSound);
-                    //game.setScreen(new ShieldPage(game));
+                    game.setScreen(new ShieldPage(game));
                     return;
                 }
 
                 if (OverlapTester.pointInRectangle(weapon, touchPoint)) {
                     // Assets.playSound(Assets.clickSound);
-                    //game.setScreen(new WeaponPage(game));
+                    game.setScreen(new WeaponPage(game));
                     return;
                 }
 
@@ -135,7 +135,7 @@ public class PowerUpsScreen extends GLScreen {
         batcher.beginBatch(Assets.menuAtlas);
 
 
-        batcher.drawSprite(360, 1280 - (4.5f * 32), 14 * 32, 5 * 32, Assets.power_ups);
+        batcher.drawSprite(360, 1280 - (4.5f * 32), 16 * 32, 5 * 32, Assets.power_ups);
 
         //shot pictures
         batcher.drawSprite(5.5f * 32, 1280 - (9.5f * 32), 3 * 32, 3 * 32, Assets.health_pu_menu);
@@ -143,9 +143,9 @@ public class PowerUpsScreen extends GLScreen {
         batcher.drawSprite(5.5f * 32, 1280 - (17.5f * 32), 3 * 32, 3 * 32, Assets.weapon_pu_menu);
 
         //menu items
-        batcher.drawSprite(11 * 32, 1280 - (9.5f * 32), 6 * 32, 3 * 32, Assets.health_menu);
-        batcher.drawSprite(11 * 32, 1280 - (13.5f * 32), 6 * 32, 3 * 32, Assets.shield_menu);
-        batcher.drawSprite(11 * 32, 1280 - (17.5f * 32), 6 * 32, 3 * 32, Assets.weapon_menu);
+        batcher.drawSprite(12 * 32, 1280 - (9.5f * 32), 8 * 32, 3 * 32, Assets.health_menu);
+        batcher.drawSprite(12 * 32, 1280 - (13.5f * 32), 8 * 32, 3 * 32, Assets.shield_menu);
+        batcher.drawSprite(12 * 32, 1280 - (17.5f * 32), 8 * 32, 3 * 32, Assets.weapon_menu);
 
         batcher.drawSprite(128, 224, 128, 128, Assets.left_arrow);
         batcher.drawSprite(360, 2.5f * 32, 128, 128, Assets.down_arrow);

@@ -204,7 +204,68 @@ public class Assets {
     // music and sounds
     public static Music spacebeat;
 
+
+
+    //these are the page backgrounds
+    public static Texture goalsPage;
+    public static TextureRegion goalsPageRegion;
+
+    public static Texture bluePage;
+    public static TextureRegion bluePageRegion;
+
+    public static Texture greenPage;
+    public static TextureRegion greenPageRegion;
+
+    public static Texture healthPUPage;
+    public static TextureRegion healthPUPageRegion;
+
+    public static Texture movementPage;
+    public static TextureRegion movementPageRegion;
+
+    public static Texture purplePage;
+    public static TextureRegion purplePageRegion;
+
+    public static Texture organgePage;
+    public static TextureRegion orangePageRegion;
+
+    public static Texture redPage;
+    public static TextureRegion redPageRegion;
+
+    public static Texture shieldPUPage;
+    public static TextureRegion shieldPUPageRegion;
+
+    public static Texture shootingPage;
+    public static TextureRegion shootingPageRegion;
+
+    public static Texture weaponPUPage;
+    public static TextureRegion weaponPUPageRegion;
+
+
+
     public static void load(GLGame game) {
+
+        goalsPage = new Texture(game, "pages/Goals_Menu.jpg");
+        goalsPageRegion = new TextureRegion(goalsPage, 0, 0, 512, 1024);
+        bluePage = new Texture(game, "pages/Blue_Weapon.jpg");
+        bluePageRegion = new TextureRegion(bluePage, 0, 0, 512, 1024);
+        greenPage = new Texture(game, "pages/Green_Weapon.jpg");
+        greenPageRegion = new TextureRegion(greenPage, 0, 0, 512, 1024);
+        healthPUPage = new Texture(game, "pages/Health_PowerUp.jpg");
+        healthPUPageRegion = new TextureRegion(healthPUPage, 0, 0, 512, 1024);
+        movementPage = new Texture(game, "pages/Movement_Menu.jpg");
+        movementPageRegion = new TextureRegion(movementPage, 0, 0, 512, 1024);
+        organgePage = new Texture(game, "pages/Orange_Weapon.jpg");
+        orangePageRegion = new TextureRegion(organgePage, 0, 0, 512, 1024);
+        purplePage = new Texture(game, "pages/Purple_Weapon.jpg");
+        purplePageRegion = new TextureRegion(purplePage, 0, 0, 512, 1024);
+        redPage = new Texture(game, "pages/Red_Weapon.jpg");
+        redPageRegion = new TextureRegion(redPage, 0, 0, 512, 1024);
+        shieldPUPage = new Texture(game, "pages/Shield_PowerUp.jpg");
+        shieldPUPageRegion = new TextureRegion(shieldPUPage, 0, 0, 512, 1024);
+        shootingPage = new Texture(game, "pages/Shooting_Menu.jpg");
+        shootingPageRegion = new TextureRegion(shootingPage, 0, 0, 512, 1024);
+        weaponPUPage = new Texture(game, "pages/Weapon_PowerUp.jpg");
+        weaponPUPageRegion = new TextureRegion(weaponPUPage, 0, 0, 512, 1024);
 
         background = new Texture(game, "Space_BG_2_pwr2.png");
         atlas = new Texture(game, "Sprite_Atlas_C_1.png");

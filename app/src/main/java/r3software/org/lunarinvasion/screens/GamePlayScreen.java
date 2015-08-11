@@ -45,9 +45,9 @@ public class GamePlayScreen extends GLScreen {
         soundToggle = new Rectangle(0, 0, 2, 2);
         touchPoint = new Vector2();
 
-        goals = new Rectangle(4, 29, 12, 3);
-        movement = new Rectangle(4, 25, 12, 3);
-        shooting = new Rectangle(4, 21, 12, 3);
+        goals = new Rectangle(4, 29, 14, 3);
+        movement = new Rectangle(4, 25, 14, 3);
+        shooting = new Rectangle(4, 21, 14, 3);
     }
 
 
@@ -75,19 +75,19 @@ public class GamePlayScreen extends GLScreen {
 
                 if(OverlapTester.pointInRectangle(goals, touchPoint)) {
                     //Assets.playSound(Assets.clickSound);
-                    //game.setScreen(new GoalsPage(game));
+                    game.setScreen(new GoalsPage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(movement, touchPoint)) {
                     //Assets.playSound(Assets.clickSound);
-                    //game.setScreen(new MovementPage(game));
+                    game.setScreen(new MovementPage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(shooting, touchPoint)) {
                     // Assets.playSound(Assets.clickSound);
-                    //game.setScreen(new ShootingPage(game));
+                    game.setScreen(new ShootingPage(game));
                     return;
                 }
 
@@ -135,8 +135,8 @@ public class GamePlayScreen extends GLScreen {
 
         batcher.beginBatch(Assets.menuAtlas);
 
-        batcher.drawSprite(360, 1280 - (4.5f * 32), 14 * 32, 5 * 32, Assets.game_play);
-        batcher.drawSprite(360, 1280 - (9.5f * 32), 12 * 32, 3 * 32, Assets.goals);
+        batcher.drawSprite(360, 1280 - (4.5f * 32), 16 * 32, 5 * 32, Assets.game_play);
+        batcher.drawSprite(360, 1280 - (9.5f * 32), 10 * 32, 3 * 32, Assets.goals);
         batcher.drawSprite(360, 1280 - (13.5f * 32), 12 * 32, 3 * 32, Assets.movement);
         batcher.drawSprite(360, 1280 - (17.5f * 32), 12 * 32, 3 * 32, Assets.shooting);
 

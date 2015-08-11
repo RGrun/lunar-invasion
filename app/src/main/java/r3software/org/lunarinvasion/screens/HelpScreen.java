@@ -137,10 +137,10 @@ public class HelpScreen extends GLScreen {
         batcher.beginBatch(Assets.menuAtlas);
 
         batcher.drawSprite(360, 1280 - 128, 14 * 32, 5 * 32, Assets.help);
-        batcher.drawSprite(360, 1280 - (9.5f * 32), 12 * 32, 3 * 32, Assets.story);
-        batcher.drawSprite(360, 1280 - (13.5f * 32), 12 * 32, 3 * 32, Assets.game_play_small);
-        batcher.drawSprite(360, 1280 - (17.5f * 32), 12 * 32, 3 * 32, Assets.weapons_small);
-        batcher.drawSprite(360, 1280 - (21.5f * 32), 12 * 32, 3 * 32, Assets.power_ups_small);
+        batcher.drawSprite(340, 1280 - (9.5f * 32), 10 * 32, 3 * 32, Assets.story);
+        batcher.drawSprite(370, 1280 - (13.5f * 32), 14 * 32, 3 * 32, Assets.game_play_small);
+        batcher.drawSprite(350, 1280 - (17.5f * 32), 12 * 32, 3 * 32, Assets.weapons_small);
+        batcher.drawSprite(350, 1280 - (21.5f * 32), 12 * 32, 3 * 32, Assets.power_ups_small);
 
         batcher.drawSprite(128, 224, 128, 128, Assets.left_arrow);
 
