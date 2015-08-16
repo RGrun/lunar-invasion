@@ -73,6 +73,8 @@ public class World {
     public static final int H_SELECT = 6;
     public static final int A_SELECT = 7;
     public static final int GAME_PAUSED = 8;
+    public static final int HUMAN_WIN = 9;
+    public static final int ALIEN_WIN = 10;
 
     //cannon IDs
     public static final int HUMAN_CANNON = 0;
@@ -164,6 +166,9 @@ public class World {
     //random
     public Random rand;
 
+    //to determine if the begin turn sound has been played once for this turn
+    private boolean playTurnStartSound;
+
     public World(WorldListener listener, Game game, Screen screen, Camera2D cam) {
 
         this.cam = cam;
@@ -182,18 +187,7 @@ public class World {
 
         cannons = new ArrayList<>();
 
-        //add cannons here
-        //human cannon
-        hCannon = new Cannon(3, 3,
-                Cannon.CANNON_WIDTH, Cannon.CANNON_HEIGHT,
-                0, HUMAN_CANNON, this);
-        cannons.add(hCannon);
-
-        //alien cannon
-        aCannon = new Cannon(17, 37,
-                Cannon.CANNON_WIDTH, Cannon.CANNON_HEIGHT,
-                (float) 180, ALIEN_CANNON, this);
-        cannons.add(aCannon);
+        // cannon setup moved to block set-up method
 
         projectiles = new ArrayList<>();
 
@@ -204,8 +198,8 @@ public class World {
         //add platforms here
         platforms = new ArrayList<>();
 
-        //set up obstacle blocks
-        setUpBlocks();
+        //set up obstacle blocks and everything else
+        setUpLevel();
 
         Cannon hCannon = cannons.get(HUMAN_CANNON);
         Cannon aCannon = cannons.get(ALIEN_CANNON);
@@ -230,12 +224,26 @@ public class World {
         this.alienTargetOn = true;
 
         Log.d(TAG, "Entering H_CANNON_AIM");
+        this.playTurnStartSound = true;
         this.prevState = -1;
         this.state = H_CANNON_AIM;
 
     }
 
-    public void setUpBlocks() {
+    public void setUpLevel() {
+
+        //add cannons here
+        //human cannon
+        hCannon = new Cannon(3, 3,
+                Cannon.CANNON_WIDTH, Cannon.CANNON_HEIGHT,
+                0, HUMAN_CANNON, this);
+        cannons.add(hCannon);
+
+        //alien cannon
+        aCannon = new Cannon(17, 37,
+                Cannon.CANNON_WIDTH, Cannon.CANNON_HEIGHT,
+                (float) 180, ALIEN_CANNON, this);
+        cannons.add(aCannon);
 
         // "Rodeo"
 
@@ -298,13 +306,19 @@ public class World {
 
         drones.add(new Drone(17, 27, d4p, false));
 
+        Assets.changeMusic(Assets.spacebeat);
+
 
     }
 
 
     public void update(float deltaTime) {
 
-        if(state != GAME_PAUSED) {
+        if(state != GAME_PAUSED &&
+                state != HUMAN_WIN &&
+                state != ALIEN_WIN) {
+
+            checkIfCannonsDead();
 
             updateCannons(deltaTime);
             updateProjectiles(deltaTime);
@@ -357,10 +371,114 @@ public class World {
                 updatePaused();
                 break;
 
+            case HUMAN_WIN:
+                updateHumanWin();
+                break;
+
+            case ALIEN_WIN:
+                updateAlienWin();
+                break;
+
         }
 
 
     }
+
+    private void checkIfCannonsDead() {
+        //check human cannon
+        if(hCannon.curState == Cannon.CANNON_STATE.DEAD &&
+                hCannon.stateTime > 0.5f) {
+            this.state = ALIEN_WIN;
+        }
+
+        //check alien cannon
+        if(aCannon.curState == Cannon.CANNON_STATE.DEAD &&
+                aCannon.stateTime > 0.5f) {
+            this.state = HUMAN_WIN;
+        }
+    }
+
+    private void updateHumanWin() {
+
+        if(Assets.currentMusic != Assets.victoryShort) {
+            Assets.changeMusic(Assets.victoryShort);
+        }
+
+        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        int len = touchEvents.size();
+        for(int i = 0; i < len; i++) {
+            Input.TouchEvent event = touchEvents.get(i);
+
+            Vector2 winTouchPoint = new Vector2(event.x, event.y);
+
+            //translate screen coords to world coords
+            winTouchPoint.x =
+                    (event.x / (float) cam.glGraphics.getWidth() * WORLD_WIDTH);
+            winTouchPoint.y =
+                    (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
+
+            //TODO: implement win menu properly
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    winTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
+                game.getInput().getTouchEvents().clear();
+                resetLevel();
+                break;
+            }
+
+        }
+
+    }
+
+    private void updateAlienWin() {
+
+        if(Assets.currentMusic != Assets.victoryShort) {
+            Assets.changeMusic(Assets.victoryShort);
+        }
+
+        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        int len = touchEvents.size();
+        for(int i = 0; i < len; i++) {
+            Input.TouchEvent event = touchEvents.get(i);
+
+            Vector2 winTouchPoint = new Vector2(event.x, event.y);
+
+            //translate screen coords to world coords
+            winTouchPoint.x =
+                    (event.x / (float) cam.glGraphics.getWidth() * WORLD_WIDTH);
+            winTouchPoint.y =
+                    (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
+
+            //TODO: implement win menu properly
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    winTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
+                game.getInput().getTouchEvents().clear();
+                resetLevel();
+                break;
+            }
+
+        }
+
+    }
+
+    private void resetLevel() {
+        cannons.clear();
+        projectiles.clear();
+        drones.clear();
+        platforms.clear();
+        shotBounces.clear();
+        powerUps.clear();
+
+        setUpLevel();
+
+        this.state = H_CANNON_AIM;
+        game.getInput().getTouchEvents().clear();
+
+    }
+
 
     private void checkCannonPowerUpCollisions() {
         for(int i = 0; i < powerUps.size(); i++) {
@@ -370,15 +488,14 @@ public class World {
             if (OverlapTester.overlapCircleRectangle(hCannon.cannonCircle, pup.bounds)) {
                 if (pup instanceof ShieldPU) {
 
-                    //TODO: sound effects on powerup pickup
+                    Assets.playSound(Assets.pickup);
                     hCannon.enableShield();
                     powerUps.remove(i);
                     break;
 
 
                 } else if (pup instanceof WeaponPU) {
-                    //TODO: sound effects on powerup pickup
-                    //TODO: show the weapon the player got to them w/ popup
+                    Assets.playSound(Assets.pickup);
 
                     if (((WeaponPU) pup).curState == WeaponPU.STATE.PRIMARY) {
 
@@ -406,7 +523,7 @@ public class World {
                     }
 
                 } else if (pup instanceof HealthPU) {
-                    //TODO: sound effects on powerup pickup
+                    Assets.playSound(Assets.pickup);
 
                     hCannon.heal(10);
                     powerUps.remove(i);
@@ -417,16 +534,14 @@ public class World {
                     overlapCircleRectangle(aCannon.cannonCircle, pup.bounds)) {
                 if(pup instanceof ShieldPU) {
 
-                    //TODO: sound effects on powerup pickup
+                    Assets.playSound(Assets.pickup);
                     aCannon.enableShield();
                     powerUps.remove(i);
                     break ;
 
 
                 } else if (pup instanceof WeaponPU) {
-                    //TODO: sound effects on powerup pickup
-                    //TODO: show the weapon the player got to them w/ popup
-
+                    Assets.playSound(Assets.pickup);
                     if(((WeaponPU) pup).curState == WeaponPU.STATE.PRIMARY) {
 
                         WeaponPU.CONTENTS payload = ((WeaponPU) pup).contents;
@@ -452,7 +567,7 @@ public class World {
                     }
 
                 } else if (pup instanceof HealthPU) {
-                    //TODO: sound effects on powerup pickup
+                    Assets.playSound(Assets.pickup);
                     aCannon.heal(10);
                     powerUps.remove(i);
                     break;
@@ -581,6 +696,11 @@ public class World {
 
     private void updateHCannonAim() {
 
+        /*if(playTurnStartSound) {
+            Assets.playSound(Assets.beginTurn);
+            playTurnStartSound = false;
+        }*/
+
         Cannon cannon = cannons.get(HUMAN_CANNON);  //human cannon is index 0
 
         List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
@@ -623,6 +743,7 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(pauseButton.bounds,
                     humanTouchPoint)) {
+                Assets.playSound(Assets.menuSelect);
                 game.getInput().getTouchEvents().clear();
                 prevState = H_CANNON_AIM;
                 state = GAME_PAUSED;
@@ -729,6 +850,7 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(pauseButton.bounds,
                     testPoint)) {
+                Assets.playSound(Assets.menuSelect);
                 game.getInput().getTouchEvents().clear();
                 prevState = H_MOVE;
                 state = GAME_PAUSED;
@@ -739,6 +861,7 @@ public class World {
                     && OverlapTester.pointInRectangle(humanMoveButton.bounds, testPoint)) {
                 game.getInput().getTouchEvents().clear();
                 state = H_CANNON_AIM;
+                return;
             }
 
             //test new overlap against all platforms
@@ -768,9 +891,10 @@ public class World {
             if(!invalidMove && event.type == Input.TouchEvent.TOUCH_UP) {
                 cannon.teleport(testPoint, teleportEffects);
                 game.getInput().getTouchEvents().clear();
+                playTurnStartSound = true;
                 state = A_CANNON_AIM;
             } else if(invalidMove) {
-                //TODO: add "bad move" sound effect
+                Assets.playSound(Assets.cantGoHere);
                 game.getInput().getTouchEvents().clear();
                 state = H_CANNON_AIM;
             }
@@ -800,6 +924,7 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(pauseButton.bounds,
                     humanTouchPoint)) {
+                Assets.playSound(Assets.menuSelect);
                 game.getInput().getTouchEvents().clear();
                 prevState = H_SELECT;
                 state = GAME_PAUSED;
@@ -809,7 +934,7 @@ public class World {
             //did the user select a new weapon?
             if(OverlapTester.pointInRectangle(hOrgangeBox.bounds, humanTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.ORANGE)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = H_CANNON_AIM;
@@ -819,7 +944,7 @@ public class World {
 
             if(OverlapTester.pointInRectangle(hGreenBox.bounds, humanTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.GREEN)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = H_CANNON_AIM;
@@ -829,7 +954,7 @@ public class World {
 
             if(OverlapTester.pointInRectangle(hMissileBox.bounds, humanTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.MISSILE)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = H_CANNON_AIM;
@@ -839,7 +964,7 @@ public class World {
 
             if(OverlapTester.pointInRectangle(hRedBox.bounds, humanTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.RED)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = H_CANNON_AIM;
@@ -849,7 +974,7 @@ public class World {
 
             if(OverlapTester.pointInRectangle(hBlueBox.bounds, humanTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.BLUE)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = H_CANNON_AIM;
@@ -894,12 +1019,19 @@ public class World {
                         cannon.TELEPORT_DISTANCE_MAX;
             }
 
+            playTurnStartSound = true;
             state = A_CANNON_AIM;
         }
 
     }
 
     public void updateACannonAim() {
+
+       /* if(playTurnStartSound) {
+            Assets.playSound(Assets.beginTurn);
+            playTurnStartSound = false;
+        }*/
+
         Cannon cannon = cannons.get(ALIEN_CANNON); //alien cannon is index 1
 
         List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
@@ -936,6 +1068,7 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(pauseButton.bounds,
                     alienTouchPoint)) {
+                Assets.playSound(Assets.menuSelect);
                 game.getInput().getTouchEvents().clear();
                 prevState = A_CANNON_AIM;
                 state = GAME_PAUSED;
@@ -1022,6 +1155,7 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(pauseButton.bounds,
                     testPoint)) {
+                Assets.playSound(Assets.menuSelect);
                 game.getInput().getTouchEvents().clear();
                 prevState = A_MOVE;
                 state = GAME_PAUSED;
@@ -1032,6 +1166,7 @@ public class World {
                     && OverlapTester.pointInRectangle(alienMoveButton.bounds, testPoint)) {
                 game.getInput().getTouchEvents().clear();
                 state = A_CANNON_AIM;
+                return;
             }
 
             //test new overlap against all platforms
@@ -1061,9 +1196,10 @@ public class World {
             if(!invalidMove && event.type == Input.TouchEvent.TOUCH_UP) {
                 cannon.teleport(testPoint, teleportEffects);
                 game.getInput().getTouchEvents().clear();
+                playTurnStartSound = true;
                 state = H_CANNON_AIM;
             } else if(invalidMove) {
-                //TODO: add "bad move" sound effect
+                Assets.playSound(Assets.cantGoHere);
                 game.getInput().getTouchEvents().clear();
                 state = A_CANNON_AIM;
             }
@@ -1093,6 +1229,7 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(pauseButton.bounds,
                     alienTouchPoint)) {
+                Assets.playSound(Assets.menuSelect);
                 game.getInput().getTouchEvents().clear();
                 prevState = A_SELECT;
                 state = GAME_PAUSED;
@@ -1102,7 +1239,7 @@ public class World {
             //did the user select a new weapon?
             if(OverlapTester.pointInRectangle(aOrangeBox.bounds, alienTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.ORANGE)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = A_CANNON_AIM;
@@ -1112,7 +1249,7 @@ public class World {
 
             if(OverlapTester.pointInRectangle(aGreenBox.bounds, alienTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.GREEN)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = A_CANNON_AIM;
@@ -1122,7 +1259,7 @@ public class World {
 
             if(OverlapTester.pointInRectangle(aMissileBox.bounds, alienTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.MISSILE)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = A_CANNON_AIM;
@@ -1132,7 +1269,7 @@ public class World {
 
             if(OverlapTester.pointInRectangle(aRedBox.bounds, alienTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.RED)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = A_CANNON_AIM;
@@ -1142,7 +1279,7 @@ public class World {
 
             if(OverlapTester.pointInRectangle(aBlueBox.bounds, alienTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.BLUE)) {
-                    //TODO: play denial sound effect
+                    Assets.playSound(Assets.error2);
                 } else {
                     if(event.type == Input.TouchEvent.TOUCH_UP) {
                         state = A_CANNON_AIM;
@@ -1185,6 +1322,7 @@ public class World {
                 cannon.energyRatio = cannon.currentTeleportEnergy / cannon.TELEPORT_DISTANCE_MAX;
             }
 
+            playTurnStartSound = true;
             state = H_CANNON_AIM;
 
 
@@ -1210,6 +1348,7 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(pauseButton.bounds,
                     pausedTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
                 state = prevState;
                 prevState = -1;
@@ -1219,6 +1358,7 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(resumeButton.bounds,
                     pausedTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
                 state = prevState;
                 prevState = -1;
@@ -1228,6 +1368,7 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(quitButton.bounds,
                     pausedTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
                 game.setScreen(new MainMenuScreen(game));
                 break;
@@ -1240,9 +1381,9 @@ public class World {
 
                 Settings.soundEnabled = !Settings.soundEnabled;
                 if(Settings.soundEnabled) {
-                    Assets.spacebeat.play();
+                    Assets.currentMusic.play();
                 } else {
-                    Assets.spacebeat.pause();
+                    Assets.currentMusic.pause();
                 }
 
                 break;
@@ -1287,6 +1428,8 @@ public class World {
 
             Projectile newProj;
 
+
+            Assets.playSound(Assets.shotSound);
             switch(projType) {
                 case ORANGE:
                   newProj = new Proj_Orange( hCannonPos.x, hCannonPos.y,
@@ -1383,6 +1526,7 @@ public class World {
 
             Projectile newProj;
 
+            Assets.playSound(Assets.shotSound);
             switch(projType) {
                 case ORANGE:
                     newProj = new Proj_Orange( aCannonPos.x, aCannonPos.y,
@@ -1615,6 +1759,7 @@ public class World {
                     ((Proj_Red)proj).speedUp();
                 }
 
+                Assets.playSound(Assets.bump);
                 Vector2 spotHit = new Vector2(proj.pos());
                 shotBounces.add(new ShotBounce(spotHit));
             }
@@ -1635,6 +1780,7 @@ public class World {
 
                 if(OverlapTester.overlapCircles(dr.boundingCircle,
                         proj.boundingCircle)) {
+                    Assets.playSound(Assets.satelliteDestroy);
                     dr.explode();
                     if(proj.projType == Projectile.TYPE.BLUE) {
                         checkBlueShotExplosionRadius((Proj_Blue) proj, false);
@@ -1654,6 +1800,7 @@ public class World {
 
                 if(OverlapTester.overlapCircles(dr.boundingCircle,
                         cannon.cannonCircle)) {
+                    Assets.playSound(Assets.satelliteDestroy);
                     dr.explode();
                     cannon.damage(10);
                 }
@@ -1688,6 +1835,7 @@ public class World {
                     //so is id of last hit var
                     if(projHitsTriangle(ptfm, proj, shotBounces)) {
 
+                        Assets.playSound(Assets.bump);
                         if(proj.projType == Projectile.TYPE.RED) {
                             //red projectiles speed up after they hit
                             ((Proj_Red)proj).speedUp();
@@ -1719,7 +1867,7 @@ public class World {
 
                     if(pup instanceof ShieldPU) {
 
-                        //TODO: sound effects on powerup pickup
+                        Assets.playSound(Assets.pickup);
                         if(state == H_SHOOT) {
                             hCannon.enableShield();
                             powerUps.remove(j);
@@ -1733,8 +1881,7 @@ public class World {
                         }
 
                     } else if (pup instanceof WeaponPU) {
-                        //TODO: sound effects on powerup pickup
-                        //TODO: show the weapon the player got to them w/ popup
+                        Assets.playSound(Assets.pickup);
 
                         if(((WeaponPU) pup).curState == WeaponPU.STATE.PRIMARY) {
 
@@ -1772,7 +1919,7 @@ public class World {
                         }
 
                     } else if (pup instanceof HealthPU) {
-                        //TODO: sound effects on powerup pickup
+                        Assets.playSound(Assets.powerup);
                         if(state == H_SHOOT) {
                             hCannon.heal(10);
                             powerUps.remove(j);
@@ -1806,7 +1953,7 @@ public class World {
 
                     if(pup instanceof ShieldPU) {
 
-                        //TODO: sound effects on powerup pickup
+                        Assets.playSound(Assets.pickup);
                         if(state == H_MOVE || state == H_CANNON_AIM) {
                             cannon.enableShield();
                             powerUps.remove(j);
@@ -1816,8 +1963,7 @@ public class World {
                         }
 
                     } else if (pup instanceof WeaponPU) {
-                        //TODO: sound effects on powerup pickup
-                        //TODO: show the weapon the player got to them w/ popup
+                        Assets.playSound(Assets.pickup);
 
                         if(((WeaponPU) pup).curState == WeaponPU.STATE.PRIMARY) {
 
@@ -1845,7 +1991,7 @@ public class World {
                             }
                         }
                     } else if (pup instanceof HealthPU) {
-                        //TODO: sound effects on powerup pickup
+                        Assets.playSound(Assets.powerup);
                         if(state == H_SHOOT) {
                             hCannon.heal(10);
                             powerUps.remove(j);
@@ -1929,6 +2075,8 @@ public class World {
                 if (OverlapTester.overlapCircleRectangle(proj.boundingCircle,
                         ptfm.bounds)) {
 
+                    Assets.playSound(Assets.bump);
+
                     if(ptfm.breakable) {
 
                         if(proj.projType == Projectile.TYPE.BLUE) {
@@ -1955,6 +2103,7 @@ public class World {
                             // platform is dead
                             // explode!
                             ptfm.explode();
+                            Assets.playSound(Assets.blockDestroy);
                             //check for payload to drop
                             float payload = rand.nextFloat();
 
@@ -2319,6 +2468,8 @@ public class World {
         } else if(Geometry.LineSegmentCircleIntersection(tri.B, tri.A,
                 testCircle.center, testCircle.radius)) {
 
+            return false;
+        } else if (Triangle.pointInTriangle(testCircle.center, tri.A, tri.B, tri.C)) {
             return false;
         }
 

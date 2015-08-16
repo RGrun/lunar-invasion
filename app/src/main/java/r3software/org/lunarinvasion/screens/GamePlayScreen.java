@@ -74,42 +74,42 @@ public class GamePlayScreen extends GLScreen {
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 
                 if(OverlapTester.pointInRectangle(goals, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new GoalsPage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(movement, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new MovementPage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(shooting, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new ShootingPage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(toMenu, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new MainMenuScreen(game));
                     return;
                 }
 
                 if (OverlapTester.pointInRectangle(back, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new HelpScreen(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(soundToggle, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
-                         Assets.spacebeat.play();
+                         Assets.currentMusic.play();
                     } else {
-                         Assets.spacebeat.pause();
+                         Assets.currentMusic.pause();
                     }
                 }
             }

@@ -3,6 +3,7 @@ package r3software.org.lunarinvasion;
 import r3software.org.lunarinvasion.engine.framework.Animation;
 import r3software.org.lunarinvasion.engine.framework.Font;
 import r3software.org.lunarinvasion.engine.framework.Music;
+import r3software.org.lunarinvasion.engine.framework.Sound;
 import r3software.org.lunarinvasion.engine.framework.TextureRegion;
 import r3software.org.lunarinvasion.engine.impl.GLGame;
 import r3software.org.lunarinvasion.engine.impl.Texture;
@@ -201,11 +202,6 @@ public class Assets {
     public static Animation blueExplosion;
     public static Animation purpleExplosion;
 
-    // music and sounds
-    public static Music spacebeat;
-
-
-
     //these are the page backgrounds
     public static Texture goalsPage;
     public static TextureRegion goalsPageRegion;
@@ -241,6 +237,31 @@ public class Assets {
     public static TextureRegion weaponPUPageRegion;
 
 
+
+    // game sound effects
+    public static Sound beginTurn;
+    public static Sound blockDestroy;
+    public static Sound bump;
+    public static Sound cantGoHere;
+    public static Sound death;
+    public static Sound error1;
+    public static Sound error2;
+    public static Sound menuClick;
+    public static Sound menuClose;
+    public static Sound menuSelect;
+    public static Sound pickup;
+    public static Sound powerup;
+    public static Sound satelliteDestroy;
+    public static Sound shotSound;
+    public static Sound warp;
+
+
+    // songs
+    public static Music spacebeat;
+    public static Music victoryShort;
+
+    // for controlling which song is being played currently
+    public static Music currentMusic;
 
     public static void load(GLGame game) {
 
@@ -501,12 +522,37 @@ public class Assets {
 
 
         // music and sounds
-        spacebeat = game.getAudio().newMusic("spacebeat.ogg");
+        spacebeat = game.getAudio().newMusic("sounds/spacebeat.ogg");
         spacebeat.setLooping(true);
-        spacebeat.setVolume(0.5f);
-        if(Settings.soundEnabled)
-            spacebeat.play();
+        spacebeat.setVolume(Settings.DEFAULT_VOLUME);
 
+        victoryShort = game.getAudio().newMusic("sounds/victory-short.ogg");
+        victoryShort.setLooping(true);
+        victoryShort.setVolume(Settings.DEFAULT_VOLUME);
+
+
+        // spacebeat is default song to play
+        currentMusic = spacebeat;
+
+        if(Settings.soundEnabled) {
+            currentMusic.play();
+        }
+
+        beginTurn = game.getAudio().newSound("sounds/begin-turn.ogg");
+        blockDestroy = game.getAudio().newSound("sounds/block-destroy.ogg");
+        bump = game.getAudio().newSound("sounds/bump.ogg");
+        cantGoHere = game.getAudio().newSound("sounds/cant-go-here.ogg");
+        death = game.getAudio().newSound("sounds/death.ogg");
+        error1 = game.getAudio().newSound("sounds/error1.ogg");
+        error2 = game.getAudio().newSound("sounds/error2.ogg");
+        menuClick = game.getAudio().newSound("sounds/menu-click.ogg");
+        menuClose = game.getAudio().newSound("sounds/menu-close.ogg");
+        menuSelect = game.getAudio().newSound("sounds/menu-select.ogg");
+        pickup = game.getAudio().newSound("sounds/pickup.ogg");
+        powerup = game.getAudio().newSound("sounds/powerup2.ogg");
+        satelliteDestroy = game.getAudio().newSound("sounds/satellite-destroy.ogg");
+        shotSound = game.getAudio().newSound("sounds/shot.ogg");
+        warp = game.getAudio().newSound("sounds/warp.ogg");
 
 	}
 	
@@ -518,11 +564,23 @@ public class Assets {
 
         //...and sounds
         if(Settings.soundEnabled) {
-            spacebeat.play();
+            currentMusic.play();
         }
 
 	}
-	
 
+    public static void changeMusic(Music newMusic) {
+        currentMusic.stop();
+
+        currentMusic = newMusic;
+
+        currentMusic.play();
+    }
+
+    public static void playSound(Sound sound) {
+        if(Settings.soundEnabled) {
+            sound.play(1);
+        }
+    }
 	
 }

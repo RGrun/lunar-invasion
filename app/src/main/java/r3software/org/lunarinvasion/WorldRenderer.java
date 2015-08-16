@@ -104,7 +104,7 @@ public class WorldRenderer {
         //play music
 
         if(Settings.soundEnabled) {
-            Assets.spacebeat.play();
+            Assets.currentMusic.play();
         }
 
     }
@@ -753,16 +753,28 @@ public class WorldRenderer {
         int len = world.cannons.size();
         for(int i = 0; i < len; i++) {
             Cannon cannon = world.cannons.get(i);
-           
-            TextureRegion keyFrame;
 
-            if(i == 0) keyFrame = Assets.humanShip; //human ship at pos 0
-            else if(i == 1) keyFrame = Assets.alienShip; //alien ship at pos 1
-            else keyFrame = Assets.humanShip; //default for safety
+            if(cannon.curState == Cannon.CANNON_STATE.ALIVE) {
+                TextureRegion keyFrame;
 
-            batcher.drawSprite(cannon.position.x, cannon.position.y,
-                    Cannon.CANNON_WIDTH, Cannon.CANNON_HEIGHT,
-                    cannon.cannonAngle, keyFrame);
+                if(i == 0) keyFrame = Assets.humanShip; //human ship at pos 0
+                else if(i == 1) keyFrame = Assets.alienShip; //alien ship at pos 1
+                else keyFrame = Assets.humanShip; //default for safety
+
+                batcher.drawSprite(cannon.position.x, cannon.position.y,
+                        Cannon.CANNON_WIDTH, Cannon.CANNON_HEIGHT,
+                        cannon.cannonAngle, keyFrame);
+
+            } else if (cannon.curState == Cannon.CANNON_STATE.DEAD) {
+                TextureRegion keyFrame;
+
+                keyFrame = Assets.shipExplosion.getKeyFrame(cannon.stateTime, Animation.ANIMATION_LOOPING);
+
+                batcher.drawSprite(cannon.position.x, cannon.position.y,
+                        Cannon.CANNON_WIDTH, Cannon.CANNON_HEIGHT,
+                        cannon.cannonAngle, keyFrame);
+            }
+
         }
     }
 

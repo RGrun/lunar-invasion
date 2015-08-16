@@ -108,22 +108,6 @@ public class GameScreen extends GLScreen {
     }
 
     private void updateRunning(float deltaTime) {
-       /* List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
-        int len = touchEvents.size();
-        for(int i = 0; i < len; i++) {
-            TouchEvent event = touchEvents.get(i);
-            if(event.type != TouchEvent.TOUCH_UP)
-                continue;
-
-            touchPoint.set(event.x, event.y);
-            guiCam.touchToWorld(touchPoint);
-
-            *//*if(OverlapTester.pointInRectangle(pauseBounds, touchPoint)) {
-                Assets.playSound(Assets.clickSound);
-                state = GAME_PAUSED;
-                return;
-            }*//*
-        }*/
 
         world.update(deltaTime); //game updated here
 
@@ -143,18 +127,6 @@ public class GameScreen extends GLScreen {
             touchPoint.set(event.x, event.y);
             guiCam.touchToWorld(touchPoint);
 
-           /* if(OverlapTester.pointInRectangle(resumeBounds, touchPoint)) {
-                Assets.playSound(Assets.clickSound);
-                state = GAME_RUNNING;
-                return;
-            }
-
-            if(OverlapTester.pointInRectangle(quitBounds, touchPoint)) {
-                Assets.playSound(Assets.clickSound);
-                game.setScreen(new MainMenuScreen(game));
-                return;
-
-            }*/
         }
     }
 
@@ -237,6 +209,16 @@ public class GameScreen extends GLScreen {
 
                 batcher.endBatch();
             }
+        }
+
+        //draw human win menu if humans win
+        if(world.state == World.HUMAN_WIN) {
+            //TODO: draw human win menu
+        }
+
+        //draw alien win menu is aliens win
+        if(world.state == World.ALIEN_WIN) {
+            //TODO: draw alien win menu
         }
 
 
@@ -529,8 +511,10 @@ public class GameScreen extends GLScreen {
                     ), true);
         }
 
-        //draw paused menu
-        if(world.state == World.GAME_PAUSED) {
+        //blacken game world
+        if(world.state == World.GAME_PAUSED ||
+                world.state == World.HUMAN_WIN ||
+                world.state == World.ALIEN_WIN) {
 
 
             //draw black square over game world

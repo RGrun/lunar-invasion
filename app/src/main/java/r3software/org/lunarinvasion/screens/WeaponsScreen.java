@@ -80,54 +80,54 @@ public class WeaponsScreen extends GLScreen {
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 
                 if(OverlapTester.pointInRectangle(orange, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new OrangePage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(green, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new GreenPage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(blue, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new BluePage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(purple, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new PurplePage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(red, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new RedPage(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(toMenu, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new MainMenuScreen(game));
                     return;
                 }
 
                 if (OverlapTester.pointInRectangle(back, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new HelpScreen(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(soundToggle, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
-                         Assets.spacebeat.play();
+                         Assets.currentMusic.play();
                     } else {
-                         Assets.spacebeat.pause();
+                         Assets.currentMusic.pause();
                     }
                 }
             }

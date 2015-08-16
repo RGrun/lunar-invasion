@@ -76,34 +76,31 @@ public class MainMenuScreen extends GLScreen {
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 
                 if(OverlapTester.pointInRectangle(play, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     //TODO: Change to level select screen once I have the select
-                    Log.d(TAG, "Play Hit!");
                     game.setScreen(new GameScreen(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(help, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
-                    Log.d(TAG, "Help Hit!");
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new HelpScreen(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(credits, touchPoint)) {
-                   // Assets.playSound(Assets.clickSound);
-                    Log.d(TAG, "Credits Hit!");
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new CreditsScreen(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(soundToggle, touchPoint)) {
-                   // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
-                        Assets.spacebeat.play();
+                        Assets.currentMusic.play();
                     } else {
-                        Assets.spacebeat.pause();
+                        Assets.currentMusic.pause();
                     }
                 }
 

@@ -33,6 +33,15 @@ public class Cannon extends GameObject {
         public boolean tagged;
      */
 
+    //is the cannon dead?
+    public enum CANNON_STATE {
+        ALIVE,
+        DEAD
+    }
+
+    public CANNON_STATE curState;
+    public float stateTime;
+
     public float cannonAngle;
     public Vector2 target;
     public final Vector2 POINT_NORTH;
@@ -112,6 +121,9 @@ public class Cannon extends GameObject {
         this.missileAmmo = 3;
 
         this.shieldOn = false;
+
+        this.curState = CANNON_STATE.ALIVE;
+        this.stateTime = 0f;
     }
 
     public void setTarget(Vector2 targetPos) {
@@ -138,6 +150,7 @@ public class Cannon extends GameObject {
 
     public void update(float deltaTime) {
         this.existedTime += deltaTime;
+        this.stateTime += deltaTime;
     }
 
     public boolean teleport(Vector2 newPos, List<TeleportEffect> teleportEffects) {
@@ -168,7 +181,7 @@ public class Cannon extends GameObject {
                     world.state == World.A_CANNON_AIM) {
                 world.alienTargetOn = false;
             }
-
+            Assets.playSound(Assets.warp);
             return true;
         } else {
             //teleport only as far as allowed
@@ -176,7 +189,6 @@ public class Cannon extends GameObject {
                     currentTeleportEnergy);
 
             if(!world.safeToTeleport(truncatedPos, this)) {
-                //TODO: play denial sound effect
                 return false;
             }
 
@@ -199,7 +211,7 @@ public class Cannon extends GameObject {
                     world.state == World.A_CANNON_AIM) {
                 world.alienTargetOn = false;
             }
-
+            Assets.playSound(Assets.warp);
             return true;
         }
 
@@ -229,7 +241,6 @@ public class Cannon extends GameObject {
             this.curWeapon = newType;
             return true;
         } else {
-            //TODO: play sound effect for denial
             return false;
         }
     }
@@ -295,10 +306,12 @@ public class Cannon extends GameObject {
             }
         }
 
-
-        //TODO: this is bad, change state to dead instead
+        // cannon is dead
         if(health <= 0) {
-            world.cannons.remove(ID);
+            this.curState = CANNON_STATE.DEAD;
+            this.stateTime = 0f;
+
+            Assets.playSound(Assets.death);
         }
     }
 

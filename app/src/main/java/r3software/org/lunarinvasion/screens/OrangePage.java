@@ -68,24 +68,24 @@ public class OrangePage extends GLScreen {
 
 
                 if (OverlapTester.pointInRectangle(back, touchPoint)) {
-                    //Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new WeaponsScreen(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(toMenu, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     game.setScreen(new MainMenuScreen(game));
                     return;
                 }
 
                 if(OverlapTester.pointInRectangle(soundToggle, touchPoint)) {
-                    // Assets.playSound(Assets.clickSound);
+                    Assets.playSound(Assets.menuClick);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
-                        Assets.spacebeat.play();
+                        Assets.currentMusic.play();
                     } else {
-                        Assets.spacebeat.pause();
+                        Assets.currentMusic.pause();
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package r3software.org.lunarinvasion.projectiles;
 
+import r3software.org.lunarinvasion.Assets;
 import r3software.org.lunarinvasion.Cannon;
 import r3software.org.lunarinvasion.World;
 import r3software.org.lunarinvasion.engine.math.Circle;
@@ -109,6 +110,8 @@ public class Proj_Blue extends Projectile {
         }
 
         world.checkBlueShotExplosionRadius(this, true);
+
+        Assets.playSound(Assets.blockDestroy);
 
 
     }
