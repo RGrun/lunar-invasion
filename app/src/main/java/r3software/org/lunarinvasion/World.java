@@ -153,7 +153,7 @@ public class World {
     public GameObject aBlueBox = new GameObject(14, 28, 4, 4);
 
     // "gear" pause button
-    public GameObject pauseButton = new GameObject(21.65f, 19.8f, 2, 2);
+    public GameObject pauseButton = new GameObject(21.655f, 19.95f, 2, 2);
 
     //other pause menu buttons
     public GameObject resumeButton = new GameObject((WORLD_WIDTH - 3) / 2, (WORLD_HEIGHT / 2) + 1,

@@ -70,7 +70,7 @@ public class WorldRenderer {
         this.batcher = batcher;
 
         this.circle = new Texture((GLGame)world.game, "Distance_Sprite_pwr2.png");
-        this.atlas = new Texture((GLGame)world.game, "Sprite_Atlas_C_1.png");
+        this.atlas = new Texture((GLGame)world.game, "Sprite_Atlas_D.png");
 
         this.teleportCircleRegion = new TextureRegion(circle, 0, 0,
                 1024, 1024);
@@ -127,10 +127,10 @@ public class WorldRenderer {
 
 
     private void renderBackground() {
-        batcher.beginBatch(Assets.background);
+        batcher.beginBatch(Assets.background_2_UI);
         batcher.drawSprite(cam.position.x, cam.position.y, //uses camera's center as background center
                 FRUSTUM_WIDTH, FRUSTUM_HEIGHT,
-                Assets.backgroundRegion);
+                Assets.background_2_UI_region);
         batcher.endBatch();
     }
 
@@ -433,7 +433,7 @@ public class WorldRenderer {
                 if(dr.isAlienDrone) {
                     keyFrame = Assets.alienDrone;
                 } else {
-                    keyFrame = Assets.drone;
+                    keyFrame = Assets.humanDrone;
                 }
 
                 batcher.drawSprite(dr.pos().x, dr.pos().y,

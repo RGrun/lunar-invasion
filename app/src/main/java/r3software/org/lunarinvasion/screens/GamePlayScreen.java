@@ -126,8 +126,8 @@ public class GamePlayScreen extends GLScreen {
 
         gl.glEnable(GL10.GL_TEXTURE_2D);
 
-        batcher.beginBatch(Assets.menuBackground);
-        batcher.drawSprite(360, 640, 720, 1280, Assets.menuBackgroundRegion);
+        batcher.beginBatch(Assets.background_4);
+        batcher.drawSprite(360, 640, 720, 1280, Assets.background_4_region);
         batcher.endBatch();
 
         gl.glEnable(GL10.GL_BLEND);

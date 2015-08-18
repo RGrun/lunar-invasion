@@ -16,8 +16,23 @@ public class Assets {
     //basic
     public static Texture background;
     public static Texture atlas;
-   // public static Texture atlas2;
     public static TextureRegion backgroundRegion;
+
+    //other backgrounds
+    public static Texture background_2_UI;
+    public static TextureRegion background_2_UI_region;
+
+    public static Texture background_3;
+    public static TextureRegion background_3_region;
+
+    public static Texture background_4;
+    public static TextureRegion background_4_region;
+
+    public static Texture background_5;
+    public static TextureRegion background_5_region;
+
+    public static Texture title_menu;
+    public static TextureRegion title_menu_region;
 
 
     //in-game menu
@@ -38,9 +53,12 @@ public class Assets {
     public static TextureRegion blueShot;
     public static TextureRegion missile;
 
+    //drones
     public static TextureRegion drone;
     public static TextureRegion alienDrone;
+    public static TextureRegion humanDrone;
 
+    //powerups
     public static TextureRegion armorPU;
     public static TextureRegion healthPU;
     public static TextureRegion weaponPU;
@@ -288,12 +306,27 @@ public class Assets {
         weaponPUPage = new Texture(game, "pages/Weapon_PowerUp.jpg");
         weaponPUPageRegion = new TextureRegion(weaponPUPage, 0, 0, 512, 1024);
 
-        background = new Texture(game, "Space_BG_2_pwr2.png");
-        atlas = new Texture(game, "Sprite_Atlas_C_1.png");
+        background = new Texture(game, "backgrounds/Space_BG_2_pwr2.png");
+        atlas = new Texture(game, "Sprite_Atlas_D.png");
         menuAtlas = new Texture(game, "Menu_Sheet_2.png");
         backgroundRegion = new TextureRegion(background, 0, 0, 512, 1024);
-        menuBackground = new Texture (game, "Menu_BG_2_pwr2.png");
+        menuBackground = new Texture (game, "backgrounds/Menu_BG_2_pwr2.png");
         menuBackgroundRegion = new TextureRegion(menuBackground, 0, 0, 512, 1024);
+
+        background_2_UI  = new Texture(game, "backgrounds/Space_BG_2_UI.jpg");
+        background_2_UI_region = new TextureRegion(background_2_UI, 0, 0, 512, 1024);
+
+        background_3 = new Texture(game, "backgrounds/Space_BG_3.jpg");
+        background_3_region = new TextureRegion(background_3, 0, 0, 512, 1024);
+
+        background_4 = new Texture(game, "backgrounds/Space_BG_4.jpg");
+        background_4_region = new TextureRegion(background_4, 0, 0, 512, 1024);
+
+        background_5 = new Texture(game, "backgrounds/Space_BG_5.jpg");
+        background_5_region = new TextureRegion(background_5, 0, 0, 512, 1024);
+
+        title_menu = new Texture(game, "backgrounds/Title_Menu.jpg");
+        title_menu_region = new TextureRegion(title_menu, 0, 0, 512, 1024);
 
         gameMenuSoundOn = new Texture(game, "Pause_Menu_1.png");
         gameMenuSoundOff = new Texture(game, "Pause_Menu_2.png");
@@ -420,6 +453,7 @@ public class Assets {
 
         drone = new TextureRegion(atlas, 30 * 32, 17 * 32, 2 * 32, 2 * 32);
         alienDrone = new TextureRegion(atlas, 28 * 32, 22 * 32, 2 * 32, 2 * 32);
+        humanDrone = new TextureRegion(atlas, 26 * 32, 6 * 32, 2 * 32, 2 * 32);
 
         armorPU = new TextureRegion(atlas, 31 * 32, 19 * 32, 1 * 32, 1 * 32);
         weaponPU = new TextureRegion(atlas, 31 * 32, 22 * 32, 1 * 32, 1 * 32);
@@ -574,7 +608,9 @@ public class Assets {
 
         currentMusic = newMusic;
 
-        currentMusic.play();
+        if(Settings.soundEnabled) {
+            currentMusic.play();
+        }
     }
 
     public static void playSound(Sound sound) {

@@ -41,9 +41,9 @@ public class MainMenuScreen extends GLScreen {
         guiCam = new Camera2D(glGraphics, 720, 1280);
         batcher = new SpriteBatcher(glGraphics, 100);
 
-        play = new Rectangle(5, 19, 12, 4);
-        help = new Rectangle(6, 14, 10, 4);
-        credits = new Rectangle(6, 9, 10, 4);
+        play = new Rectangle(5, 17, 12, 4);
+        help = new Rectangle(6, 12, 10, 4);
+        credits = new Rectangle(6.625f, 7, 10, 4);
         soundToggle = new Rectangle(0, 0, 2, 2);
 
 
@@ -124,8 +124,8 @@ public class MainMenuScreen extends GLScreen {
 
         gl.glEnable(GL10.GL_TEXTURE_2D);
 
-        batcher.beginBatch(Assets.menuBackground);
-        batcher.drawSprite(360, 640, 720, 1280, Assets.menuBackgroundRegion);
+        batcher.beginBatch(Assets.title_menu);
+        batcher.drawSprite(360, 640, 720, 1280, Assets.title_menu_region);
         batcher.endBatch();
 
         gl.glEnable(GL10.GL_BLEND);
@@ -134,9 +134,9 @@ public class MainMenuScreen extends GLScreen {
         batcher.beginBatch(Assets.menuAtlas);
 
         //batcher.drawSprite(160, 480 - 10 - 71, 274, 142, Assets.logo);
-        batcher.drawSprite(360, 672, 384, 128, Assets.play);
-        batcher.drawSprite(360, 512, 320, 128, Assets.help_small);
-        batcher.drawSprite(360, 352, 320, 128, Assets.credits_small);
+        batcher.drawSprite(360, 608, 384, 128, Assets.play);
+        batcher.drawSprite(360, 448, 320, 128, Assets.help_small);
+        batcher.drawSprite(380, 288, 320, 128, Assets.credits_small);
         batcher.drawSprite(32, 32, 64, 64, (Settings.soundEnabled ?
                 Assets.soundOn : Assets.soundOff));
 
