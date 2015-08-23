@@ -1,5 +1,7 @@
 package r3software.org.lunarinvasion;
 
+import java.util.Random;
+
 import r3software.org.lunarinvasion.engine.framework.Animation;
 import r3software.org.lunarinvasion.engine.framework.Font;
 import r3software.org.lunarinvasion.engine.framework.Music;
@@ -34,12 +36,26 @@ public class Assets {
     public static Texture title_menu;
     public static TextureRegion title_menu_region;
 
+    public static Texture background_3_UI;
+    public static TextureRegion background_3_UI_region;
+
+    public static Texture background_4_UI;
+    public static TextureRegion background_4_UI_region;
+
+    public static Texture background_5_UI;
+    public static TextureRegion background_5_UI_region;
 
     //in-game menu
     public static Texture gameMenuSoundOn;
     public static Texture gameMenuSoundOff;
     public static TextureRegion gameMenuSoundOnRegion;
     public static TextureRegion gameMenuSoundOffRegion;
+
+    public static Texture earth_victory_menu;
+    public static TextureRegion earth_victory_menu_region;
+
+    public static Texture alien_victory_menu;
+    public static TextureRegion alien_victory_menu_region;
 
 
     //ships
@@ -273,10 +289,27 @@ public class Assets {
     public static Sound shotSound;
     public static Sound warp;
 
+    public static Sound blue_shot;
+    public static Sound blue_activate;
+    public static Sound green_shot;
+    public static Sound green_activate;
+    public static Sound player_death;
+    public static Sound purple_shot;
+    public static Sound purple_activate;
+    public static Sound red_death;
+    public static Sound red_death_short;
+    public static Sound satellite_destroy_no_pu;
+    public static Sound satellite_destory_pu;
+    public static Sound take_damage;
+
 
     // songs
     public static Music spacebeat;
     public static Music victoryShort;
+    public static Music cosmic1;
+    public static Music cosmic2;
+    public static Music cosmic3;
+
 
     // for controlling which song is being played currently
     public static Music currentMusic;
@@ -328,10 +361,25 @@ public class Assets {
         title_menu = new Texture(game, "backgrounds/Title_Menu.jpg");
         title_menu_region = new TextureRegion(title_menu, 0, 0, 512, 1024);
 
+        background_3_UI = new Texture(game, "backgrounds/Space_BG_3_UI.jpg");
+        background_3_UI_region = new TextureRegion(background_3_UI, 0, 0, 512, 1024);
+
+        background_4_UI = new Texture(game, "backgrounds/Space_BG_4_UI.jpg");
+        background_4_UI_region = new TextureRegion(background_4_UI, 0, 0, 512, 1024);
+
+        background_5_UI = new Texture(game, "backgrounds/Space_BG_5_UI.jpg");
+        background_5_UI_region = new TextureRegion(background_5_UI, 0, 0, 512, 1024);
+
         gameMenuSoundOn = new Texture(game, "Pause_Menu_1.png");
         gameMenuSoundOff = new Texture(game, "Pause_Menu_2.png");
         gameMenuSoundOnRegion = new TextureRegion(gameMenuSoundOn, 0, 0, 1024, 1024);
         gameMenuSoundOffRegion = new TextureRegion(gameMenuSoundOff, 0, 0, 1024, 1024);
+
+        earth_victory_menu = new Texture(game, "Victory_Menu_Earth.jpg");
+        earth_victory_menu_region = new TextureRegion(earth_victory_menu, 0, 0, 1024, 1024);
+
+        alien_victory_menu = new Texture(game, "Victory_Menu_Lunar.jpg");
+        alien_victory_menu_region = new TextureRegion(alien_victory_menu, 0, 0, 1024, 1024);
 
         //black overlay for game screen
         blackOverlay = new Texture(game, "Pause_Shade.png");
@@ -560,13 +608,25 @@ public class Assets {
         spacebeat.setLooping(true);
         spacebeat.setVolume(Settings.DEFAULT_VOLUME);
 
-        victoryShort = game.getAudio().newMusic("sounds/victory-short.ogg");
+        victoryShort = game.getAudio().newMusic("sounds/victory-final.ogg");
         victoryShort.setLooping(true);
         victoryShort.setVolume(Settings.DEFAULT_VOLUME);
 
+        cosmic1 = game.getAudio().newMusic("sounds/cosmic1.ogg");
+        cosmic1.setLooping(true);
+        cosmic1.setVolume(Settings.DEFAULT_VOLUME);
+
+        cosmic2 = game.getAudio().newMusic("sounds/cosmic2.ogg");
+        cosmic2.setLooping(true);
+        cosmic2.setVolume(Settings.DEFAULT_VOLUME);
+
+        cosmic3 = game.getAudio().newMusic("sounds/cosmic3.ogg");
+        cosmic3.setLooping(true);
+        cosmic3.setVolume(Settings.DEFAULT_VOLUME);
+
 
         // spacebeat is default song to play
-        currentMusic = spacebeat;
+        currentMusic = cosmic1;
 
         if(Settings.soundEnabled) {
             currentMusic.play();
@@ -584,9 +644,22 @@ public class Assets {
         menuSelect = game.getAudio().newSound("sounds/menu-select.ogg");
         pickup = game.getAudio().newSound("sounds/pickup.ogg");
         powerup = game.getAudio().newSound("sounds/powerup2.ogg");
-        satelliteDestroy = game.getAudio().newSound("sounds/satellite-destroy.ogg");
+        //satelliteDestroy = game.getAudio().newSound("sounds/satellite-destroy.ogg");
         shotSound = game.getAudio().newSound("sounds/shot.ogg");
         warp = game.getAudio().newSound("sounds/warp.ogg");
+
+        blue_shot = game.getAudio().newSound("sounds/blue.ogg");
+        blue_activate = game.getAudio().newSound("sounds/blue-activate.ogg");
+        green_shot = game.getAudio().newSound("sounds/green.ogg");
+        green_activate = game.getAudio().newSound("sounds/green-activate.ogg");
+        player_death = game.getAudio().newSound("sounds/player-death.ogg");
+        purple_shot = game.getAudio().newSound("sounds/purple.ogg");
+        purple_activate = game.getAudio().newSound("sounds/purple-engage.ogg");
+        red_death = game.getAudio().newSound("sounds/red-death.ogg");
+        red_death_short = game.getAudio().newSound("sounds/red-death-short.ogg");
+        satellite_destroy_no_pu = game.getAudio().newSound("sounds/satellite-destroy-no-powerup.ogg");
+        satellite_destory_pu = game.getAudio().newSound("sounds/satellite-destroy-powerup-drop.ogg");
+        take_damage = game.getAudio().newSound("sounds/take-damage.ogg");
 
 	}
 	
@@ -616,6 +689,22 @@ public class Assets {
     public static void playSound(Sound sound) {
         if(Settings.soundEnabled) {
             sound.play(1);
+        }
+    }
+
+    public static void randomSong() {
+        Random rand = new Random();
+
+        float test = rand.nextFloat();
+
+        if(test <= 0.25f) {
+            changeMusic(spacebeat);
+        } else if(test > 0.25 && test <= 0.5) {
+            changeMusic(cosmic1);
+        } else if(test > 0.5 && test <= 0.75) {
+            changeMusic(cosmic2);
+        } else {
+            changeMusic(cosmic3);
         }
     }
 	

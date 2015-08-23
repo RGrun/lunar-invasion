@@ -2,6 +2,7 @@ package r3software.org.lunarinvasion.projectiles;
 
 import java.util.List;
 
+import r3software.org.lunarinvasion.Assets;
 import r3software.org.lunarinvasion.World;
 import r3software.org.lunarinvasion.engine.math.Circle;
 import r3software.org.lunarinvasion.engine.math.OverlapTester;
@@ -160,6 +161,8 @@ public class Proj_Green extends Projectile {
         projectiles.add(new Proj_Green(pos().x, pos().y, bounds.width,
                 bounds.height, mass, maxSpeed, maxForce, boundingCircle.radius,
                  rightVel, existedTime, breakSafetyRadius));
+
+        Assets.playSound(Assets.green_activate);
 
     }
 

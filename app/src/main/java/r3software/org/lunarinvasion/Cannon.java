@@ -304,6 +304,8 @@ public class Cannon extends GameObject {
                 energyRatio = currentTeleportEnergy /
                         TELEPORT_DISTANCE_MAX;
             }
+
+            Assets.playSound(Assets.take_damage);
         }
 
         // cannon is dead
@@ -311,7 +313,7 @@ public class Cannon extends GameObject {
             this.curState = CANNON_STATE.DEAD;
             this.stateTime = 0f;
 
-            Assets.playSound(Assets.death);
+            Assets.playSound(Assets.player_death);
         }
     }
 

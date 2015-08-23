@@ -2,6 +2,7 @@ package r3software.org.lunarinvasion.projectiles;
 
 import java.util.List;
 
+import r3software.org.lunarinvasion.Assets;
 import r3software.org.lunarinvasion.engine.math.Vector2;
 
 import static r3software.org.lunarinvasion.engine.math.Vector2.div;
@@ -127,6 +128,7 @@ public class Proj_Missile extends Projectile {
                     this.curState = STATE.SEEK;
                     this.stateTime = 0;
                     this.target = enemyShipLocation;
+                    Assets.playSound(Assets.purple_activate);
                 }
             }
 

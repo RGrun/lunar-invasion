@@ -127,10 +127,10 @@ public class WorldRenderer {
 
 
     private void renderBackground() {
-        batcher.beginBatch(Assets.background_2_UI);
+        batcher.beginBatch(Assets.background_3_UI);
         batcher.drawSprite(cam.position.x, cam.position.y, //uses camera's center as background center
                 FRUSTUM_WIDTH, FRUSTUM_HEIGHT,
-                Assets.background_2_UI_region);
+                Assets.background_3_UI_region);
         batcher.endBatch();
     }
 

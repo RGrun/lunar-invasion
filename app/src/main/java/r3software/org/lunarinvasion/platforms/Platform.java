@@ -1,5 +1,6 @@
 package r3software.org.lunarinvasion.platforms;
 
+import r3software.org.lunarinvasion.Assets;
 import r3software.org.lunarinvasion.engine.framework.GameObject;
 
 /**
@@ -107,6 +108,7 @@ public abstract class Platform extends GameObject {
     public void explode() {
         this.curState = PLATFORM_STATE.EXPLODING;
         this.stateTime = 0f;
+        Assets.playSound(Assets.blockDestroy);
     }
 
 }

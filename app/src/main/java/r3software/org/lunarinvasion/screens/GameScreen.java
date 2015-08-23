@@ -213,12 +213,24 @@ public class GameScreen extends GLScreen {
 
         //draw human win menu if humans win
         if(world.state == World.HUMAN_WIN) {
-            //TODO: draw human win menu
+            batcher.beginBatch(Assets.earth_victory_menu);
+
+            batcher.drawSprite(720 / 2, 1280 / 2,
+                    20 * 32, 20 * 32,
+                    Assets.earth_victory_menu_region);
+
+            batcher.endBatch();
         }
 
         //draw alien win menu is aliens win
         if(world.state == World.ALIEN_WIN) {
-            //TODO: draw alien win menu
+            batcher.beginBatch(Assets.alien_victory_menu);
+
+            batcher.drawSprite(720 / 2, 1280 / 2,
+                    20 * 32, 20 * 32,
+                    Assets.alien_victory_menu_region);
+
+            batcher.endBatch();
         }
 
 

@@ -163,6 +163,12 @@ public class World {
     public GameObject soundToggleButton = new GameObject((WORLD_WIDTH / 2) + 5, (WORLD_HEIGHT / 2) - 6,
             7, 2.5f);
 
+    // win menu buttons
+    public GameObject winQuitButton = new GameObject(((WORLD_WIDTH - 3) / 2) - 2, (WORLD_HEIGHT / 2) - 2,
+            8, 3.5f);
+    public GameObject winPlayAgainButton = new GameObject(((WORLD_WIDTH - 3) / 2), (WORLD_HEIGHT / 2) - 6,
+            20, 2.5f);
+
     //random
     public Random rand;
 
@@ -306,7 +312,7 @@ public class World {
 
         drones.add(new Drone(17, 27, d4p, false));
 
-        Assets.changeMusic(Assets.spacebeat);
+        Assets.changeMusic(Assets.cosmic2);
 
 
     }
@@ -417,9 +423,27 @@ public class World {
             winTouchPoint.y =
                     (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
 
-            //TODO: implement win menu properly
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    winTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
+                game.getInput().getTouchEvents().clear();
+                resetLevel();
+                break;
+            }
+
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(winQuitButton.bounds,
+                    winTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
+                game.getInput().getTouchEvents().clear();
+                game.setScreen(new MainMenuScreen(game));
+                Assets.randomSong();
+                break;
+            }
+
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(winPlayAgainButton.bounds,
                     winTouchPoint)) {
                 Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
@@ -450,9 +474,27 @@ public class World {
             winTouchPoint.y =
                     (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
 
-            //TODO: implement win menu properly
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(pauseButton.bounds,
+                    winTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
+                game.getInput().getTouchEvents().clear();
+                resetLevel();
+                break;
+            }
+
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(winQuitButton.bounds,
+                    winTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
+                game.getInput().getTouchEvents().clear();
+                game.setScreen(new MainMenuScreen(game));
+                Assets.randomSong();
+                break;
+            }
+
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(winPlayAgainButton.bounds,
                     winTouchPoint)) {
                 Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
@@ -627,15 +669,23 @@ public class World {
                     if(payload <= 0.11f) {
                         powerUps.add(new
                                 ShieldPU(dr.pos().x, dr.pos().y));
+
+                        Assets.playSound(Assets.satellite_destory_pu);
+
                     } else if(payload > 0.11f && payload <= 0.22f) {
                         powerUps.add(new
                                 WeaponPU(dr.pos().x, dr.pos().y));
+                        Assets.playSound(Assets.satellite_destory_pu);
+
                     } else if(payload > 0.22f && payload <= 0.33f) {
                         powerUps.add(new
                                 HealthPU(dr.pos().x, dr.pos().y));
+                        Assets.playSound(Assets.satellite_destory_pu);
+
 
                     } else if (payload > 0.33f) {
                         //drop nothing
+                        Assets.playSound(Assets.satellite_destroy_no_pu);
                     }
 
                     drones.remove(i);
@@ -1428,16 +1478,17 @@ public class World {
 
             Projectile newProj;
 
-
-            Assets.playSound(Assets.shotSound);
             switch(projType) {
                 case ORANGE:
+                    Assets.playSound(Assets.shotSound);
                   newProj = new Proj_Orange( hCannonPos.x, hCannonPos.y,
                           Projectile.PROJECTILE_WIDTH,
                           Projectile.PROJECTILE_HEIGHT,
                           1f, 100f, 100f, 0.5f);
                     break;
                 case BLUE:
+                    Assets.playSound(Assets.blue_shot);
+
                     newProj = new Proj_Blue( hCannonPos.x, hCannonPos.y,
                             Projectile.PROJECTILE_WIDTH,
                             Projectile.PROJECTILE_HEIGHT,
@@ -1450,6 +1501,8 @@ public class World {
                     }
                     break;
                 case GREEN:
+                    Assets.playSound(Assets.green_shot);
+
                     newProj = new Proj_Green( hCannonPos.x, hCannonPos.y,
                             Projectile.PROJECTILE_WIDTH,
                             Projectile.PROJECTILE_HEIGHT,
@@ -1461,6 +1514,7 @@ public class World {
                     }
                     break;
                 case RED:
+                    Assets.playSound(Assets.shotSound);
 
                     //red projectile moves faster than the others do
                     speedFromLen *= 1.3f;
@@ -1476,6 +1530,8 @@ public class World {
                     }
                     break;
                 case MISSILE:
+                    Assets.playSound(Assets.purple_shot);
+
                     newProj = new Proj_Missile( hCannonPos.x, hCannonPos.y,
                             Projectile.PROJECTILE_WIDTH,
                             Projectile.PROJECTILE_HEIGHT,
@@ -1526,15 +1582,18 @@ public class World {
 
             Projectile newProj;
 
-            Assets.playSound(Assets.shotSound);
             switch(projType) {
                 case ORANGE:
+                    Assets.playSound(Assets.shotSound);
+
                     newProj = new Proj_Orange( aCannonPos.x, aCannonPos.y,
                             Projectile.PROJECTILE_WIDTH,
                             Projectile.PROJECTILE_HEIGHT,
                             1f, 100f, 100f, 0.5f);
                     break;
                 case BLUE:
+                    Assets.playSound(Assets.blue_shot);
+
                     newProj = new Proj_Blue( aCannonPos.x, aCannonPos.y,
                             Projectile.PROJECTILE_WIDTH,
                             Projectile.PROJECTILE_HEIGHT,
@@ -1547,6 +1606,8 @@ public class World {
                     }
                     break;
                 case GREEN:
+                    Assets.playSound(Assets.green_shot);
+
                     newProj = new Proj_Green( aCannonPos.x, aCannonPos.y,
                             Projectile.PROJECTILE_WIDTH,
                             Projectile.PROJECTILE_HEIGHT,
@@ -1558,6 +1619,7 @@ public class World {
                     }
                     break;
                 case RED:
+                    Assets.playSound(Assets.shotSound);
 
                     //red projectile moves faster than the others do
                     speedFromLen *= 1.3f;
@@ -1573,6 +1635,8 @@ public class World {
                     }
                     break;
                 case MISSILE:
+                    Assets.playSound(Assets.purple_shot);
+
                     newProj = new Proj_Missile( aCannonPos.x, aCannonPos.y,
                             Projectile.PROJECTILE_WIDTH,
                             Projectile.PROJECTILE_HEIGHT,
@@ -1757,9 +1821,13 @@ public class World {
                     //red projectiles speed up after they hit
                     //noinspection ConstantConditions
                     ((Proj_Red)proj).speedUp();
+
+                    Assets.playSound(Assets.red_death_short);
                 }
 
-                Assets.playSound(Assets.bump);
+                if(proj.projType != Projectile.TYPE.RED) {
+                    Assets.playSound(Assets.bump);
+                }
                 Vector2 spotHit = new Vector2(proj.pos());
                 shotBounces.add(new ShotBounce(spotHit));
             }
@@ -1780,7 +1848,6 @@ public class World {
 
                 if(OverlapTester.overlapCircles(dr.boundingCircle,
                         proj.boundingCircle)) {
-                    Assets.playSound(Assets.satelliteDestroy);
                     dr.explode();
                     if(proj.projType == Projectile.TYPE.BLUE) {
                         checkBlueShotExplosionRadius((Proj_Blue) proj, false);
@@ -1800,7 +1867,6 @@ public class World {
 
                 if(OverlapTester.overlapCircles(dr.boundingCircle,
                         cannon.cannonCircle)) {
-                    Assets.playSound(Assets.satelliteDestroy);
                     dr.explode();
                     cannon.damage(10);
                 }
@@ -1835,10 +1901,12 @@ public class World {
                     //so is id of last hit var
                     if(projHitsTriangle(ptfm, proj, shotBounces)) {
 
-                        Assets.playSound(Assets.bump);
                         if(proj.projType == Projectile.TYPE.RED) {
                             //red projectiles speed up after they hit
                             ((Proj_Red)proj).speedUp();
+                            Assets.playSound(Assets.red_death_short);
+                        } else {
+                            Assets.playSound(Assets.bump);
                         }
 
                         continue outer;
@@ -1953,7 +2021,6 @@ public class World {
 
                     if(pup instanceof ShieldPU) {
 
-                        Assets.playSound(Assets.pickup);
                         if(state == H_MOVE || state == H_CANNON_AIM) {
                             cannon.enableShield();
                             powerUps.remove(j);
@@ -1983,6 +2050,7 @@ public class World {
 
                                 projectiles.remove(i);
                             }
+                            Assets.playSound(Assets.pickup);
                         }
 
                         if(((WeaponPU) pup).curState == WeaponPU.STATE.SECONDARY) {
@@ -2075,7 +2143,12 @@ public class World {
                 if (OverlapTester.overlapCircleRectangle(proj.boundingCircle,
                         ptfm.bounds)) {
 
-                    Assets.playSound(Assets.bump);
+                    if(proj.projType != Projectile.TYPE.RED &&
+                            proj.projType != Projectile.TYPE.BLUE) {
+                        Assets.playSound(Assets.bump);
+                    } else if (proj.projType != Projectile.TYPE.BLUE) {
+                        Assets.playSound(Assets.red_death_short);
+                    }
 
                     if(ptfm.breakable) {
 
@@ -2103,21 +2176,23 @@ public class World {
                             // platform is dead
                             // explode!
                             ptfm.explode();
-                            Assets.playSound(Assets.blockDestroy);
+                            if(ptfm.curState != Platform.PLATFORM_STATE.EXPLODING) {
+
+                            }
                             //check for payload to drop
                             float payload = rand.nextFloat();
 
-                            if(payload <= 0.11f) {
+                            if(payload <= 0.10f) {
                                 powerUps.add(new
                                         ShieldPU(ptfm.pos().x, ptfm.pos().y));
-                            } else if(payload > 0.11f && payload <= 0.22f) {
+                            } else if(payload > 0.10f && payload <= 0.20f) {
                                 powerUps.add(new
                                         WeaponPU(ptfm.pos().x, ptfm.pos().y));
-                            } else if(payload > 0.22f && payload <= 0.33f) {
+                            } else if(payload > 0.20f && payload <= 0.30f) {
                                 powerUps.add(new
                                         HealthPU(ptfm.pos().x, ptfm.pos().y));
 
-                            } else if (payload > 0.33f) {
+                            } else if (payload > 0.30f) {
                                 //drop nothing
                             }
 

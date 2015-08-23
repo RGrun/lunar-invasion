@@ -111,7 +111,7 @@ public class Proj_Blue extends Projectile {
 
         world.checkBlueShotExplosionRadius(this, true);
 
-        Assets.playSound(Assets.blockDestroy);
+        Assets.playSound(Assets.blue_activate);
 
 
     }
