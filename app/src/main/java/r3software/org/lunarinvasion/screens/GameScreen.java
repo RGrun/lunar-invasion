@@ -20,7 +20,9 @@ import r3software.org.lunarinvasion.levels.L_Backboard;
 import r3software.org.lunarinvasion.levels.L_ChaosTheroy;
 import r3software.org.lunarinvasion.levels.L_Factory;
 import r3software.org.lunarinvasion.levels.L_Hourglass;
+import r3software.org.lunarinvasion.levels.L_Pyramid;
 import r3software.org.lunarinvasion.levels.L_Rodeo;
+import r3software.org.lunarinvasion.levels.L_Temple;
 import r3software.org.lunarinvasion.projectiles.Projectile;
 
 import static r3software.org.lunarinvasion.engine.framework.Input.TouchEvent;
@@ -77,7 +79,7 @@ public class GameScreen extends GLScreen {
                 Assets.playSound(Assets.coinSound);
             }*/
         };
-        world = new World(worldListener, game, this, guiCam, new L_Factory());
+        world = new World(worldListener, game, this, guiCam, new L_Pyramid());
         renderer = new WorldRenderer(glGraphics, batcher, world);
         counter = new FPSCounter();
     }

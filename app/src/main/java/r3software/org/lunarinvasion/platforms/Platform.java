@@ -46,8 +46,8 @@ public abstract class Platform extends GameObject {
     public static final float PLATFORM_WIDTH_2X1 = 4f;
 
     //for rotating sprites in atlas
-    public static final float TYPE_VERTICAL = 0;
-    public static final float TYPE_HORIZONTAL = 90; //misleading, its the other way around
+    public static final float TYPE_HORIZONTAL = 0;
+    public static final float TYPE_VERTICAL = 90; //misleading, its the other way around
 
     public PLATFORM_TYPE type;
 
@@ -64,7 +64,7 @@ public abstract class Platform extends GameObject {
 
         super(x, y, width, height);
 
-        if(orientation == TYPE_HORIZONTAL) {
+        if(orientation == TYPE_VERTICAL) {
             swapWH();
         }
 

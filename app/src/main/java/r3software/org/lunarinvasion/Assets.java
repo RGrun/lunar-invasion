@@ -94,7 +94,7 @@ public class Assets {
     public static TextureRegion platform_4x4_breakable;
 
     public static TextureRegion platform_4x2_static_v;
-    public static TextureRegion platform_4x2_breakable_v;
+    public static TextureRegion playform_4x2_static_h;
 
     public static TextureRegion platform_4x2_static_h;
 
@@ -407,9 +407,7 @@ public class Assets {
         platform_4x4_breakable = new TextureRegion(atlas, 5 * 32, 9, 128, 128);
         platform_4x4_static = new TextureRegion(atlas, 12 * 32, 0, 128, 128);
 
-        platform_4x2_breakable_v = new TextureRegion(atlas, 0 * 32, 18 * 32, 2 * 32, 4 * 32);
         platform_4x2_static_v = new TextureRegion(atlas, 2 * 32, 18 * 32, 2 * 32, 4 * 32);
-
         platform_4x2_static_h = new TextureRegion(atlas, 0 * 32, 16 * 32, 4 * 32, 2 * 32);
 
         platform_6x2_static_v = new TextureRegion(atlas, 2 * 32, 18 * 32, 2 * 32, 6 * 32);

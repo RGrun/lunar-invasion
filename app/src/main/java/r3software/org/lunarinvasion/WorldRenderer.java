@@ -889,7 +889,7 @@ public class WorldRenderer {
                     Animation.ANIMATION_NONLOOPING);
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_1X1.PLATFORM_WIDTH_1X1,
                     Platform_1X1.PLATFORM_HEIGHT_1X1, 90, keyFrame);
@@ -918,7 +918,7 @@ public class WorldRenderer {
                     Animation.ANIMATION_NONLOOPING);
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_2X2.PLATFORM_WIDTH_2X2,
                     Platform_2X2.PLATFORM_HEIGHT_2X2, 90, keyFrame);
@@ -945,7 +945,7 @@ public class WorldRenderer {
                     Animation.ANIMATION_NONLOOPING);
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_4X4.PLATFORM_WIDTH_4X4,
                     Platform_4X4.PLATFORM_HEIGHT_4X4, 90, keyFrame);
@@ -961,21 +961,13 @@ public class WorldRenderer {
     public void render_4x2(Platform platform) {
         TextureRegion keyFrame;
 
-        if(platform.breakable) {
-            if(platform.orientation == Platform.TYPE_HORIZONTAL) {
-                keyFrame = Assets.platform_4x2_static_h;
-            } else {
-                keyFrame = Assets.platform_4x2_breakable_v;
-            }
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
+            keyFrame = Assets.platform_4x2_static_h;
         } else {
-            if(platform.orientation == Platform.TYPE_HORIZONTAL) {
-                keyFrame = Assets.platform_4x2_static_v;
-            } else {
-                keyFrame = Assets.platform_4x2_static_h;
-            }
+            keyFrame = Assets.platform_4x2_static_h;
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_4X2.PLATFORM_WIDTH_4X2,
                     Platform_4X2.PLATFORM_HEIGHT_4X2, 90, keyFrame);
@@ -991,13 +983,13 @@ public class WorldRenderer {
     public void render_6x2(Platform platform) {
         TextureRegion keyFrame;
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
-            keyFrame = Assets.platform_6x2_static_v;
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
+            keyFrame = Assets.platform_6x2_static_h;
         } else {
             keyFrame = Assets.platform_6x2_static_h;
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_6X2.PLATFORM_WIDTH_6X2,
                     Platform_6X2.PLATFORM_HEIGHT_6X2, 90, keyFrame);
@@ -1013,13 +1005,13 @@ public class WorldRenderer {
     public void render_8x2(Platform platform) {
         TextureRegion keyFrame;
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             keyFrame = Assets.platform_8x2_static_h;
         } else {
             keyFrame = Assets.platform_8x2_static_v;
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_8X2.PLATFORM_WIDTH_8X2,
                     Platform_8X2.PLATFORM_HEIGHT_8X2, 90, keyFrame);
@@ -1035,13 +1027,13 @@ public class WorldRenderer {
     public void render_10x2(Platform platform) {
         TextureRegion keyFrame;
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             keyFrame = Assets.platform_10x2_static_h;
         } else {
             keyFrame = Assets.platform_10x2_static_v;
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_10X2.PLATFORM_WIDTH_10X2,
                     Platform_10X2.PLATFORM_HEIGHT_10X2, 90, keyFrame);
@@ -1056,13 +1048,13 @@ public class WorldRenderer {
     public void render_12x2(Platform platform) {
         TextureRegion keyFrame;
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             keyFrame = Assets.platform_12x2_static_h;
         } else {
             keyFrame = Assets.platform_12x2_static_v;
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_12X2.PLATFORM_WIDTH_12X2,
                     Platform_12X2.PLATFORM_HEIGHT_12X2, 90, keyFrame);
@@ -1077,13 +1069,13 @@ public class WorldRenderer {
     public void render_14x2(Platform platform) {
         TextureRegion keyFrame;
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             keyFrame = Assets.platform_14x2_static_h;
         } else {
             keyFrame = Assets.platform_14x2_static_v;
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_14X2.PLATFORM_WIDTH_14X2,
                     Platform_14X2.PLATFORM_HEIGHT_14X2, 90, keyFrame);
@@ -1099,13 +1091,13 @@ public class WorldRenderer {
     public void render_16x2(Platform platform) {
         TextureRegion keyFrame;
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             keyFrame = Assets.platform_16x2_static_v;
         } else {
             keyFrame = Assets.platform_16x2_static_h;
         }
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             batcher.drawSprite(platform.position.x, platform.position.y,
                     Platform_16X2.PLATFORM_WIDTH_16X2,
                     Platform_16X2.PLATFORM_HEIGHT_16X2, 90, keyFrame);
@@ -1119,7 +1111,7 @@ public class WorldRenderer {
     public void render_18x2(Platform platform) {
         TextureRegion keyFrame;
 
-        if(platform.orientation == Platform.TYPE_HORIZONTAL) {
+        if(platform.orientation == Platform.TYPE_VERTICAL) {
             keyFrame = Assets.platform_18x2_static_h;
         } else {
             //keyFrame = Assets.platform_18x2_static_v;
