@@ -318,6 +318,9 @@ public class Cannon extends GameObject {
     }
 
     public void heal(float health) {
+
+        Assets.playSound(Assets.powerup);
+
         if(this.health < 60f) {
             this.health += health;
 
@@ -346,6 +349,8 @@ public class Cannon extends GameObject {
 
     public void addAmmo(WeaponPU.CONTENTS type, int amount) {
 
+        Assets.playSound(Assets.pickup);
+
         switch(type) {
             case BLUE:
                 this.blueAmmo += amount;
@@ -368,6 +373,7 @@ public class Cannon extends GameObject {
     }
 
     public void enableShield() {
+        Assets.playSound(Assets.pickup);
         shieldOn = true;
     }
 

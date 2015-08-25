@@ -127,7 +127,9 @@ public class WorldRenderer {
 
 
     private void renderBackground() {
-        batcher.beginBatch(Assets.background_3_UI);
+        Texture background = world.background;
+
+        batcher.beginBatch(background);
         batcher.drawSprite(cam.position.x, cam.position.y, //uses camera's center as background center
                 FRUSTUM_WIDTH, FRUSTUM_HEIGHT,
                 Assets.background_3_UI_region);
@@ -967,9 +969,9 @@ public class WorldRenderer {
             }
         } else {
             if(platform.orientation == Platform.TYPE_HORIZONTAL) {
-                keyFrame = Assets.platform_4x2_static_h;
-            } else {
                 keyFrame = Assets.platform_4x2_static_v;
+            } else {
+                keyFrame = Assets.platform_4x2_static_h;
             }
         }
 
@@ -1098,9 +1100,9 @@ public class WorldRenderer {
         TextureRegion keyFrame;
 
         if(platform.orientation == Platform.TYPE_HORIZONTAL) {
-            keyFrame = Assets.platform_16x2_static_h;
-        } else {
             keyFrame = Assets.platform_16x2_static_v;
+        } else {
+            keyFrame = Assets.platform_16x2_static_h;
         }
 
         if(platform.orientation == Platform.TYPE_HORIZONTAL) {

@@ -13,6 +13,11 @@ public class Platform_Angled_4X4 extends Platform {
     public static final float PLATFORM_WIDTH_ANGLED_4X4 = 4f;
 
     public Platform_Angled_4X4(float x, float y,
+                               Triangle.TRIANGLE_FACING facing) {
+        this(x, y, 100, PLATFORM_TYPE.TYPE_ANGLED_4X4, facing);
+    }
+
+    public Platform_Angled_4X4(float x, float y,
                                float health, PLATFORM_TYPE type,
                                Triangle.TRIANGLE_FACING facing) {
 

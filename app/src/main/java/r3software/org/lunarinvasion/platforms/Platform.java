@@ -47,7 +47,7 @@ public abstract class Platform extends GameObject {
 
     //for rotating sprites in atlas
     public static final float TYPE_VERTICAL = 0;
-    public static final float TYPE_HORIZONTAL = 90;
+    public static final float TYPE_HORIZONTAL = 90; //misleading, its the other way around
 
     public PLATFORM_TYPE type;
 

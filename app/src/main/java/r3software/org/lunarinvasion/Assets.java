@@ -707,5 +707,25 @@ public class Assets {
             changeMusic(cosmic3);
         }
     }
+
+    public static Texture randomBackground() {
+        Random rand = new Random();
+
+        float test = rand.nextFloat();
+
+        if(test <= 0.25f) {
+            return background_2_UI;
+        } else if(test > 0.25 && test <= 0.5) {
+            return background_3_UI;
+        } else if(test > 0.5 && test <= 0.75) {
+            return background_4_UI;
+        } else {
+            return background_5_UI;
+        }
+    }
+
+    /*public static TextureRegion getRegionForBackground(Texture background) {
+
+    }*/
 	
 }

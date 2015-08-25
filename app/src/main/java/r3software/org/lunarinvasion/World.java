@@ -12,12 +12,14 @@ import r3software.org.lunarinvasion.engine.framework.Game;
 import r3software.org.lunarinvasion.engine.framework.GameObject;
 import r3software.org.lunarinvasion.engine.framework.Input;
 import r3software.org.lunarinvasion.engine.framework.Screen;
+import r3software.org.lunarinvasion.engine.impl.Texture;
 import r3software.org.lunarinvasion.engine.math.Circle;
 import r3software.org.lunarinvasion.engine.math.Geometry;
 import r3software.org.lunarinvasion.engine.math.OverlapTester;
 import r3software.org.lunarinvasion.engine.math.Rectangle;
 import r3software.org.lunarinvasion.engine.math.Triangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
+import r3software.org.lunarinvasion.levels.Level;
 import r3software.org.lunarinvasion.platforms.Platform;
 import r3software.org.lunarinvasion.platforms.Platform_2X2;
 import r3software.org.lunarinvasion.platforms.Platform_6X2;
@@ -172,10 +174,16 @@ public class World {
     //random
     public Random rand;
 
-    //to determine if the begin turn sound has been played once for this turn
-    private boolean playTurnStartSound;
 
-    public World(WorldListener listener, Game game, Screen screen, Camera2D cam) {
+    // pointer to current game level
+    public Level curLevel;
+
+    // randomized background texture for this level
+    public Texture background;
+
+    public World(WorldListener listener, Game game,
+                 Screen screen, Camera2D cam,
+                 Level gameLevel) {
 
         this.cam = cam;
 
@@ -204,8 +212,10 @@ public class World {
         //add platforms here
         platforms = new ArrayList<>();
 
+        this.curLevel = gameLevel;
+
         //set up obstacle blocks and everything else
-        setUpLevel();
+        curLevel.loadLevel(this);
 
         Cannon hCannon = cannons.get(HUMAN_CANNON);
         Cannon aCannon = cannons.get(ALIEN_CANNON);
@@ -229,91 +239,11 @@ public class World {
         this.humanTargetOn = true;
         this.alienTargetOn = true;
 
+        this.background = Assets.randomBackground();
+
         Log.d(TAG, "Entering H_CANNON_AIM");
-        this.playTurnStartSound = true;
         this.prevState = -1;
         this.state = H_CANNON_AIM;
-
-    }
-
-    public void setUpLevel() {
-
-        //add cannons here
-        //human cannon
-        hCannon = new Cannon(3, 3,
-                Cannon.CANNON_WIDTH, Cannon.CANNON_HEIGHT,
-                0, HUMAN_CANNON, this);
-        cannons.add(hCannon);
-
-        //alien cannon
-        aCannon = new Cannon(17, 37,
-                Cannon.CANNON_WIDTH, Cannon.CANNON_HEIGHT,
-                (float) 180, ALIEN_CANNON, this);
-        cannons.add(aCannon);
-
-        // "Rodeo"
-
-        //6x6 angled
-        platforms.add(new Platform_Angled_6X6(16, 4, Triangle.TRIANGLE_FACING.NW));
-        platforms.add(new Platform_Angled_6X6(4, 36, Triangle.TRIANGLE_FACING.SE));
-
-        //2x2 angled platforms
-        platforms.add(new Platform_Angled_2X2(9, 21, Triangle.TRIANGLE_FACING.NW));
-        platforms.add(new Platform_Angled_2X2(9, 19, Triangle.TRIANGLE_FACING.SW));
-        platforms.add(new Platform_Angled_2X2(11, 19, Triangle.TRIANGLE_FACING.SE));
-        platforms.add(new Platform_Angled_2X2(11, 21, Triangle.TRIANGLE_FACING.NE));
-
-        //6x2 platforms
-        platforms.add(new Platform_6X2(6, 7, false, 100, 0));
-        platforms.add(new Platform_6X2(14, 33, false, 100, 0));
-
-        //breakable 2c2 platforms
-        platforms.add(new Platform_2X2(6, 24, true, 10, 0));
-        platforms.add(new Platform_2X2(6, 16, true, 10, 0));
-        platforms.add(new Platform_2X2(14, 16, true, 10, 0));
-        platforms.add(new Platform_2X2(14, 24, true, 10, 0));
-
-        //power ups
-        powerUps.add(new WeaponPU(9, 3));
-        powerUps.add(new WeaponPU(9, 37));
-        powerUps.add(new ShieldPU(6, 20));
-        powerUps.add(new WeaponPU(14, 20));
-
-        //drones
-        List<Vector2> d1p = new ArrayList<>();
-        d1p.add(new Vector2(3, 27));
-        d1p.add(new Vector2(3, 13));
-        d1p.add(new Vector2(17, 13));
-        d1p.add(new Vector2(17, 27));
-
-        drones.add(new Drone(3, 27, d1p, true));
-
-        List<Vector2> d2p = new ArrayList<>();
-        d2p.add(new Vector2(3, 13));
-        d2p.add(new Vector2(17, 13));
-        d2p.add(new Vector2(17, 27));
-        d2p.add(new Vector2(3, 27));
-
-        drones.add(new Drone(3, 13, d2p, false));
-
-        List<Vector2> d3p = new ArrayList<>();
-        d3p.add(new Vector2(17, 13));
-        d3p.add(new Vector2(17, 27));
-        d3p.add(new Vector2(3, 27));
-        d3p.add(new Vector2(3, 13));
-
-        drones.add(new Drone(17, 13, d3p, true));
-
-        List<Vector2> d4p = new ArrayList<>();
-        d4p.add(new Vector2(17, 27));
-        d4p.add(new Vector2(3, 27));
-        d4p.add(new Vector2(3, 13));
-        d4p.add(new Vector2(17, 13));
-
-        drones.add(new Drone(17, 27, d4p, false));
-
-        Assets.changeMusic(Assets.cosmic2);
-
 
     }
 
@@ -514,7 +444,7 @@ public class World {
         shotBounces.clear();
         powerUps.clear();
 
-        setUpLevel();
+        curLevel.loadLevel(this);
 
         this.state = H_CANNON_AIM;
         game.getInput().getTouchEvents().clear();
@@ -530,14 +460,13 @@ public class World {
             if (OverlapTester.overlapCircleRectangle(hCannon.cannonCircle, pup.bounds)) {
                 if (pup instanceof ShieldPU) {
 
-                    Assets.playSound(Assets.pickup);
                     hCannon.enableShield();
                     powerUps.remove(i);
                     break;
 
 
                 } else if (pup instanceof WeaponPU) {
-                    Assets.playSound(Assets.pickup);
+
 
                     if (((WeaponPU) pup).curState == WeaponPU.STATE.PRIMARY) {
 
@@ -565,7 +494,6 @@ public class World {
                     }
 
                 } else if (pup instanceof HealthPU) {
-                    Assets.playSound(Assets.pickup);
 
                     hCannon.heal(10);
                     powerUps.remove(i);
@@ -576,14 +504,13 @@ public class World {
                     overlapCircleRectangle(aCannon.cannonCircle, pup.bounds)) {
                 if(pup instanceof ShieldPU) {
 
-                    Assets.playSound(Assets.pickup);
                     aCannon.enableShield();
                     powerUps.remove(i);
                     break ;
 
 
                 } else if (pup instanceof WeaponPU) {
-                    Assets.playSound(Assets.pickup);
+
                     if(((WeaponPU) pup).curState == WeaponPU.STATE.PRIMARY) {
 
                         WeaponPU.CONTENTS payload = ((WeaponPU) pup).contents;
@@ -609,7 +536,6 @@ public class World {
                     }
 
                 } else if (pup instanceof HealthPU) {
-                    Assets.playSound(Assets.pickup);
                     aCannon.heal(10);
                     powerUps.remove(i);
                     break;
@@ -941,7 +867,6 @@ public class World {
             if(!invalidMove && event.type == Input.TouchEvent.TOUCH_UP) {
                 cannon.teleport(testPoint, teleportEffects);
                 game.getInput().getTouchEvents().clear();
-                playTurnStartSound = true;
                 state = A_CANNON_AIM;
             } else if(invalidMove) {
                 Assets.playSound(Assets.cantGoHere);
@@ -1069,7 +994,6 @@ public class World {
                         cannon.TELEPORT_DISTANCE_MAX;
             }
 
-            playTurnStartSound = true;
             state = A_CANNON_AIM;
         }
 
@@ -1246,7 +1170,6 @@ public class World {
             if(!invalidMove && event.type == Input.TouchEvent.TOUCH_UP) {
                 cannon.teleport(testPoint, teleportEffects);
                 game.getInput().getTouchEvents().clear();
-                playTurnStartSound = true;
                 state = H_CANNON_AIM;
             } else if(invalidMove) {
                 Assets.playSound(Assets.cantGoHere);
@@ -1372,7 +1295,6 @@ public class World {
                 cannon.energyRatio = cannon.currentTeleportEnergy / cannon.TELEPORT_DISTANCE_MAX;
             }
 
-            playTurnStartSound = true;
             state = H_CANNON_AIM;
 
 
@@ -1935,7 +1857,6 @@ public class World {
 
                     if(pup instanceof ShieldPU) {
 
-                        Assets.playSound(Assets.pickup);
                         if(state == H_SHOOT) {
                             hCannon.enableShield();
                             powerUps.remove(j);
@@ -1949,7 +1870,6 @@ public class World {
                         }
 
                     } else if (pup instanceof WeaponPU) {
-                        Assets.playSound(Assets.pickup);
 
                         if(((WeaponPU) pup).curState == WeaponPU.STATE.PRIMARY) {
 
@@ -2030,7 +1950,7 @@ public class World {
                         }
 
                     } else if (pup instanceof WeaponPU) {
-                        Assets.playSound(Assets.pickup);
+
 
                         if(((WeaponPU) pup).curState == WeaponPU.STATE.PRIMARY) {
 
@@ -2050,7 +1970,6 @@ public class World {
 
                                 projectiles.remove(i);
                             }
-                            Assets.playSound(Assets.pickup);
                         }
 
                         if(((WeaponPU) pup).curState == WeaponPU.STATE.SECONDARY) {
@@ -2059,7 +1978,7 @@ public class World {
                             }
                         }
                     } else if (pup instanceof HealthPU) {
-                        Assets.playSound(Assets.powerup);
+
                         if(state == H_SHOOT) {
                             hCannon.heal(10);
                             powerUps.remove(j);
