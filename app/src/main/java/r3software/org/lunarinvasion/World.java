@@ -47,6 +47,11 @@ import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
  *
  * This is the main game world class.
  */
+
+//TODO: make pages have higher res b/c they're pixely on big tablets atm
+//TODO: fix target locations after player victory
+
+
 public class World {
 
     public interface WorldListener {
