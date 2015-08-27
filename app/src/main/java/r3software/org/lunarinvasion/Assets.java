@@ -16,9 +16,7 @@ public class Assets {
 	//load up assets in this class
 
     //basic
-    public static Texture background;
     public static Texture atlas;
-    public static TextureRegion backgroundRegion;
 
     //other backgrounds
     public static Texture background_2_UI;
@@ -339,10 +337,8 @@ public class Assets {
         weaponPUPage = new Texture(game, "pages/Weapon_PowerUp.jpg");
         weaponPUPageRegion = new TextureRegion(weaponPUPage, 0, 0, 512, 1024);
 
-        background = new Texture(game, "backgrounds/Space_BG_2_pwr2.png");
         atlas = new Texture(game, "Sprite_Atlas_D.png");
         menuAtlas = new Texture(game, "Menu_Sheet_2.png");
-        backgroundRegion = new TextureRegion(background, 0, 0, 512, 1024);
         menuBackground = new Texture (game, "backgrounds/Menu_BG_2_pwr2.png");
         menuBackgroundRegion = new TextureRegion(menuBackground, 0, 0, 512, 1024);
 
@@ -664,7 +660,6 @@ public class Assets {
 	public static void reload() {
 
         //only texture files are lost
-        background.reload();
         atlas.reload();
 
         //...and sounds

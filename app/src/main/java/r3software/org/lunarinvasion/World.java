@@ -50,6 +50,9 @@ import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
 
 //TODO: make pages have higher res b/c they're pixely on big tablets atm
 //TODO: fix target locations after player victory
+//TODO: add "Human Turn!" and "Alien Turn!" at screen top and bottom during turns
+
+
 
 
 public class World {
