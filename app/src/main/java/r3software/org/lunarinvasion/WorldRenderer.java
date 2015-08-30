@@ -1008,7 +1008,7 @@ public class WorldRenderer {
         if(platform.orientation == Platform.TYPE_VERTICAL) {
             keyFrame = Assets.platform_8x2_static_h;
         } else {
-            keyFrame = Assets.platform_8x2_static_v;
+            keyFrame = Assets.platform_8x2_static_h;
         }
 
         if(platform.orientation == Platform.TYPE_VERTICAL) {
