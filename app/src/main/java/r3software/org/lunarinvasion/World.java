@@ -2017,7 +2017,39 @@ public class World {
             if(ptfm.breakable) {
                 if(OverlapTester.overlapCircleRectangle(proj.explosionCheck, ptfm.bounds)) {
                     if(ptfm.curState != Platform.PLATFORM_STATE.EXPLODING) {
-                        ptfm.explode();
+                        //platform is hit
+                        ptfm.health -= 10;
+
+                        if(ptfm.health <= 0) {
+                            // platform is dead
+                            // explode!
+                            ptfm.explode();
+
+                            float test = rand.nextFloat();
+
+                            if(test >= 0.5f) {
+                                continue;
+                            }
+
+                            //check for payload to drop
+                            float payload = rand.nextFloat();
+
+                            if (payload <= 0.1f) {
+                                powerUps.add(new
+                                        ShieldPU(ptfm.pos().x, ptfm.pos().y));
+                            } else if (payload > 0.10f && payload <= 0.20f) {
+                                powerUps.add(new
+                                        WeaponPU(ptfm.pos().x, ptfm.pos().y));
+                            } else if (payload > 0.20f && payload <= 0.30f) {
+                                powerUps.add(new
+                                        HealthPU(ptfm.pos().x, ptfm.pos().y));
+
+                            } else if (payload > 0.30f) {
+                                //drop nothing
+                            }
+
+
+                        }
                     }
                 }
             }
