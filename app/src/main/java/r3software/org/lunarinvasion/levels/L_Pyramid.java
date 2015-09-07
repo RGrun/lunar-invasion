@@ -40,7 +40,7 @@ public class L_Pyramid implements Level {
                 180f, World.ALIEN_CANNON, world);
         world.cannons.add(world.aCannon);
 
-        // "Factory"
+        // "Pyramid"
 
         //2x2 angled platforms
         world.platforms.add(new Platform_Angled_2X2(14, 39, Triangle.TRIANGLE_FACING.SW));

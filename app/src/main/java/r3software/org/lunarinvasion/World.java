@@ -51,7 +51,7 @@ import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
 //TODO: make pages have higher res b/c they're pixely on big tablets atm
 //TODO: fix target locations after player victory
 //TODO: add "Human Turn!" and "Alien Turn!" at screen top and bottom during turns
-//TODO: Right wall is bleeding into the game world, !!!IMPORTANT!!!!
+//TODO: cannons can teleport onto each other currently
 //TODO: Add another in-between turns screen so who's turn it is is clear
 //TODO: bug with green shot where it breaks near an angled platform
 //TODO: all platforms must be at least 0.5? units apart
@@ -1716,7 +1716,7 @@ public class World {
             Projectile proj = projectiles.get(i);
 
             if(proj.pos().x - (proj.bounds.width / 2) <= 0 ||
-                    proj.pos().x + (proj.bounds.width / 2) >= WORLD_WIDTH - 3) {
+                    proj.pos().x + (proj.bounds.width / 2) >= ((WORLD_WIDTH - 3) + 0.25f)) {
 
                 proj.position = proj.lastNonCollidingPosition;
 
@@ -1749,8 +1749,6 @@ public class World {
                 }
 
                 if(proj.projType == Projectile.TYPE.RED) {
-                    //red projectiles speed up after they hit
-                    //noinspection ConstantConditions
                     ((Proj_Red)proj).speedUp();
 
                     Assets.playSound(Assets.red_death_short);

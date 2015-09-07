@@ -84,6 +84,7 @@ public class L_Temple implements Level {
         world.platforms.add(new Platform_2X2(28, 34, true, 10, 0));
         world.platforms.add(new Platform_2X2(10, 20, true, 10, 0));
         world.platforms.add(new Platform_2X2(2, 6, true, 10, 0));
+        world.platforms.add(new Platform_2X2(18, 34, true, 10, 0));
 
         //power ups
         world.powerUps.add(new ShieldPU(10, 29));
