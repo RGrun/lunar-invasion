@@ -53,6 +53,8 @@ import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
 //TODO: add "Human Turn!" and "Alien Turn!" at screen top and bottom during turns
 //TODO: Right wall is bleeding into the game world, !!!IMPORTANT!!!!
 //TODO: Add another in-between turns screen so who's turn it is is clear
+//TODO: bug with green shot where it breaks near an angled platform
+//TODO: all platforms must be at least 0.5? units apart
 
 public class World {
 
