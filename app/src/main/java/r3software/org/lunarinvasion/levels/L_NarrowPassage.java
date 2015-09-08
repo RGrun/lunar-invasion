@@ -43,7 +43,7 @@ public class L_NarrowPassage implements Level{
         // "Narrow Passage"
 
         //2x2 angled platforms
-        world.platforms.add(new Platform_Angled_2X2(4, 27, Triangle.TRIANGLE_FACING.NW));
+        /*world.platforms.add(new Platform_Angled_2X2(4, 27, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(16, 27, Triangle.TRIANGLE_FACING.NE));
 
         world.platforms.add(new Platform_Angled_2X2(8, 23, Triangle.TRIANGLE_FACING.NE));
@@ -55,14 +55,14 @@ public class L_NarrowPassage implements Level{
         world.platforms.add(new Platform_Angled_2X2(4, 13, Triangle.TRIANGLE_FACING.SW));
 
         world.platforms.add(new Platform_Angled_2X2(16, 13, Triangle.TRIANGLE_FACING.SE));
-
+*/
         //6x6 angled
 
         world.platforms.add(new Platform_Angled_6X6(3, 37, Triangle.TRIANGLE_FACING.SE));
-        world.platforms.add(new Platform_Angled_6X6(17, 37, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_6X6(17.5f, 37, Triangle.TRIANGLE_FACING.SW));
 
         world.platforms.add(new Platform_Angled_6X6(3, 3, Triangle.TRIANGLE_FACING.NE));
-        world.platforms.add(new Platform_Angled_6X6(17, 3, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_6X6(17.5f, 3, Triangle.TRIANGLE_FACING.NW));
 
 
         // UB 12x2

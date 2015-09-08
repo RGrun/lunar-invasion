@@ -44,26 +44,28 @@ public class L_AroundTheCorner implements Level {
 
         //2x2 angled platforms
         world.platforms.add(new Platform_Angled_2X2(1, 39, Triangle.TRIANGLE_FACING.SE));
-        world.platforms.add(new Platform_Angled_2X2(19, 39, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19f, 39, Triangle.TRIANGLE_FACING.SW));
 
-        world.platforms.add(new Platform_Angled_2X2(1, 29, Triangle.TRIANGLE_FACING.NE));
+       /* world.platforms.add(new Platform_Angled_2X2(1, 29, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(19, 29, Triangle.TRIANGLE_FACING.NW));
 
         world.platforms.add(new Platform_Angled_2X2(1, 25, Triangle.TRIANGLE_FACING.SE));
 
-        world.platforms.add(new Platform_Angled_2X2(19, 25, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19, 25, Triangle.TRIANGLE_FACING.SW));*/
         world.platforms.add(new Platform_Angled_2X2(1, 21, Triangle.TRIANGLE_FACING.NE));
 
         world.platforms.add(new Platform_Angled_2X2(19, 21, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(1, 19, Triangle.TRIANGLE_FACING.SE));
 
         world.platforms.add(new Platform_Angled_2X2(19, 19, Triangle.TRIANGLE_FACING.SW));
+/*
 
         world.platforms.add(new Platform_Angled_2X2(1, 16, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(19, 16, Triangle.TRIANGLE_FACING.NW));
 
         world.platforms.add(new Platform_Angled_2X2(1, 12, Triangle.TRIANGLE_FACING.SE));
         world.platforms.add(new Platform_Angled_2X2(19, 12, Triangle.TRIANGLE_FACING.SW));
+*/
 
         world.platforms.add(new Platform_Angled_2X2(1, 1, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(19, 1, Triangle.TRIANGLE_FACING.NW));

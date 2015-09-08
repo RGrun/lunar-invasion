@@ -43,17 +43,17 @@ public class L_Hourglass implements Level {
 
         //2x2 angled platforms
         world.platforms.add(new Platform_Angled_2X2(1, 39, Triangle.TRIANGLE_FACING.SE));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 39, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19.25f, 39, Triangle.TRIANGLE_FACING.SW));
         world.platforms.add(new Platform_Angled_2X2(1, 21, Triangle.TRIANGLE_FACING.NE));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 21, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_2X2(19.25f, 21, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(1, 19, Triangle.TRIANGLE_FACING.SE));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 19, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19.25f, 19, Triangle.TRIANGLE_FACING.SW));
         world.platforms.add(new Platform_Angled_2X2(9, 21, Triangle.TRIANGLE_FACING.NW));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 21, Triangle.TRIANGLE_FACING.NE));
+        world.platforms.add(new Platform_Angled_2X2(11f, 21, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(9, 19, Triangle.TRIANGLE_FACING.SW));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 19, Triangle.TRIANGLE_FACING.SE));
+        world.platforms.add(new Platform_Angled_2X2(11f, 19, Triangle.TRIANGLE_FACING.SE));
         world.platforms.add(new Platform_Angled_2X2(1, 1, Triangle.TRIANGLE_FACING.NE));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 1, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_2X2(19.25f, 1, Triangle.TRIANGLE_FACING.NW));
 
         //unbreakable 2x2 platforms
         world.platforms.add(new Platform_2X2(5, 35, false, 10, 0));

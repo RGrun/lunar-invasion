@@ -41,22 +41,22 @@ public class L_WalledOff implements Level {
                 180f, World.ALIEN_CANNON, world);
         world.cannons.add(world.aCannon);
 
-        // "Factory"
+        // "Walled Off"
 
         //2x2 angled platforms
-        world.platforms.add(new Platform_Angled_2X2(10, 39, Triangle.TRIANGLE_FACING.SE));
+        /*world.platforms.add(new Platform_Angled_2X2(10, 39, Triangle.TRIANGLE_FACING.SE));
         world.platforms.add(new Platform_Angled_2X2(10, 36, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(10, 22, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(6, 20, Triangle.TRIANGLE_FACING.SE));
         world.platforms.add(new Platform_Angled_2X2(14, 20, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(10, 18, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(10, 4, Triangle.TRIANGLE_FACING.SE));
-        world.platforms.add(new Platform_Angled_2X2(10, 1, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_2X2(10, 1, Triangle.TRIANGLE_FACING.NW));*/
 
         //4x4 angled
         world.platforms.add(new Platform_Angled_4X4(18, 38, Triangle.TRIANGLE_FACING.SW));
-        world.platforms.add(new Platform_Angled_4X4(7, 23, Triangle.TRIANGLE_FACING.NW));
-        world.platforms.add(new Platform_Angled_4X4(13, 17, Triangle.TRIANGLE_FACING.SE));
+        world.platforms.add(new Platform_Angled_4X4(5, 23, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_4X4(15, 17, Triangle.TRIANGLE_FACING.SE));
         world.platforms.add(new Platform_Angled_4X4(2, 2, Triangle.TRIANGLE_FACING.NE));
 
         //6x6 angled
@@ -73,7 +73,7 @@ public class L_WalledOff implements Level {
 
         //power ups
         world.powerUps.add(new WeaponPU(5, 36));
-        world.powerUps.add(new ShieldPU(7, 25));
+        world.powerUps.add(new ShieldPU(7, 26));
         world.powerUps.add(new ShieldPU(13, 14));
         world.powerUps.add(new WeaponPU(15, 4));
 

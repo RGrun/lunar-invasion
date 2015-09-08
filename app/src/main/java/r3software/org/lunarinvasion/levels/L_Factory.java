@@ -42,7 +42,7 @@ public class L_Factory implements Level {
         // "Factory"
 
         //2x2 angled platforms
-        world.platforms.add(new Platform_Angled_2X2(0, 34, Triangle.TRIANGLE_FACING.NE));
+        /*world.platforms.add(new Platform_Angled_2X2(0, 34, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(19.5f, 30, Triangle.TRIANGLE_FACING.SW));
         world.platforms.add(new Platform_Angled_2X2(0, 28, Triangle.TRIANGLE_FACING.SE));
         world.platforms.add(new Platform_Angled_2X2(19.5f, 28, Triangle.TRIANGLE_FACING.NW));
@@ -54,7 +54,7 @@ public class L_Factory implements Level {
 
         world.platforms.add(new Platform_Angled_2X2(0, 10, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(19.5f, 6, Triangle.TRIANGLE_FACING.SW));
-
+*/
         world.platforms.add(new Platform_Angled_2X2(3, 26, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(3, 24, Triangle.TRIANGLE_FACING.SW));
         world.platforms.add(new Platform_Angled_2X2(5, 24, Triangle.TRIANGLE_FACING.SE));
@@ -102,28 +102,28 @@ public class L_Factory implements Level {
 
         //drones
         List<Vector2> d1p = new ArrayList<>();
-        d1p.add(new Vector2(2, 38));
-        d1p.add(new Vector2(15, 38));
+        d1p.add(new Vector2(2, 37));
+        d1p.add(new Vector2(15, 37));
 
-        world.drones.add(new Drone(15, 38, d1p, true));
+        world.drones.add(new Drone(15, 37, d1p, true));
 
         List<Vector2> d2p = new ArrayList<>();
-        d2p.add(new Vector2(15, 35));
-        d2p.add(new Vector2(2, 35));
+        d2p.add(new Vector2(15, 34));
+        d2p.add(new Vector2(2, 34));
 
-        world.drones.add(new Drone(2, 35, d2p, false));
+        world.drones.add(new Drone(2, 34, d2p, false));
 
         List<Vector2> d3p = new ArrayList<>();
-        d3p.add(new Vector2(5, 5));
-        d3p.add(new Vector2(18, 5));
+        d3p.add(new Vector2(5, 6));
+        d3p.add(new Vector2(18, 6));
 
-        world.drones.add(new Drone(18, 5, d3p, false));
+        world.drones.add(new Drone(18, 6, d3p, false));
 
         List<Vector2> d4p = new ArrayList<>();
-        d4p.add(new Vector2(18, 2));
-        d4p.add(new Vector2(5, 2));
+        d4p.add(new Vector2(18, 3));
+        d4p.add(new Vector2(5, 3));
 
-        world.drones.add(new Drone(5, 2, d4p, false));
+        world.drones.add(new Drone(5, 3, d4p, false));
 
 
         Assets.randomSong();

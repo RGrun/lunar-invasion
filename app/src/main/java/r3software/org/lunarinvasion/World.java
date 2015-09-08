@@ -55,6 +55,7 @@ import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
 //TODO: Add another in-between turns screen so who's turn it is is clear
 //TODO: bug with green shot where it breaks near an angled platform
 //TODO: all platforms must be at least 0.5? units apart
+//TODO: fix angled 6x6 texture
 
 public class World {
 

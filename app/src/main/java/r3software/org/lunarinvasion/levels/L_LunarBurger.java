@@ -9,6 +9,7 @@ import r3software.org.lunarinvasion.Drone;
 import r3software.org.lunarinvasion.World;
 import r3software.org.lunarinvasion.engine.math.Triangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
+import r3software.org.lunarinvasion.platforms.Platform_12X2;
 import r3software.org.lunarinvasion.platforms.Platform_2X2;
 import r3software.org.lunarinvasion.platforms.Platform_4X2;
 import r3software.org.lunarinvasion.platforms.Platform_6X2;
@@ -56,11 +57,9 @@ public class L_LunarBurger implements Level {
         world.platforms.add(new Platform_Angled_4X4(18, 2, Triangle.TRIANGLE_FACING.NW));
 
 
-        // UB 6x2
-        world.platforms.add(new Platform_6X2(7, 33, false, 10, 0));
-        world.platforms.add(new Platform_6X2(13, 33, false, 10, 0));
-        world.platforms.add(new Platform_6X2(7, 7, false, 10, 0));
-        world.platforms.add(new Platform_6X2(13, 7, false, 10, 0));
+        // UB 12x2
+        world.platforms.add(new Platform_12X2(10, 33, false, 10, 0));
+        world.platforms.add(new Platform_12X2(10, 7, false, 10, 0));
 
         // UB 4x2
         world.platforms.add(new Platform_4X2(6, 20, false, 10, 0));

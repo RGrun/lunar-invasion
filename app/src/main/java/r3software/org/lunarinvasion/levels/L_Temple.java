@@ -12,6 +12,7 @@ import r3software.org.lunarinvasion.engine.math.Vector2;
 import r3software.org.lunarinvasion.platforms.Platform_16X2;
 import r3software.org.lunarinvasion.platforms.Platform_2X2;
 import r3software.org.lunarinvasion.platforms.Platform_4X2;
+import r3software.org.lunarinvasion.platforms.Platform_6X2;
 import r3software.org.lunarinvasion.platforms.Platform_8X2;
 import r3software.org.lunarinvasion.platforms.Platform_Angled_2X2;
 import r3software.org.lunarinvasion.platforms.Platform_Angled_4X4;
@@ -39,33 +40,33 @@ public class L_Temple implements Level {
                 (float) 180, World.ALIEN_CANNON, world);
         world.cannons.add(world.aCannon);
 
-        // "Factory"
+        // "Temple"
 
         //2x2 angled platforms
-        world.platforms.add(new Platform_Angled_2X2(1, 31, Triangle.TRIANGLE_FACING.NE));
-        world.platforms.add(new Platform_Angled_2X2(19f, 31, Triangle.TRIANGLE_FACING.NW));
+        //world.platforms.add(new Platform_Angled_2X2(1, 31, Triangle.TRIANGLE_FACING.NE));
+        //world.platforms.add(new Platform_Angled_2X2(19f, 31, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(1, 21, Triangle.TRIANGLE_FACING.SE));
-        world.platforms.add(new Platform_Angled_2X2(19f, 21, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19.5f, 21, Triangle.TRIANGLE_FACING.SW));
 
         world.platforms.add(new Platform_Angled_2X2(1, 19, Triangle.TRIANGLE_FACING.NE));
-        world.platforms.add(new Platform_Angled_2X2(19f, 19, Triangle.TRIANGLE_FACING.NW));
-        world.platforms.add(new Platform_Angled_2X2(1, 9, Triangle.TRIANGLE_FACING.SE));
-        world.platforms.add(new Platform_Angled_2X2(19f, 9, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19.5f, 19, Triangle.TRIANGLE_FACING.NW));
+        //world.platforms.add(new Platform_Angled_2X2(1, 9, Triangle.TRIANGLE_FACING.SE));
+        //world.platforms.add(new Platform_Angled_2X2(19f, 9, Triangle.TRIANGLE_FACING.SW));
 
         // angled 4x4
 
         world.platforms.add(new Platform_Angled_4X4(2, 2, Triangle.TRIANGLE_FACING.NE));
-        world.platforms.add(new Platform_Angled_4X4(18, 38, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_4X4(18.5f, 38, Triangle.TRIANGLE_FACING.SW));
 
 
-        //unbreakable 8x2 platforms
-        world.platforms.add(new Platform_8X2(1, 26, false, 10, 90));
+        //unbreakable 6x2 platforms
+        world.platforms.add(new Platform_6X2(1, 27, false, 10, 90));
 
-        world.platforms.add(new Platform_8X2(19, 26, false, 10, 90));
+        world.platforms.add(new Platform_6X2(19.5f, 27, false, 10, 90));
 
-        world.platforms.add(new Platform_8X2(1, 14, false, 10, 90));
+        world.platforms.add(new Platform_6X2(1, 13, false, 10, 90));
 
-        world.platforms.add(new Platform_8X2(19, 14, false, 10, 90));
+        world.platforms.add(new Platform_6X2(19.5f, 13, false, 10, 90));
 
         // UB 2x2
         world.platforms.add(new Platform_2X2(7, 29, false, 10, 0));

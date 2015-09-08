@@ -17,13 +17,23 @@ import r3software.org.lunarinvasion.engine.framework.TextureRegion;
 import r3software.org.lunarinvasion.engine.impl.GLScreen;
 import r3software.org.lunarinvasion.engine.math.Vector2;
 import r3software.org.lunarinvasion.levels.L_Arena;
+import r3software.org.lunarinvasion.levels.L_AroundTheCorner;
+import r3software.org.lunarinvasion.levels.L_CannonFodder;
 import r3software.org.lunarinvasion.levels.L_Dig;
 import r3software.org.lunarinvasion.levels.L_Double_Helix;
+import r3software.org.lunarinvasion.levels.L_Entropy;
+import r3software.org.lunarinvasion.levels.L_Factory;
 import r3software.org.lunarinvasion.levels.L_Highway;
+import r3software.org.lunarinvasion.levels.L_Hourglass;
 import r3software.org.lunarinvasion.levels.L_LunarBurger;
 import r3software.org.lunarinvasion.levels.L_LunarCheeseburger;
+import r3software.org.lunarinvasion.levels.L_Maneuver;
+import r3software.org.lunarinvasion.levels.L_NarrowPassage;
 import r3software.org.lunarinvasion.levels.L_Pyramid;
+import r3software.org.lunarinvasion.levels.L_Schema;
+import r3software.org.lunarinvasion.levels.L_Subterranean;
 import r3software.org.lunarinvasion.levels.L_Temple;
+import r3software.org.lunarinvasion.levels.L_WalledOff;
 import r3software.org.lunarinvasion.projectiles.Projectile;
 
 import static r3software.org.lunarinvasion.engine.framework.Input.TouchEvent;
@@ -80,7 +90,7 @@ public class GameScreen extends GLScreen {
                 Assets.playSound(Assets.coinSound);
             }*/
         };
-        world = new World(worldListener, game, this, guiCam, new L_Temple());
+        world = new World(worldListener, game, this, guiCam, new L_Subterranean());
         renderer = new WorldRenderer(glGraphics, batcher, world);
         counter = new FPSCounter();
     }
