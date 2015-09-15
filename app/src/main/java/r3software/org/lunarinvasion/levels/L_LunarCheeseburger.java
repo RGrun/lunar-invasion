@@ -46,8 +46,8 @@ public class L_LunarCheeseburger implements Level {
         world.platforms.add(new Platform_Angled_2X2(1, 29, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(1, 27, Triangle.TRIANGLE_FACING.SE));
 
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 13, Triangle.TRIANGLE_FACING.NW));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 11, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19f, 13, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_2X2(19f, 11, Triangle.TRIANGLE_FACING.SW));
 
         //4x4 angled platforms
         world.platforms.add(new Platform_Angled_4X4(2, 38, Triangle.TRIANGLE_FACING.SE));

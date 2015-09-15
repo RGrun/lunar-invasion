@@ -268,6 +268,30 @@ public class Assets {
     public static Texture weaponPUPage;
     public static TextureRegion weaponPUPageRegion;
 
+    // these are the level select screens
+    public static Texture select1;
+    public static TextureRegion select1Region;
+
+    public static Texture select2;
+    public static TextureRegion select2Region;
+
+    public static Texture select3;
+    public static TextureRegion select3Region;
+
+    public static Texture select4;
+    public static TextureRegion select4Region;
+
+    public static Texture select5;
+    public static TextureRegion select5Region;
+
+
+    // human-alien turn confirmation popups
+    public static Texture humanTurnConfirm;
+    public static TextureRegion humanTurnConfirmRegion;
+
+    public static Texture alienTurnConfirm;
+    public static TextureRegion alienTurnConfirmRegion;
+
 
 
     // game sound effects
@@ -307,6 +331,7 @@ public class Assets {
     public static Music cosmic1;
     public static Music cosmic2;
     public static Music cosmic3;
+    public static Music menuMusic;
 
 
     // for controlling which song is being played currently
@@ -596,7 +621,26 @@ public class Assets {
                 new TextureRegion(atlas, 31 * 32, 14 * 32, 32, 32));
 
 
+        //level select screens
+        select1 = new Texture(game, "level_select/Level_Select_Menu1.jpg");
+        select1Region = new TextureRegion(select1, 0, 0, 512, 1024);
+        select2 = new Texture(game, "level_select/Level_Select_Menu2.jpg");
+        select2Region = new TextureRegion(select2, 0, 0, 512, 1024);
+        select3 = new Texture(game, "level_select/Level_Select_Menu3.jpg");
+        select3Region = new TextureRegion(select3, 0, 0, 512, 1024);
+        select4 = new Texture(game, "level_select/Level_Select_Menu4.jpg");
+        select4Region = new TextureRegion(select4, 0, 0, 512, 1024);
+        select5 = new Texture(game, "level_select/Level_Select_Menu5.jpg");
+        select5Region = new TextureRegion(select5, 0, 0, 512, 1024);
 
+        // human-alien turn confirmation popups
+        humanTurnConfirm = new Texture(game, "Human_Turn_pwr2.jpg");
+        humanTurnConfirmRegion = new TextureRegion(humanTurnConfirm, 0, 0, 512, 256);
+        alienTurnConfirm = new Texture(game, "Alien_Turn_pwr2.jpg");
+        alienTurnConfirmRegion = new TextureRegion(alienTurnConfirm, 0, 0, 512, 256);
+
+
+        //TODO: These need to be loaded in their own method
         // music and sounds
         spacebeat = game.getAudio().newMusic("sounds/spacebeat.ogg");
         spacebeat.setLooping(true);
@@ -618,9 +662,13 @@ public class Assets {
         cosmic3.setLooping(true);
         cosmic3.setVolume(Settings.DEFAULT_VOLUME);
 
+        menuMusic = game.getAudio().newMusic("sounds/menumusic.ogg");
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(Settings.DEFAULT_VOLUME);
 
-        // spacebeat is default song to play
-        currentMusic = cosmic1;
+
+        // menuMusic is default song to play
+        currentMusic = menuMusic;
 
         if(Settings.soundEnabled) {
             currentMusic.play();
@@ -637,8 +685,7 @@ public class Assets {
         menuClose = game.getAudio().newSound("sounds/menu-close.ogg");
         menuSelect = game.getAudio().newSound("sounds/menu-select.ogg");
         pickup = game.getAudio().newSound("sounds/pickup.ogg");
-        powerup = game.getAudio().newSound("sounds/powerup2.ogg");
-        //satelliteDestroy = game.getAudio().newSound("sounds/satellite-destroy.ogg");
+        powerup = game.getAudio().newSound("sounds/health-pickup-new.ogg");
         shotSound = game.getAudio().newSound("sounds/shot.ogg");
         warp = game.getAudio().newSound("sounds/warp.ogg");
 
@@ -648,7 +695,7 @@ public class Assets {
         green_activate = game.getAudio().newSound("sounds/green-activate.ogg");
         player_death = game.getAudio().newSound("sounds/player-death.ogg");
         purple_shot = game.getAudio().newSound("sounds/purple.ogg");
-        purple_activate = game.getAudio().newSound("sounds/purple-engage.ogg");
+        purple_activate = game.getAudio().newSound("sounds/purple-engage-new.ogg");
         red_death = game.getAudio().newSound("sounds/red-death.ogg");
         red_death_short = game.getAudio().newSound("sounds/red-death-short.ogg");
         satellite_destroy_no_pu = game.getAudio().newSound("sounds/satellite-destroy-no-powerup.ogg");

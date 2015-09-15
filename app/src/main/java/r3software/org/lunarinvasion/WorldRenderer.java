@@ -121,7 +121,221 @@ public class WorldRenderer {
         renderButtons();
         renderEnergyBars();
         renderWeaponOverlay();
+        
+        renderHealthBars();
+        renderWeaponButtons();
 
+    }
+    
+    private void renderWeaponButtons() {
+
+        batcher.beginBatch(atlas);
+        
+        // draw weapon select buttons
+        batcher.drawSprite(21.75f, 17,
+                2, 2, Assets.humanButton);
+
+        //scaling for weapon sprite
+        float SIZE = 1.25f;
+
+        //draw current weapon over button
+        Projectile.TYPE selectedType = world.hCannon.curWeapon;
+        switch(selectedType) {
+            case ORANGE:
+                batcher.drawSprite(21.75f, 17,
+                        SIZE, SIZE, Assets.orangeShot);
+                break;
+            case BLUE:
+                batcher.drawSprite(21.75f, 17,
+                        SIZE, SIZE, Assets.blueShot);
+                break;
+            case GREEN:
+                batcher.drawSprite(21.75f, 17,
+                        SIZE, SIZE, Assets.greenShot);
+                break;
+            case RED:
+                batcher.drawSprite(21.75f, 17,
+                        SIZE, SIZE, Assets.redShot);
+                break;
+            case MISSILE:
+                batcher.drawSprite(21.75f, 17,
+                        SIZE, SIZE, Assets.missile);
+                break;
+        }
+
+
+
+        batcher.drawSprite(21.75f, 22.6f,
+                2, -2, Assets.alienButton);
+
+        //draw current weapon over button
+        selectedType = world.aCannon.curWeapon;
+        switch(selectedType) {
+            case ORANGE:
+                batcher.drawSprite(21.75f, 22.6f,
+                        SIZE, SIZE, Assets.orangeShot);
+                break;
+            case BLUE:
+                batcher.drawSprite(21.75f, 22.6f,
+                        SIZE, SIZE, Assets.blueShot);
+                break;
+            case GREEN:
+                batcher.drawSprite(21.75f, 22.6f,
+                        SIZE, SIZE, Assets.greenShot);
+                break;
+            case RED:
+                batcher.drawSprite(21.75f, 22.6f,
+                        SIZE, SIZE, Assets.redShot);
+                break;
+            case MISSILE:
+                batcher.drawSprite(21.75f, 22.6f,
+                        SIZE, -SIZE, Assets.missile);
+                break;
+        }
+
+        batcher.endBatch();
+    }
+    
+    public void renderHealthBars() {
+
+        
+        Cannon hCannon = world.hCannon;
+        
+        //draw energy bars on-screen
+        //draw human ship energy bars
+        int humanHealth = (int) hCannon.health;
+
+        TextureRegion hHealthState;
+
+        if(hCannon.shieldOn) {
+            hHealthState = Assets.shieldHealth;
+        } else {
+            hHealthState = Assets.filledHealth;
+        }
+
+        batcher.beginBatch(atlas);
+
+        switch(humanHealth) {
+            case 60:
+                //draw six full energy bars
+                batcher.drawSprite(21.75f, 1, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 2, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 3, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 4, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 5, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 6, 2, 1, hHealthState);
+                break;
+            case 50:
+                batcher.drawSprite(21.75f, 1, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 2, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 3, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 4, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 5, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 6, 2, 1, Assets.emptyHealth);
+                break;
+            case 40:
+                batcher.drawSprite(21.75f, 1, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 2, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 3, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 4, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 5, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 6, 2, 1, Assets.emptyHealth);
+                break;
+            case 30:
+                batcher.drawSprite(21.75f, 1, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 2, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 3, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 4, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 5, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 6, 2, 1, Assets.emptyHealth);
+                break;
+            case 20:
+                batcher.drawSprite(21.75f, 1, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 2, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 3, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 4, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 5, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 6, 2, 1, Assets.emptyHealth);
+                break;
+            case 10:
+                batcher.drawSprite(21.75f, 1, 2, 1, hHealthState);
+                batcher.drawSprite(21.75f, 2, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 3, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 4, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 5, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 6, 2, 1, Assets.emptyHealth);
+                break;
+            default:
+                //draw nothing
+        }
+
+        Cannon aCannon = world.aCannon;
+
+        int alienHealth = (int) aCannon.health;
+
+        TextureRegion aHealthState;
+        if(aCannon.shieldOn) {
+            aHealthState = Assets.shieldHealth;
+        } else {
+            aHealthState = Assets.filledHealth;
+        }
+
+        switch(alienHealth) {
+
+            case 60:
+                //draw six full energy bars
+                batcher.drawSprite(21.75f, 39, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 38, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 37, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 36, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 35, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 34, 2, 1, aHealthState);
+                break;
+            case 50:
+                batcher.drawSprite(21.75f, 39, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 38, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 37, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 36, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 35, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 34, 2, 1, Assets.emptyHealth);
+                break;
+            case 40:
+                batcher.drawSprite(21.75f, 39, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 38, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 37, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 36, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 35, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 34, 2, 1, Assets.emptyHealth);
+                break;
+            case 30:
+                batcher.drawSprite(21.75f, 39, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 38, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 37, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 36, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 35, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 34, 2, 1, Assets.emptyHealth);
+                break;
+            case 20:
+                batcher.drawSprite(21.75f, 39, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 38, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 37, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 36, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 35, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 34, 2, 1, Assets.emptyHealth);
+                break;
+            case 10:
+                batcher.drawSprite(21.75f, 39, 2, 1, aHealthState);
+                batcher.drawSprite(21.75f, 38, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 37, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 36, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 35, 2, 1, Assets.emptyHealth);
+                batcher.drawSprite(21.75f, 34, 2, 1, Assets.emptyHealth);
+                break;
+            default:
+                //draw nothing
+        }
+
+        batcher.endBatch();
     }
 
 
@@ -132,7 +346,7 @@ public class WorldRenderer {
         batcher.beginBatch(background);
         batcher.drawSprite(cam.position.x, cam.position.y, //uses camera's center as background center
                 FRUSTUM_WIDTH, FRUSTUM_HEIGHT,
-                Assets.background_3_UI_region);
+                Assets.background_3_UI_region); // works for all world background
         batcher.endBatch();
     }
 

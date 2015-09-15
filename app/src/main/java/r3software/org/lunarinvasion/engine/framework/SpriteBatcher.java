@@ -83,7 +83,7 @@ public class SpriteBatcher {
 		numSprites++;
 	}
 
-    public void drawSprite(float x, float y, float width,
+ /*   public void drawSprite(float x, float y, float width,
                            float height, TextureRegion region,
                            float sx, float sy) {
         width *= sx;
@@ -117,7 +117,7 @@ public class SpriteBatcher {
         verticesBuffer[bufferIndex++] = region.v1;
 
         numSprites++;
-    }
+    }*/
 	
 	 public void drawSprite(float x, float y, float width,
                             float height, float angle, TextureRegion region) {

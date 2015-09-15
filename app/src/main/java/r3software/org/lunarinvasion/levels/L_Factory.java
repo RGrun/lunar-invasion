@@ -42,19 +42,7 @@ public class L_Factory implements Level {
         // "Factory"
 
         //2x2 angled platforms
-        /*world.platforms.add(new Platform_Angled_2X2(0, 34, Triangle.TRIANGLE_FACING.NE));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 30, Triangle.TRIANGLE_FACING.SW));
-        world.platforms.add(new Platform_Angled_2X2(0, 28, Triangle.TRIANGLE_FACING.SE));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 28, Triangle.TRIANGLE_FACING.NW));
 
-        world.platforms.add(new Platform_Angled_2X2(0, 22, Triangle.TRIANGLE_FACING.NE));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 18, Triangle.TRIANGLE_FACING.SW));
-        world.platforms.add(new Platform_Angled_2X2(0, 12, Triangle.TRIANGLE_FACING.SE));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 12, Triangle.TRIANGLE_FACING.NW));
-
-        world.platforms.add(new Platform_Angled_2X2(0, 10, Triangle.TRIANGLE_FACING.NE));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 6, Triangle.TRIANGLE_FACING.SW));
-*/
         world.platforms.add(new Platform_Angled_2X2(3, 26, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(3, 24, Triangle.TRIANGLE_FACING.SW));
         world.platforms.add(new Platform_Angled_2X2(5, 24, Triangle.TRIANGLE_FACING.SE));
@@ -71,9 +59,9 @@ public class L_Factory implements Level {
 
 
         //unbreakable 8x2 platforms
-        world.platforms.add(new Platform_8X2(19.5f, 35, false, 10, 90));
+        world.platforms.add(new Platform_8X2(19f, 35, false, 10, 90));
 
-        world.platforms.add(new Platform_8X2(19.5f, 23, false, 10, 90));
+        world.platforms.add(new Platform_8X2(19f, 23, false, 10, 90));
 
         world.platforms.add(new Platform_8X2(0, 17, false, 10, 90));
 
@@ -81,7 +69,7 @@ public class L_Factory implements Level {
 
         //UB 4x2 pl
         world.platforms.add(new Platform_4X2(0, 31, false, 10, 90));
-        world.platforms.add(new Platform_4X2(19.5f, 9, false, 10, 90));
+        world.platforms.add(new Platform_4X2(19, 9, false, 10, 90));
 
         // 16x2 pl
         world.platforms.add(new Platform_16X2(10, 40, false, 10, 0));

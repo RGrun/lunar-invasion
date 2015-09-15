@@ -35,6 +35,7 @@ import r3software.org.lunarinvasion.levels.L_Schema;
 import r3software.org.lunarinvasion.levels.L_Subterranean;
 import r3software.org.lunarinvasion.levels.L_Temple;
 import r3software.org.lunarinvasion.levels.L_WalledOff;
+import r3software.org.lunarinvasion.levels.Level;
 import r3software.org.lunarinvasion.projectiles.Projectile;
 
 import static r3software.org.lunarinvasion.engine.framework.Input.TouchEvent;
@@ -62,11 +63,10 @@ public class GameScreen extends GLScreen {
     SpriteBatcher batcher;    //for sprite rendering
     SpriteBatcher UIbatcher;
     World world; //Game world
-    World.WorldListener worldListener; //interface that controls the game's sound effects
     WorldRenderer renderer;   //renders game sprites, not UI sprites
     FPSCounter counter;
 
-    public GameScreen(Game game) {
+    public GameScreen(Game game, Level levelToLoad) {
         super(game);
         state = GAME_READY;
 
@@ -74,24 +74,8 @@ public class GameScreen extends GLScreen {
         touchPoint = new Vector2();
         batcher = new SpriteBatcher(glGraphics, 1000);
         UIbatcher = new SpriteBatcher(glGraphics, 1000);
-        worldListener = new World.WorldListener() { //listener plays sounds
-           /* public void jump() {
-                Assets.playSound(Assets.jumpSound);
-            }
 
-            public void highJump() {
-                Assets.playSound(Assets.highJumpSound);
-            }
-
-            public void hit() {
-                Assets.playSound(Assets.hitSound);
-            }
-
-            public void coin() {
-                Assets.playSound(Assets.coinSound);
-            }*/
-        };
-        world = new World(worldListener, game, this, guiCam, new L_Isolation());
+        world = new World(game, this, guiCam, levelToLoad);
         renderer = new WorldRenderer(glGraphics, batcher, world);
         counter = new FPSCounter();
     }
@@ -121,9 +105,9 @@ public class GameScreen extends GLScreen {
     }
 
     private void updateReady() {
-        if(game.getInput().getTouchEvents().size() > 0) {
-            state = GAME_RUNNING;
-        }
+
+        state = GAME_RUNNING;
+
     }
 
     private void updateRunning(float deltaTime) {
@@ -252,6 +236,27 @@ public class GameScreen extends GLScreen {
             batcher.endBatch();
         }
 
+        //draw interstitial screens
+        if(world.state == World.HUMAN_TURN_START) {
+            batcher.beginBatch(Assets.humanTurnConfirm);
+
+            batcher.drawSprite(720 / 2, 1280 / 2,
+                    20 * 32, 15 * 32,
+                    Assets.humanTurnConfirmRegion);
+
+            batcher.endBatch();
+        }
+
+        if(world.state == World.ALIEN_TURN_START) {
+            batcher.beginBatch(Assets.alienTurnConfirm);
+
+            batcher.drawSprite(720 / 2, 1280 / 2,
+                    -(20 * 32), -(15 * 32),
+                    Assets.alienTurnConfirmRegion);
+
+            batcher.endBatch();
+        }
+
 
         gl.glDisable(GL10.GL_BLEND); //disable blending
 
@@ -260,8 +265,8 @@ public class GameScreen extends GLScreen {
 
     private void presentReady() {
         //REMOVE WHEN WE HAVE REAL MENUS
-        String textToDraw = "Tap to start!";
-        Assets.font.drawText(UIbatcher, textToDraw, 720 / 2 - 140, 1280 / 2 + 100);
+        /*String textToDraw = "Tap to start!";
+        Assets.font.drawText(UIbatcher, textToDraw, 720 / 2 - 140, 1280 / 2 + 100);*/
        /* batcher.drawSprite(160, 240, 192, 32, Assets.ready);*/
     }
 
@@ -276,136 +281,6 @@ public class GameScreen extends GLScreen {
 
         Cannon hCannon = world.cannons.get(World.HUMAN_CANNON);
         Cannon aCannon = world.cannons.get(World.ALIEN_CANNON);
-
-        //draw energy bars on-screen
-        //draw human ship energy bars
-        int humanHealth = (int) hCannon.health;
-
-        TextureRegion hHealthState;
-
-        if(hCannon.shieldOn) {
-            hHealthState = Assets.shieldHealth;
-        } else {
-            hHealthState = Assets.filledHealth;
-        }
-
-        switch(humanHealth) {
-            case 60:
-                //draw six full energy bars
-                UIbatcher.drawSprite(720 - (96 / 2) + 7, 32, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 2, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 3, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 4, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 5, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 6, 64, 32, hHealthState);
-                break;
-            case 50:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 2, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 3, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 4, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 5, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 6, 64, 32, Assets.emptyHealth);
-                break;
-            case 40:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 2, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 3, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 4, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 5, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 6, 64, 32, Assets.emptyHealth);
-                break;
-            case 30:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 2, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 3, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 4, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 5, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 6, 64, 32, Assets.emptyHealth);
-                break;
-            case 20:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 2, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 3, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 4, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 5, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 6, 64, 32, Assets.emptyHealth);
-                break;
-            case 10:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32, 64, 32, hHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 2, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 3, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 4, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 5, 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 32 * 6, 64, 32, Assets.emptyHealth);
-                break;
-            default:
-                //draw nothing
-        }
-
-        int alienHealth = (int) aCannon.health;
-
-        TextureRegion aHealthState;
-        if(aCannon.shieldOn) {
-            aHealthState = Assets.shieldHealth;
-        } else {
-            aHealthState = Assets.filledHealth;
-        }
-
-        switch(alienHealth) {
-
-            case 60:
-                //draw six full energy bars
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 1), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 2), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 3), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 4), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 5), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 6), 64, 32, aHealthState);
-                break;
-            case 50:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 1), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 2), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 3), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 4), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 5), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 6), 64, 32, Assets.emptyHealth);
-                break;
-            case 40:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 1), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 2), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 3), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 4), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 5), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 6), 64, 32, Assets.emptyHealth);
-                break;
-            case 30:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 1), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 2), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 3), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 4), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 5), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 6), 64, 32, Assets.emptyHealth);
-                break;
-            case 20:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 1), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 2), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 3), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 4), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 5), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 6), 64, 32, Assets.emptyHealth);
-                break;
-            case 10:
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 1), 64, 32, aHealthState);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 2), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 3), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 4), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 5), 64, 32, Assets.emptyHealth);
-                UIbatcher.drawSprite(720 - (96 / 2)+ 7, 1280 - (32 * 6), 64, 32, Assets.emptyHealth);
-                break;
-            default:
-                //draw nothing
-        }
 
         //draw power bars
         //draw human power bar as text
@@ -454,67 +329,6 @@ public class GameScreen extends GLScreen {
                 1280 - (64 * 6), true);
 
 
-        // draw weapon select buttons
-        UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 94,
-                64, 64, Assets.humanButton);
-
-        //scaling for weapon sprite
-        float SIZE = 40;
-
-        //draw current weapon over button
-        Projectile.TYPE selectedType = hCannon.curWeapon;
-        switch(selectedType) {
-            case ORANGE:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 94,
-                        SIZE, SIZE, Assets.orangeShot);
-                break;
-            case BLUE:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 94,
-                        SIZE, SIZE, Assets.blueShot);
-                break;
-            case GREEN:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 94,
-                        SIZE, SIZE, Assets.greenShot);
-                break;
-            case RED:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 94,
-                        SIZE, SIZE, Assets.redShot);
-                break;
-            case MISSILE:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) - 94,
-                        SIZE, SIZE, Assets.missile);
-                break;
-        }
-
-
-
-        UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) + 84,
-                64, -64, Assets.alienButton);
-
-        //draw current weapon over button
-        selectedType = aCannon.curWeapon;
-        switch(selectedType) {
-            case ORANGE:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) + 84,
-                        SIZE, SIZE, Assets.orangeShot);
-                break;
-            case BLUE:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) + 84,
-                        SIZE, SIZE, Assets.blueShot);
-                break;
-            case GREEN:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) + 84,
-                        SIZE, SIZE, Assets.greenShot);
-                break;
-            case RED:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) + 84,
-                        SIZE, SIZE, Assets.redShot);
-                break;
-            case MISSILE:
-                UIbatcher.drawSprite(720 - (96 / 2) + 5, (1280 / 2) + 84,
-                        SIZE, -SIZE, Assets.missile);
-                break;
-        }
 
         //draw weapon ammo below weapon button
         int hCurrentAmmo = hCannon.getCurrentAmmo();
@@ -545,7 +359,9 @@ public class GameScreen extends GLScreen {
         //blacken game world
         if(world.state == World.GAME_PAUSED ||
                 world.state == World.HUMAN_WIN ||
-                world.state == World.ALIEN_WIN) {
+                world.state == World.ALIEN_WIN ||
+                world.state == World.HUMAN_TURN_START ||
+                world.state == World.ALIEN_TURN_START) {
 
 
             //draw black square over game world
@@ -556,26 +372,6 @@ public class GameScreen extends GLScreen {
                     Assets.blackOverlayRegion);
 
             batcher.endBatch();
-
-            /*if(Settings.soundEnabled) {
-                batcher.beginBatch(Assets.gameMenuSoundOn);
-
-                batcher.drawSprite(720 / 2, 1280 / 2,
-                        720 - 200, 1280 / 2,
-                        Assets.gameMenuSoundOnRegion);
-
-                batcher.endBatch();
-
-            } else {
-                batcher.beginBatch(Assets.gameMenuSoundOff);
-
-                batcher.drawSprite(720 / 2, 1280 / 2,
-                        720 - 100, 1280 / 2,
-                        Assets.gameMenuSoundOffRegion);
-
-                batcher.endBatch();
-            }*/
-
 
         }
 

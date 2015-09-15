@@ -89,6 +89,12 @@ public class World {
     public static final int GAME_PAUSED = 8;
     public static final int HUMAN_WIN = 9;
     public static final int ALIEN_WIN = 10;
+    public static final int HUMAN_TURN_START = 11;
+    public static final int ALIEN_TURN_START = 12;
+    public static final int BETWEEN_TURNS = 13;
+
+    //to mark what the next state will be during the delay
+    public int stateToCome;
 
     //cannon IDs
     public static final int HUMAN_CANNON = 0;
@@ -116,8 +122,6 @@ public class World {
 
     //shield effects
     public final List<ShieldEffect> shieldEffects = new ArrayList<>();
-
-    public final WorldListener listener;
 
     public int state;
 
@@ -166,6 +170,18 @@ public class World {
     public GameObject aRedBox = new GameObject(10, 28, 4, 4);
     public GameObject aBlueBox = new GameObject(14, 28, 4, 4);
 
+    //rectangle for interstitial screens
+    public GameObject humanTurnConfirm = new GameObject(((WORLD_WIDTH - 3) / 2) + 2, (WORLD_HEIGHT / 2) - 2,
+            15, 3.5f);
+
+    public GameObject alienTurnConfirm = new GameObject(((WORLD_WIDTH - 3) / 2) + 2, (WORLD_HEIGHT / 2) + 2,
+            15, 3.5f);
+
+    //delay before turn interstitial is displayed
+    public final float TURN_DELAY = 1f;
+
+    float waitTicker = 0f;
+
     // "gear" pause button
     public GameObject pauseButton = new GameObject(21.655f, 19.95f, 2, 2);
 
@@ -193,7 +209,7 @@ public class World {
     // randomized background texture for this level
     public Texture background;
 
-    public World(WorldListener listener, Game game,
+    public World(Game game,
                  Screen screen, Camera2D cam,
                  Level gameLevel) {
 
@@ -208,8 +224,6 @@ public class World {
         this.game = game;
 
         this.screen = screen;
-
-        this.listener = listener;
 
         cannons = new ArrayList<>();
 
@@ -238,24 +252,24 @@ public class World {
                 aCannon.pos().y - TARGET_DISTANCE_MAX, 1, 1);
 
         //button placement
-        this.humanMoveButton = new GameObject(21.65f, 9.7f, 2, 3);
-        this.alienMoveButton = new GameObject(21.65f, 30, 2, 3);
+        this.humanMoveButton = new GameObject(21.75f, 9.7f, 2, 3);
+        this.alienMoveButton = new GameObject(21.75f, 30, 2, 3);
 
-        this.humanWeaponButton = new GameObject(21.65f, 17.5f, 2, 3);
-        this.alienWeaponButton = new GameObject(21.65f, 22.5f, 2, 3);
+        this.humanWeaponButton = new GameObject(21.75f, 17.5f, 2, 3);
+        this.alienWeaponButton = new GameObject(21.75f, 22.5f, 2, 3);
 
         //energy bar placement
-        this.humanEnergyBar = new GameObject(21.65f, 13.7f, 2, 3);
-        this.alienEnergyBar = new GameObject(21.65f, 26, 2, 3);
+        this.humanEnergyBar = new GameObject(21.75f, 13.7f, 2, 3);
+        this.alienEnergyBar = new GameObject(21.75f, 26, 2, 3);
 
         this.humanTargetOn = true;
         this.alienTargetOn = true;
 
         this.background = Assets.randomBackground();
 
-        Log.d(TAG, "Entering H_CANNON_AIM");
+        //Log.d(TAG, "Entering H_CANNON_AIM");
         this.prevState = -1;
-        this.state = H_CANNON_AIM;
+        this.state = HUMAN_TURN_START;
 
     }
 
@@ -264,7 +278,9 @@ public class World {
 
         if(state != GAME_PAUSED &&
                 state != HUMAN_WIN &&
-                state != ALIEN_WIN) {
+                state != ALIEN_WIN &&
+                state != HUMAN_TURN_START &&
+                state != ALIEN_TURN_START) {
 
             checkIfCannonsDead();
 
@@ -288,7 +304,7 @@ public class World {
                 break;
 
             case H_MOVE:
-                updateHCannonMove();
+                updateHCannonMove(deltaTime);
                 break;
 
             case H_SELECT:
@@ -296,7 +312,7 @@ public class World {
                 break;
 
             case H_SHOOT:
-                updateHShoot();
+                updateHShoot(deltaTime);
                 break;
 
             case A_CANNON_AIM:
@@ -304,7 +320,7 @@ public class World {
                 break;
 
             case A_MOVE:
-                updateACannonMove();
+                updateACannonMove(deltaTime);
                 break;
 
             case A_SELECT:
@@ -312,7 +328,7 @@ public class World {
                 break;
 
             case A_SHOOT:
-                updateAShoot();
+                updateAShoot(deltaTime);
                 break;
 
             case GAME_PAUSED:
@@ -327,9 +343,91 @@ public class World {
                 updateAlienWin();
                 break;
 
+            case HUMAN_TURN_START:
+                updateHumanTurnStart();
+                break;
+
+            case ALIEN_TURN_START:
+                updateAlienTurnStart();
+                break;
+
+            case BETWEEN_TURNS:
+                updateBetweenTurns(deltaTime, stateToCome);
+                break;
+
         }
 
 
+    }
+
+    private void updateBetweenTurns(float deltaTime, int nextState) {
+
+        waitTicker += deltaTime;
+
+        if(waitTicker > TURN_DELAY) {
+            waitTicker = 0f;
+            state = nextState;
+        }
+
+
+    }
+
+    private void updateAlienTurnStart() {
+        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        int len = touchEvents.size();
+        for(int i = 0; i < len; i++) {
+            Input.TouchEvent event = touchEvents.get(i);
+
+            Vector2 pausedTouchPoint = new Vector2(event.x, event.y);
+
+            //translate screen coords to world coords
+            pausedTouchPoint.x =
+                    (event.x / (float) cam.glGraphics.getWidth() * WORLD_WIDTH);
+            pausedTouchPoint.y =
+                    (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
+
+            // start alien turn
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(alienTurnConfirm.bounds,
+                    pausedTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
+                game.getInput().getTouchEvents().clear();
+                state = A_CANNON_AIM;
+                break;
+            }
+
+
+
+        }
+    }
+
+    private void updateHumanTurnStart() {
+        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        int len = touchEvents.size();
+        for(int i = 0; i < len; i++) {
+            Input.TouchEvent event = touchEvents.get(i);
+
+            Vector2 pausedTouchPoint = new Vector2(event.x, event.y);
+
+            //translate screen coords to world coords
+            pausedTouchPoint.x =
+                    (event.x / (float) cam.glGraphics.getWidth() * WORLD_WIDTH);
+            pausedTouchPoint.y =
+                    (1 - event.y / (float) cam.glGraphics.getHeight()) * WORLD_HEIGHT;
+
+            // start human turn
+            if(event.type == Input.TouchEvent.TOUCH_UP
+                    && OverlapTester.pointInRectangle(humanTurnConfirm.bounds,
+                    pausedTouchPoint)) {
+                Assets.playSound(Assets.menuClose);
+                game.getInput().getTouchEvents().clear();
+                state = H_CANNON_AIM;
+                break;
+            }
+
+
+
+        }
     }
 
     private void checkIfCannonsDead() {
@@ -458,7 +556,7 @@ public class World {
 
         curLevel.loadLevel(this);
 
-        this.state = H_CANNON_AIM;
+        this.state = HUMAN_TURN_START;
         game.getInput().getTouchEvents().clear();
 
     }
@@ -808,7 +906,7 @@ public class World {
 
     }
 
-    public void updateHCannonMove() {
+    public void updateHCannonMove(float deltaTime) {
         Cannon cannon = cannons.get(HUMAN_CANNON);  //human cannon is index 0
         Rectangle bounds = new Rectangle(cannon.bounds);
         Vector2 testPoint = new Vector2();
@@ -879,7 +977,12 @@ public class World {
             if(!invalidMove && event.type == Input.TouchEvent.TOUCH_UP) {
                 cannon.teleport(testPoint, teleportEffects);
                 game.getInput().getTouchEvents().clear();
-                state = A_CANNON_AIM;
+
+                this.stateToCome = ALIEN_TURN_START;
+
+                state = BETWEEN_TURNS;
+
+                //state = ALIEN_TURN_START;
             } else if(invalidMove) {
                 Assets.playSound(Assets.cantGoHere);
                 game.getInput().getTouchEvents().clear();
@@ -980,7 +1083,7 @@ public class World {
         }
     }
 
-    public void updateHShoot() {
+    public void updateHShoot(float deltaTime) {
 
         checkCollisions();
 
@@ -1006,7 +1109,11 @@ public class World {
                         cannon.TELEPORT_DISTANCE_MAX;
             }
 
-            state = A_CANNON_AIM;
+           this.stateToCome = ALIEN_TURN_START;
+
+            state = BETWEEN_TURNS;
+
+            //state = ALIEN_TURN_START;
         }
 
     }
@@ -1112,7 +1219,7 @@ public class World {
 
     }
 
-    public void updateACannonMove() {
+    public void updateACannonMove(float deltaTime) {
         Cannon cannon = cannons.get(ALIEN_CANNON);  //alien cannon is index 1
         Rectangle bounds = new Rectangle(cannon.bounds);
         Vector2 testPoint = new Vector2();
@@ -1182,7 +1289,12 @@ public class World {
             if(!invalidMove && event.type == Input.TouchEvent.TOUCH_UP) {
                 cannon.teleport(testPoint, teleportEffects);
                 game.getInput().getTouchEvents().clear();
-                state = H_CANNON_AIM;
+
+                this.stateToCome = HUMAN_TURN_START;
+
+                state = BETWEEN_TURNS;
+
+                //state = HUMAN_TURN_START;
             } else if(invalidMove) {
                 Assets.playSound(Assets.cantGoHere);
                 game.getInput().getTouchEvents().clear();
@@ -1284,7 +1396,7 @@ public class World {
     }
 
 
-    public void updateAShoot() {
+    public void updateAShoot(float deltaTime) {
 
         checkCollisions();
 
@@ -1307,7 +1419,11 @@ public class World {
                 cannon.energyRatio = cannon.currentTeleportEnergy / cannon.TELEPORT_DISTANCE_MAX;
             }
 
-            state = H_CANNON_AIM;
+            this.stateToCome = HUMAN_TURN_START;
+
+            state = BETWEEN_TURNS;
+
+            //state = HUMAN_TURN_START;
 
 
         }

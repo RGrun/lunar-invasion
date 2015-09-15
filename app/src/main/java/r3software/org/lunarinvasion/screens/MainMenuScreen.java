@@ -77,8 +77,7 @@ public class MainMenuScreen extends GLScreen {
 
                 if(OverlapTester.pointInRectangle(play, touchPoint)) {
                     Assets.playSound(Assets.menuClick);
-                    //TODO: Change to level select screen once I have the select
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new LevelSelect1(game));
                     return;
                 }
 
