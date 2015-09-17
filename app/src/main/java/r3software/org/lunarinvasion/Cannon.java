@@ -114,6 +114,7 @@ public class Cannon extends GameObject {
         // cannon starts with orange weapon type selected by default
         this.curWeapon = Projectile.TYPE.ORANGE;
 
+        //TODO: Remove in full game
         // starting ammo
         this.blueAmmo = 3;
         this.greenAmmo = 3;
@@ -247,6 +248,7 @@ public class Cannon extends GameObject {
 
     //returns true on successful weapon change
     //returns false if ship has no ammo for weapon
+    @SuppressWarnings("RedundantIfStatement")
     private boolean checkAmmo(Projectile.TYPE newType) {
 
         switch(newType) {

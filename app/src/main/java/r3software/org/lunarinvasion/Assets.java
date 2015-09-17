@@ -92,7 +92,6 @@ public class Assets {
     public static TextureRegion platform_4x4_breakable;
 
     public static TextureRegion platform_4x2_static_v;
-    public static TextureRegion playform_4x2_static_h;
 
     public static TextureRegion platform_4x2_static_h;
 
@@ -307,7 +306,6 @@ public class Assets {
     public static Sound menuSelect;
     public static Sound pickup;
     public static Sound powerup;
-    public static Sound satelliteDestroy;
     public static Sound shotSound;
     public static Sound warp;
 
@@ -334,10 +332,15 @@ public class Assets {
     public static Music menuMusic;
 
 
+    public static GLGame gameRef;
+
+
     // for controlling which song is being played currently
     public static Music currentMusic;
 
     public static void load(GLGame game) {
+
+        gameRef = game;
 
         goalsPage = new Texture(game, "pages/Goals_Menu.jpg");
         goalsPageRegion = new TextureRegion(goalsPage, 0, 0, 512, 1024);
@@ -639,28 +642,11 @@ public class Assets {
         alienTurnConfirm = new Texture(game, "Alien_Turn_pwr2.jpg");
         alienTurnConfirmRegion = new TextureRegion(alienTurnConfirm, 0, 0, 512, 256);
 
-
-        //TODO: These need to be loaded in their own method
         // music and sounds
-        spacebeat = game.getAudio().newMusic("sounds/spacebeat.ogg");
-        spacebeat.setLooping(true);
-        spacebeat.setVolume(Settings.DEFAULT_VOLUME);
 
         victoryShort = game.getAudio().newMusic("sounds/victory-final.ogg");
         victoryShort.setLooping(true);
         victoryShort.setVolume(Settings.DEFAULT_VOLUME);
-
-        cosmic1 = game.getAudio().newMusic("sounds/cosmic1.ogg");
-        cosmic1.setLooping(true);
-        cosmic1.setVolume(Settings.DEFAULT_VOLUME);
-
-        cosmic2 = game.getAudio().newMusic("sounds/cosmic2.ogg");
-        cosmic2.setLooping(true);
-        cosmic2.setVolume(Settings.DEFAULT_VOLUME);
-
-        cosmic3 = game.getAudio().newMusic("sounds/cosmic3.ogg");
-        cosmic3.setLooping(true);
-        cosmic3.setVolume(Settings.DEFAULT_VOLUME);
 
         menuMusic = game.getAudio().newMusic("sounds/menumusic.ogg");
         menuMusic.setLooping(true);
@@ -704,7 +690,8 @@ public class Assets {
 
 	}
 	
-	public static void reload() {
+	@SuppressWarnings("unused")
+    public static void reload() {
 
         //only texture files are lost
         atlas.reload();
@@ -738,13 +725,56 @@ public class Assets {
         float test = rand.nextFloat();
 
         if(test <= 0.25f) {
-            changeMusic(spacebeat);
+
+            if(spacebeat != null) {
+                changeMusic(spacebeat);
+            } else {
+                spacebeat = gameRef.getAudio().newMusic("sounds/spacebeat.ogg");
+                spacebeat.setLooping(true);
+                spacebeat.setVolume(Settings.DEFAULT_VOLUME);
+
+                changeMusic(spacebeat);
+            }
+
+
         } else if(test > 0.25 && test <= 0.5) {
-            changeMusic(cosmic1);
+
+            if(cosmic1 != null) {
+                changeMusic(cosmic1);
+            } else {
+                cosmic1 = gameRef.getAudio().newMusic("sounds/cosmic1.ogg");
+                cosmic1.setLooping(true);
+                cosmic1.setVolume(Settings.DEFAULT_VOLUME);
+
+                changeMusic(cosmic1);
+            }
+
+
         } else if(test > 0.5 && test <= 0.75) {
-            changeMusic(cosmic2);
+
+            if(cosmic2 != null) {
+                changeMusic(cosmic2);
+            } else {
+                cosmic2 = gameRef.getAudio().newMusic("sounds/cosmic2.ogg");
+                cosmic2.setLooping(true);
+                cosmic2.setVolume(Settings.DEFAULT_VOLUME);
+
+                changeMusic(cosmic2);
+            }
+
+
         } else {
-            changeMusic(cosmic3);
+
+            if(cosmic3 != null) {
+                changeMusic(cosmic3);
+            } else {
+                cosmic3 = gameRef.getAudio().newMusic("sounds/cosmic3.ogg");
+                cosmic3.setLooping(true);
+                cosmic3.setVolume(Settings.DEFAULT_VOLUME);
+
+                changeMusic(cosmic3);
+            }
+
         }
     }
 

@@ -21,8 +21,6 @@ import r3software.org.lunarinvasion.engine.math.Triangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
 import r3software.org.lunarinvasion.levels.Level;
 import r3software.org.lunarinvasion.platforms.Platform;
-import r3software.org.lunarinvasion.platforms.Platform_2X2;
-import r3software.org.lunarinvasion.platforms.Platform_6X2;
 import r3software.org.lunarinvasion.platforms.Platform_Angled_2X2;
 import r3software.org.lunarinvasion.platforms.Platform_Angled_4X4;
 import r3software.org.lunarinvasion.platforms.Platform_Angled_6X6;
@@ -49,21 +47,12 @@ import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
  */
 
 //TODO: make pages have higher res b/c they're pixely on big tablets atm
-//TODO: fix target locations after player victory
-//TODO: add "Human Turn!" and "Alien Turn!" at screen top and bottom during turns
-//TODO: cannons can teleport onto each other currently
-//TODO: Add another in-between turns screen so who's turn it is is clear
-//TODO: bug with green shot where it breaks near an angled platform
-//TODO: all platforms must be at least 0.5? units apart
 //TODO: fix angled 6x6 texture
-//TODO: drones need their position reset on game resume (worth fixing?)
+//TODO: Optimize music loading
 
 
+@SuppressWarnings({"deprecation", "ConstantConditions"})
 public class World {
-
-    public interface WorldListener {
-
-    }
 
     public static final String TAG = "lunarinvasion";
 
@@ -158,7 +147,7 @@ public class World {
     public Cannon aCannon;
 
     //rectangles for weapon selection
-    public GameObject hOrgangeBox = new GameObject(10, 16, 4, 4);
+    public GameObject hOrangeBox = new GameObject(10, 16, 4, 4);
     public GameObject hGreenBox = new GameObject(14, 16, 4, 4);
     public GameObject hMissileBox = new GameObject(18, 16, 4, 4);
     public GameObject hRedBox = new GameObject(10, 12, 4, 4);
@@ -304,7 +293,7 @@ public class World {
                 break;
 
             case H_MOVE:
-                updateHCannonMove(deltaTime);
+                updateHCannonMove();
                 break;
 
             case H_SELECT:
@@ -312,7 +301,7 @@ public class World {
                 break;
 
             case H_SHOOT:
-                updateHShoot(deltaTime);
+                updateHShoot();
                 break;
 
             case A_CANNON_AIM:
@@ -320,7 +309,7 @@ public class World {
                 break;
 
             case A_MOVE:
-                updateACannonMove(deltaTime);
+                updateACannonMove();
                 break;
 
             case A_SELECT:
@@ -328,7 +317,7 @@ public class World {
                 break;
 
             case A_SHOOT:
-                updateAShoot(deltaTime);
+                updateAShoot();
                 break;
 
             case GAME_PAUSED:
@@ -390,7 +379,6 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(alienTurnConfirm.bounds,
                     pausedTouchPoint)) {
-                Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
                 state = A_CANNON_AIM;
                 break;
@@ -419,7 +407,6 @@ public class World {
             if(event.type == Input.TouchEvent.TOUCH_UP
                     && OverlapTester.pointInRectangle(humanTurnConfirm.bounds,
                     pausedTouchPoint)) {
-                Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
                 state = H_CANNON_AIM;
                 break;
@@ -477,8 +464,8 @@ public class World {
                     winTouchPoint)) {
                 Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
+                Assets.changeMusic(Assets.menuMusic);
                 game.setScreen(new MainMenuScreen(game));
-                Assets.randomSong();
                 break;
             }
 
@@ -528,8 +515,8 @@ public class World {
                     winTouchPoint)) {
                 Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
+                Assets.changeMusic(Assets.menuMusic);
                 game.setScreen(new MainMenuScreen(game));
-                Assets.randomSong();
                 break;
             }
 
@@ -555,6 +542,9 @@ public class World {
         powerUps.clear();
 
         curLevel.loadLevel(this);
+
+        this.humanTargetOn = false;
+        this.alienTargetOn = false;
 
         this.state = HUMAN_TURN_START;
         game.getInput().getTouchEvents().clear();
@@ -906,7 +896,7 @@ public class World {
 
     }
 
-    public void updateHCannonMove(float deltaTime) {
+    public void updateHCannonMove() {
         Cannon cannon = cannons.get(HUMAN_CANNON);  //human cannon is index 0
         Rectangle bounds = new Rectangle(cannon.bounds);
         Vector2 testPoint = new Vector2();
@@ -969,6 +959,11 @@ public class World {
                 }
             }
 
+            //check to see if teleport would put you on top of the other cannon
+            if(OverlapTester.pointInCircle(aCannon.cannonCircle, testPoint)) {
+                invalidMove = true;
+            }
+
             //check to see if point is outside game area
             if(testPoint.x > WORLD_WIDTH - 3) {
                 invalidMove = true;
@@ -1022,7 +1017,7 @@ public class World {
             }
 
             //did the user select a new weapon?
-            if(OverlapTester.pointInRectangle(hOrgangeBox.bounds, humanTouchPoint)) {
+            if(OverlapTester.pointInRectangle(hOrangeBox.bounds, humanTouchPoint)) {
                 if(!cannon.setWeapon(Projectile.TYPE.ORANGE)) {
                     Assets.playSound(Assets.error2);
                 } else {
@@ -1083,7 +1078,7 @@ public class World {
         }
     }
 
-    public void updateHShoot(float deltaTime) {
+    public void updateHShoot() {
 
         checkCollisions();
 
@@ -1112,8 +1107,6 @@ public class World {
            this.stateToCome = ALIEN_TURN_START;
 
             state = BETWEEN_TURNS;
-
-            //state = ALIEN_TURN_START;
         }
 
     }
@@ -1219,7 +1212,7 @@ public class World {
 
     }
 
-    public void updateACannonMove(float deltaTime) {
+    public void updateACannonMove() {
         Cannon cannon = cannons.get(ALIEN_CANNON);  //alien cannon is index 1
         Rectangle bounds = new Rectangle(cannon.bounds);
         Vector2 testPoint = new Vector2();
@@ -1279,6 +1272,11 @@ public class World {
                 } else if(OverlapTester.overlapRectangles(bounds, platforms.get(j).bounds)) {
                     invalidMove = true;
                 }
+            }
+
+            //check to see if teleport would put you on top of the other cannon
+            if(OverlapTester.pointInCircle(hCannon.cannonCircle, testPoint)) {
+                invalidMove = true;
             }
 
             //check to see if point is outside game area
@@ -1396,7 +1394,7 @@ public class World {
     }
 
 
-    public void updateAShoot(float deltaTime) {
+    public void updateAShoot() {
 
         checkCollisions();
 
@@ -1470,6 +1468,7 @@ public class World {
                     pausedTouchPoint)) {
                 Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
+                Assets.changeMusic(Assets.menuMusic);
                 game.setScreen(new MainMenuScreen(game));
                 break;
             }
@@ -1898,7 +1897,7 @@ public class World {
                         proj.boundingCircle)) {
                     dr.explode();
                     if(proj.projType == Projectile.TYPE.BLUE) {
-                        checkBlueShotExplosionRadius((Proj_Blue) proj, false);
+                        checkBlueShotExplosionRadius((Proj_Blue) proj);
                         ((Proj_Blue) proj).explode(false);
                     }
                     if(proj.projType != Projectile.TYPE.BLUE) {
@@ -2123,12 +2122,10 @@ public class World {
         }
     }
 
-    public void checkBlueShotExplosionRadius(Proj_Blue proj, boolean shipExplosion) {
+    @SuppressWarnings("StatementWithEmptyBody")
+    public void checkBlueShotExplosionRadius(Proj_Blue proj) {
         //check against all destroyable objects
 
-        /*if (proj.curState == Proj_Blue.BLUE_STATE.EXPLODING || !shipExplosion) {
-            return;
-        }*/
 
         for(int i = 0; i < platforms.size(); i++) {
             Platform ptfm = platforms.get(i);
@@ -2174,7 +2171,6 @@ public class World {
         }
 
         //check against all drones
-        drones:
         for (int i = 0; i < drones.size(); i++) {
             Drone dr = drones.get(i);
 
@@ -2199,7 +2195,7 @@ public class World {
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    @SuppressWarnings({"StatementWithEmptyBody", "ConstantConditions"})
     private void checkPlatformCollisions() {
 
         stopChecking:
@@ -2230,7 +2226,7 @@ public class World {
                     if(ptfm.breakable) {
 
                         if(proj.projType == Projectile.TYPE.BLUE) {
-                            checkBlueShotExplosionRadius((Proj_Blue) proj, false);
+                            checkBlueShotExplosionRadius((Proj_Blue) proj);
                             if(((Proj_Blue) proj).curState !=
                                     Proj_Blue.BLUE_STATE.EXPLODING) {
                                 ((Proj_Blue) proj).explode(false);

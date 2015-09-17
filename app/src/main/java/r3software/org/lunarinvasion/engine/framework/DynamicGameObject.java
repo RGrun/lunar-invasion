@@ -6,6 +6,7 @@ import r3software.org.lunarinvasion.engine.math.Vector2;
 import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
 import static r3software.org.lunarinvasion.engine.math.Vector2.vec2Normalize;
 
+@SuppressWarnings("unused")
 public class DynamicGameObject extends GameObject {
 
     //current velocity
@@ -146,7 +147,7 @@ public class DynamicGameObject extends GameObject {
      *  vectors accordingly
      */
     public void setHeading(Vector2 new_heading) {
-        assert ((new_heading.lenSq() - 1.0) < 0.00001);
+        //assert ((new_heading.lenSq() - 1.0) < 0.00001);
 
         heading = new_heading;
 

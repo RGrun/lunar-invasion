@@ -48,12 +48,12 @@ public class L_Backboard implements Level {
         world.platforms.add(new Platform_Angled_2X2(1, 16, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(1, 14, Triangle.TRIANGLE_FACING.SE));
 
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 26, Triangle.TRIANGLE_FACING.NW));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 24, Triangle.TRIANGLE_FACING.SW));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 21, Triangle.TRIANGLE_FACING.NW));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 19, Triangle.TRIANGLE_FACING.SW));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 16, Triangle.TRIANGLE_FACING.NW));
-        world.platforms.add(new Platform_Angled_2X2(19.5f, 14, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19f, 26, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_2X2(19f, 24, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19f, 21, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_2X2(19f, 19, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(19f, 16, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_2X2(19f, 14, Triangle.TRIANGLE_FACING.SW));
 
         //unbreakable 8x2 platforms
         world.platforms.add(new Platform_8X2(5, 38, false, 10, 0));

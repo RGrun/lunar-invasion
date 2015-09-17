@@ -39,6 +39,7 @@ import r3software.org.lunarinvasion.projectiles.Projectile;
  *
  * This class renders the game world.
  */
+@SuppressWarnings("UnnecessaryContinue")
 public class WorldRenderer {
 
     public static final float FRUSTUM_WIDTH = 23;
@@ -528,7 +529,7 @@ public class WorldRenderer {
             //only render fizzling projectiles
             if(proj.fizzleState != Projectile.FIZZLE_STATE.FIZZLING) continue;
 
-            TextureRegion keyFrame = null;
+            TextureRegion keyFrame;
 
             switch(proj.projType) {
                 case ORANGE:
@@ -905,7 +906,7 @@ public class WorldRenderer {
             // only render non-fizzling projectiles
             if(proj.fizzleState == Projectile.FIZZLE_STATE.FIZZLING) continue;
 
-            TextureRegion keyFrame = null;
+            TextureRegion keyFrame;
 
             switch(proj.projType) {
                 case ORANGE:
