@@ -79,17 +79,17 @@ public class L_WalledOff implements Level {
 
         //drones
         List<Vector2> d1p = new ArrayList<>();
-        d1p.add(new Vector2(2, 20));
+        d1p.add(new Vector2(1, 20));
         d1p.add(new Vector2(7, 8));
-        d1p.add(new Vector2(2, 20));
+        d1p.add(new Vector2(1, 20));
         d1p.add(new Vector2(7, 32));
 
         world.drones.add(new Drone(7, 32, d1p, false));
 
         List<Vector2> d2p = new ArrayList<>();
-        d2p.add(new Vector2(18, 20));
+        d2p.add(new Vector2(19, 20));
         d2p.add(new Vector2(13, 32));
-        d2p.add(new Vector2(18, 20));
+        d2p.add(new Vector2(19, 20));
         d2p.add(new Vector2(13, 8));
 
         world.drones.add(new Drone(13, 8, d2p, true));

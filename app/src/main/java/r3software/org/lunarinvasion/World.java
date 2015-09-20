@@ -48,7 +48,7 @@ import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
 
 //TODO: make pages have higher res b/c they're pixely on big tablets atm
 //TODO: fix angled 6x6 texture
-//TODO: Optimize music loading
+//TODO: do green projectiles get stuck in non-angled platforms during separation?
 
 
 @SuppressWarnings({"deprecation", "ConstantConditions"})
@@ -283,6 +283,7 @@ public class World {
             updateDrones(deltaTime);
             checkDroneCollisions();
             checkCannonPowerUpCollisions();
+            checkGreenShotsInsidePlatforms();
 
         }
 
@@ -345,6 +346,52 @@ public class World {
                 break;
 
         }
+
+
+    }
+
+    // green projectiles sometimes get stuck inside angled platforms
+    // during separation. This method is here to delete them right away if
+    // that ever happens during gameplay.
+    private void checkGreenShotsInsidePlatforms() {
+
+        for(int j = 0; j < projectiles.size(); j++) {
+            Projectile proj = projectiles.get(j);
+
+            if(!(proj instanceof Proj_Green)) {
+                return;
+            }
+
+            //delete projectiles that are inside platforms
+            for (int i = 0; i < platforms.size(); i++) {
+
+                Platform ptfm = platforms.get(i);
+
+                if (ptfm.type == Platform.PLATFORM_TYPE.TYPE_ANGLED_2X2) {
+                    boolean insideTri = Triangle.pointInTriangle(proj.getPosition(), (Platform_Angled_2X2) ptfm);
+
+                    if (insideTri) {
+                        projectiles.remove(j);
+                    }
+                } else if (ptfm.type == Platform.PLATFORM_TYPE.TYPE_ANGLED_4X4) {
+                    boolean insideTri = Triangle.pointInTriangle(proj.getPosition(), (Platform_Angled_4X4) ptfm);
+
+                    if (insideTri) {
+                        projectiles.remove(j);
+                    }
+                } else if (ptfm.type == Platform.PLATFORM_TYPE.TYPE_ANGLED_6X6) {
+                    boolean insideTri = Triangle.pointInTriangle(proj.getPosition(), (Platform_Angled_6X6) ptfm);
+
+                    if (insideTri) {
+                        projectiles.remove(j);
+                    }
+                }
+            }
+
+        }
+
+
+
 
 
     }
@@ -1291,8 +1338,6 @@ public class World {
                 this.stateToCome = HUMAN_TURN_START;
 
                 state = BETWEEN_TURNS;
-
-                //state = HUMAN_TURN_START;
             } else if(invalidMove) {
                 Assets.playSound(Assets.cantGoHere);
                 game.getInput().getTouchEvents().clear();

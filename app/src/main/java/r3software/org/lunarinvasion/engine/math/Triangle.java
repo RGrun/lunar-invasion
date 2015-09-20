@@ -1,5 +1,10 @@
 package r3software.org.lunarinvasion.engine.math;
 
+import r3software.org.lunarinvasion.platforms.Platform;
+import r3software.org.lunarinvasion.platforms.Platform_Angled_2X2;
+import r3software.org.lunarinvasion.platforms.Platform_Angled_4X4;
+import r3software.org.lunarinvasion.platforms.Platform_Angled_6X6;
+
 import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
 
 /**
@@ -115,5 +120,57 @@ public class Triangle {
 
         return ((b1 == b2) && (b2 == b3));
     }
+
+    public static boolean pointInTriangle (Vector2 pt, Platform_Angled_2X2 ptfm)
+    {
+        Triangle tri = ptfm.triBounds;
+
+        Vector2 v1 = tri.A;
+        Vector2 v2 = tri.B;
+        Vector2 v3 = tri.C;
+
+        boolean b1, b2, b3;
+
+        b1 = sign(pt, v1, v2) < 0.0f;
+        b2 = sign(pt, v2, v3) < 0.0f;
+        b3 = sign(pt, v3, v1) < 0.0f;
+
+        return ((b1 == b2) && (b2 == b3));
+    }
+
+    public static boolean pointInTriangle (Vector2 pt, Platform_Angled_4X4 ptfm)
+    {
+        Triangle tri = ptfm.triBounds;
+
+        Vector2 v1 = tri.A;
+        Vector2 v2 = tri.B;
+        Vector2 v3 = tri.C;
+
+        boolean b1, b2, b3;
+
+        b1 = sign(pt, v1, v2) < 0.0f;
+        b2 = sign(pt, v2, v3) < 0.0f;
+        b3 = sign(pt, v3, v1) < 0.0f;
+
+        return ((b1 == b2) && (b2 == b3));
+    }
+
+    public static boolean pointInTriangle (Vector2 pt, Platform_Angled_6X6 ptfm)
+    {
+        Triangle tri = ptfm.triBounds;
+
+        Vector2 v1 = tri.A;
+        Vector2 v2 = tri.B;
+        Vector2 v3 = tri.C;
+
+        boolean b1, b2, b3;
+
+        b1 = sign(pt, v1, v2) < 0.0f;
+        b2 = sign(pt, v2, v3) < 0.0f;
+        b3 = sign(pt, v3, v1) < 0.0f;
+
+        return ((b1 == b2) && (b2 == b3));
+    }
+
 
 }

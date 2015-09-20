@@ -5,8 +5,12 @@ import java.util.List;
 import r3software.org.lunarinvasion.Assets;
 import r3software.org.lunarinvasion.engine.math.Circle;
 import r3software.org.lunarinvasion.engine.math.OverlapTester;
+import r3software.org.lunarinvasion.engine.math.Triangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
 import r3software.org.lunarinvasion.platforms.Platform;
+import r3software.org.lunarinvasion.platforms.Platform_Angled_2X2;
+import r3software.org.lunarinvasion.platforms.Platform_Angled_4X4;
+import r3software.org.lunarinvasion.platforms.Platform_Angled_6X6;
 
 /**
  * Created by Jeff on 5/17/2015.
