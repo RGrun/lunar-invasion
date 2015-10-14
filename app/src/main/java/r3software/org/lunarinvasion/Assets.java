@@ -6,6 +6,7 @@ import r3software.org.lunarinvasion.engine.framework.Animation;
 import r3software.org.lunarinvasion.engine.framework.Font;
 import r3software.org.lunarinvasion.engine.framework.Music;
 import r3software.org.lunarinvasion.engine.framework.Sound;
+import r3software.org.lunarinvasion.engine.framework.SpriteBatcher;
 import r3software.org.lunarinvasion.engine.framework.TextureRegion;
 import r3software.org.lunarinvasion.engine.impl.GLGame;
 import r3software.org.lunarinvasion.engine.impl.Texture;
@@ -42,6 +43,9 @@ public class Assets {
 
     public static Texture background_5_UI;
     public static TextureRegion background_5_UI_region;
+
+    public static Texture background_6_UI;
+    public static TextureRegion background_6_UI_region;
 
     //in-game menu
     public static Texture gameMenuSoundOn;
@@ -365,7 +369,7 @@ public class Assets {
         weaponPUPage = new Texture(game, "pages/Weapon_PowerUp.jpg");
         weaponPUPageRegion = new TextureRegion(weaponPUPage, 0, 0, 512, 1024);
 
-        atlas = new Texture(game, "Sprite_Atlas_D.png");
+        atlas = new Texture(game, "Sprite_Atlas_E.png");
         menuAtlas = new Texture(game, "Menu_Sheet_2.png");
         menuBackground = new Texture (game, "backgrounds/Menu_BG_2_pwr2.png");
         menuBackgroundRegion = new TextureRegion(menuBackground, 0, 0, 512, 1024);
@@ -382,6 +386,7 @@ public class Assets {
         background_5 = new Texture(game, "backgrounds/Space_BG_5.jpg");
         background_5_region = new TextureRegion(background_5, 0, 0, 512, 1024);
 
+
         title_menu = new Texture(game, "backgrounds/Title_Menu.jpg");
         title_menu_region = new TextureRegion(title_menu, 0, 0, 512, 1024);
 
@@ -393,6 +398,10 @@ public class Assets {
 
         background_5_UI = new Texture(game, "backgrounds/Space_BG_5_UI.jpg");
         background_5_UI_region = new TextureRegion(background_5_UI, 0, 0, 512, 1024);
+
+        background_6_UI = new Texture(game, "backgrounds/Space_BG_6_UI.jpg");
+        background_6_UI_region = new TextureRegion(background_6_UI, 0, 0, 512, 1024);
+
 
         gameMenuSoundOn = new Texture(game, "Pause_Menu_1.png");
         gameMenuSoundOff = new Texture(game, "Pause_Menu_2.png");
@@ -420,7 +429,6 @@ public class Assets {
 
         humanTargetRegion = new TextureRegion(atlas, 30 * 32, 15 * 32, 2 * 32, 2 * 32);
         alienTargetRegion = new TextureRegion(atlas, 28 * 32,  15 * 32, 2 * 32, 2 * 32);
-
         //platforms
         platform_1x1_breakable = new TextureRegion(atlas, 11 * 32, 0, 32, 32);
         platform_1x1_static = new TextureRegion(atlas, 9 * 32, 3 * 32, 32, 32);
@@ -522,7 +530,7 @@ public class Assets {
         alienMenu = new TextureRegion(atlas, 16 * 32, 15 * 32, 12 * 32, 8 * 32);
 
         drone = new TextureRegion(atlas, 30 * 32, 17 * 32, 2 * 32, 2 * 32);
-        alienDrone = new TextureRegion(atlas, 28 * 32, 22 * 32, 2 * 32, 2 * 32);
+        alienDrone = new TextureRegion(atlas, 28 * 32 + 1, 22 * 32, 2 * 32, 2 * 32);
         humanDrone = new TextureRegion(atlas, 26 * 32, 6 * 32, 2 * 32, 2 * 32);
 
         armorPU = new TextureRegion(atlas, 31 * 32, 19 * 32, 1 * 32, 1 * 32);
@@ -783,19 +791,22 @@ public class Assets {
 
         float test = rand.nextFloat();
 
-        if(test <= 0.25f) {
+        if(test <= 0.20f) {
             return background_2_UI;
-        } else if(test > 0.25 && test <= 0.5) {
+        } else if(test > 0.20 && test <= 0.4) {
             return background_3_UI;
-        } else if(test > 0.5 && test <= 0.75) {
+        } else if(test > 0.40 && test <= 0.6) {
             return background_4_UI;
-        } else {
+        } else if (test > 0.6f && test <= 0.8f){
             return background_5_UI;
+        } else  {
+            return background_6_UI;
         }
     }
 
-    /*public static TextureRegion getRegionForBackground(Texture background) {
-
-    }*/
+    public static void versionNum(SpriteBatcher batcher) {
+        String textToDraw = "BETA_92015";
+        Assets.font.drawText(batcher, textToDraw, 720 / 2, 20);
+    }
 	
 }

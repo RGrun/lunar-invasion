@@ -143,6 +143,8 @@ public class MainMenuScreen extends GLScreen {
 
         gl.glDisable(GL10.GL_BLEND);
 
+
+
     }
 
     @Override

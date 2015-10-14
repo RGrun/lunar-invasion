@@ -244,10 +244,8 @@ public class GameScreen extends GLScreen {
     }
 
     private void presentReady() {
-        //REMOVE WHEN WE HAVE REAL MENUS
-        /*String textToDraw = "Tap to start!";
-        Assets.font.drawText(UIbatcher, textToDraw, 720 / 2 - 140, 1280 / 2 + 100);*/
-       /* batcher.drawSprite(160, 240, 192, 32, Assets.ready);*/
+
+
     }
 
     private void presentRunning() {
@@ -354,6 +352,9 @@ public class GameScreen extends GLScreen {
             batcher.endBatch();
 
         }
+
+
+       //Assets.versionNum(UIbatcher);
 
 
     }

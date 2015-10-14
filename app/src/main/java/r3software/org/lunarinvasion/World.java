@@ -887,34 +887,24 @@ public class World {
                 //past a max distance. If so, truncate
                 Vector2 distFromCannon = sub(humanTouchPoint, cannon.pos());
 
-                if(distFromCannon.len() > TARGET_DISTANCE_MAX) {
-
-                    Vector2 A = new Vector2(cannon.pos());
-                    Vector2 C = new Vector2(humanTouchPoint);
-
-                    Vector2 B = calculateOvershootPoint(A, C);
 
 
-                    humanTarget.setPosition(B);
-                    cannon.setTarget(B);
+                Vector2 A = new Vector2(cannon.pos());
+                Vector2 C = new Vector2(humanTouchPoint);
 
-                    if(event.type == Input.TouchEvent.TOUCH_UP) {
-                        Log.d(TAG, "Entering H_SHOOT");
-                        fire(); //fire switches state to shoot
-                    }
+                Vector2 B = calculateOvershootPoint(A, C);
 
+
+                humanTarget.setPosition(B);
+                cannon.setTarget(B);
+
+                if(event.type == Input.TouchEvent.TOUCH_UP) {
+                    Log.d(TAG, "Entering H_SHOOT");
+                    fire(); //fire switches state to shoot
                 }
-                if(distFromCannon.len() < TARGET_DISTANCE_MAX) {
 
-                    humanTarget.setPosition(humanTouchPoint); //for debugging
-                    cannon.setTarget(humanTouchPoint);
 
-                    if (event.type == Input.TouchEvent.TOUCH_UP) {
-                        Log.d(TAG, "Entering H_SHOOT");
-                        fire(); //fire switches state to shoot
-                    }
-
-                }
+                
 
             }
 
@@ -1223,34 +1213,23 @@ public class World {
                 //past a max distance. If so, truncate
                 Vector2 distFromCannon = sub(alienTouchPoint, cannon.pos());
 
-                if (distFromCannon.len() > TARGET_DISTANCE_MAX) {
-
-                    Vector2 A = new Vector2(cannon.pos());
-                    Vector2 C = new Vector2(alienTouchPoint);
-
-                    Vector2 B = calculateOvershootPoint(A, C);
 
 
-                    alienTarget.setPosition(B);
-                    cannon.setTarget(B);
+                Vector2 A = new Vector2(cannon.pos());
+                Vector2 C = new Vector2(alienTouchPoint);
 
-                    if (event.type == Input.TouchEvent.TOUCH_UP) {
-                        Log.d(TAG, "Entering A_SHOOT");
-                        fire(); //fire switches state to shoot
-                    }
+                Vector2 B = calculateOvershootPoint(A, C);
 
+
+                alienTarget.setPosition(B);
+                cannon.setTarget(B);
+
+                if (event.type == Input.TouchEvent.TOUCH_UP) {
+                    Log.d(TAG, "Entering A_SHOOT");
+                    fire(); //fire switches state to shoot
                 }
-                if (distFromCannon.len() < TARGET_DISTANCE_MAX) {
 
-                    alienTarget.setPosition(alienTouchPoint); //for debugging
-                    cannon.setTarget(alienTouchPoint);
 
-                    if (event.type == Input.TouchEvent.TOUCH_UP) {
-                        Log.d(TAG, "Entering A_SHOOT");
-                        fire(); //fire switches state to shoot
-                    }
-
-                }
 
             }
 
