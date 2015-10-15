@@ -902,8 +902,6 @@ public class World {
                     Log.d(TAG, "Entering H_SHOOT");
                     fire(); //fire switches state to shoot
                 }
-
-
                 
 
             }
