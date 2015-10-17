@@ -1,5 +1,6 @@
 package r3software.org.lunarinvasion.screens;
 
+import android.os.Handler;
 import android.util.Log;
 
 import java.util.List;
@@ -35,6 +36,8 @@ public class MainMenuScreen extends GLScreen {
     Rectangle credits;
     Rectangle soundToggle;
     FPSCounter counter;
+
+    Handler uiResponseHandler;
 
     public MainMenuScreen(Game game) {
         super(game);

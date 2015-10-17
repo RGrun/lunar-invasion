@@ -1,5 +1,10 @@
 package r3software.org.lunarinvasion.screens;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import java.util.List;
@@ -7,6 +12,7 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL10;
 
 import r3software.org.lunarinvasion.Assets;
+import r3software.org.lunarinvasion.CannonGameActivity;
 import r3software.org.lunarinvasion.Settings;
 import r3software.org.lunarinvasion.engine.framework.Camera2D;
 import r3software.org.lunarinvasion.engine.framework.Game;
@@ -50,6 +56,7 @@ public class HelpScreen extends GLScreen {
         gamePlay = new Rectangle(5, 25, 12, 3);
         weapons = new Rectangle(5, 21, 12, 3);
         powerUps = new Rectangle(5, 17, 12, 3);
+
     }
 
 
@@ -78,6 +85,17 @@ public class HelpScreen extends GLScreen {
                 if(OverlapTester.pointInRectangle(story, touchPoint)) {
                     Assets.playSound(Assets.menuClick);
                     //game.setScreen(new StoryPage1(game));
+
+                    // open the phone's web browser to this url
+                    String url = "http://google.com";
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("browserUri", url);
+
+                    Message msg = Message.obtain();
+                    msg.setData(bundle);
+
+                    ((CannonGameActivity)game).responseHandler.sendMessage(msg);
                     return;
                 }
 
