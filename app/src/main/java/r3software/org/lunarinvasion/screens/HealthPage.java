@@ -1,7 +1,5 @@
 package r3software.org.lunarinvasion.screens;
 
-import android.util.Log;
-
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -60,10 +58,6 @@ public class HealthPage extends GLScreen {
             touchPoint.y =
                     (1 - event.y / (float) guiCam.glGraphics.getHeight()) * Settings.WORLD_HEIGHT;
 
-            if(event.type == Input.TouchEvent.TOUCH_UP && Settings.logging) {
-
-                Log.i(MainMenuScreen.TAG, "X: " + touchPoint.x + " Y: " + touchPoint.y);
-            }
 
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 
@@ -84,6 +78,9 @@ public class HealthPage extends GLScreen {
                     Assets.playSound(Assets.menuClick);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
+                        if(Settings.soundEnabled) {
+                            Assets.changeMusic(Assets.menuMusic);
+                        }
                         Assets.currentMusic.play();
                     } else {
                         Assets.currentMusic.pause();

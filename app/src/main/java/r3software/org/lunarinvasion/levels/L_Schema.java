@@ -10,11 +10,7 @@ import r3software.org.lunarinvasion.World;
 import r3software.org.lunarinvasion.engine.math.Triangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
 import r3software.org.lunarinvasion.platforms.Platform_2X2;
-import r3software.org.lunarinvasion.platforms.Platform_4X2;
-import r3software.org.lunarinvasion.platforms.Platform_6X2;
 import r3software.org.lunarinvasion.platforms.Platform_Angled_2X2;
-import r3software.org.lunarinvasion.powerups.HealthPU;
-import r3software.org.lunarinvasion.powerups.ShieldPU;
 import r3software.org.lunarinvasion.powerups.WeaponPU;
 
 /**
@@ -49,6 +45,9 @@ public class L_Schema implements Level {
         world.platforms.add(new Platform_Angled_2X2(19, 37, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(19, 35, Triangle.TRIANGLE_FACING.SW));
 
+        world.platforms.add(new Platform_Angled_2X2(19, 31, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_2X2(19, 29, Triangle.TRIANGLE_FACING.SW));
+
         world.platforms.add(new Platform_Angled_2X2(5, 31, Triangle.TRIANGLE_FACING.NW));
         world.platforms.add(new Platform_Angled_2X2(5, 29, Triangle.TRIANGLE_FACING.SW));
         world.platforms.add(new Platform_Angled_2X2(7, 29, Triangle.TRIANGLE_FACING.SE));
@@ -68,6 +67,11 @@ public class L_Schema implements Level {
         world.platforms.add(new Platform_Angled_2X2(5, 9, Triangle.TRIANGLE_FACING.SW));
         world.platforms.add(new Platform_Angled_2X2(7, 9, Triangle.TRIANGLE_FACING.SE));
         world.platforms.add(new Platform_Angled_2X2(7, 11, Triangle.TRIANGLE_FACING.NE));
+
+        world.platforms.add(new Platform_Angled_2X2(13, 11, Triangle.TRIANGLE_FACING.NW));
+        world.platforms.add(new Platform_Angled_2X2(13, 9, Triangle.TRIANGLE_FACING.SW));
+        world.platforms.add(new Platform_Angled_2X2(15, 9, Triangle.TRIANGLE_FACING.SE));
+        world.platforms.add(new Platform_Angled_2X2(15, 11, Triangle.TRIANGLE_FACING.NE));
 
         world.platforms.add(new Platform_Angled_2X2(1, 11, Triangle.TRIANGLE_FACING.NE));
         world.platforms.add(new Platform_Angled_2X2(1, 9, Triangle.TRIANGLE_FACING.SE));

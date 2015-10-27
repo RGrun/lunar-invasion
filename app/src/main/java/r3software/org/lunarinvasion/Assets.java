@@ -322,7 +322,6 @@ public class Assets {
     public static Sound purple_activate;
     public static Sound red_death;
     public static Sound red_death_short;
-    public static Sound satellite_destroy_no_pu;
     public static Sound satellite_destory_pu;
     public static Sound take_damage;
 
@@ -335,6 +334,25 @@ public class Assets {
     public static Music cosmic3;
     public static Music menuMusic;
 
+
+    // story pages
+    public static Texture story1;
+    public static TextureRegion story1Region;
+
+    public static Texture story2;
+    public static TextureRegion story2Region;
+
+    public static Texture story3;
+    public static TextureRegion story3Region;
+
+    public static Texture story4;
+    public static TextureRegion story4Region;
+
+    public static Texture story5;
+    public static TextureRegion story5Region;
+
+    public static Texture story6;
+    public static TextureRegion story6Region;
 
     public static GLGame gameRef;
 
@@ -644,6 +662,25 @@ public class Assets {
         select5 = new Texture(game, "level_select/Level_Select_Menu5.jpg");
         select5Region = new TextureRegion(select5, 0, 0, 512, 1024);
 
+        // story screens
+        story1 = new Texture(game, "story/Story_1_scaled.jpg");
+        story1Region = new TextureRegion(story1, 0, 0, 512, 1024);
+
+        story2 = new Texture(game, "story/Story_2_scaled.jpg");
+        story2Region = new TextureRegion(story2, 0, 0, 512, 1024);
+
+        story3 = new Texture(game, "story/Story_3_scaled.jpg");
+        story3Region = new TextureRegion(story3, 0, 0, 512, 1024);
+
+        story4 = new Texture(game, "story/Story_4_scaled.jpg");
+        story4Region = new TextureRegion(story4, 0, 0, 512, 1024);
+
+        story5 = new Texture(game, "story/Story_5_scaled.jpg");
+        story5Region = new TextureRegion(story5, 0, 0, 512, 1024);
+
+        story6 = new Texture(game, "story/Story_6_scaled.jpg");
+        story6Region = new TextureRegion(story6, 0, 0, 512, 1024);
+
         // human-alien turn confirmation popups
         humanTurnConfirm = new Texture(game, "Human_Turn_pwr2.jpg");
         humanTurnConfirmRegion = new TextureRegion(humanTurnConfirm, 0, 0, 512, 256);
@@ -692,7 +729,6 @@ public class Assets {
         purple_activate = game.getAudio().newSound("sounds/purple-engage-new.ogg");
         red_death = game.getAudio().newSound("sounds/red-death.ogg");
         red_death_short = game.getAudio().newSound("sounds/red-death-short.ogg");
-        satellite_destroy_no_pu = game.getAudio().newSound("sounds/satellite-destroy-no-powerup.ogg");
         satellite_destory_pu = game.getAudio().newSound("sounds/satellite-destroy-powerup-drop.ogg");
         take_damage = game.getAudio().newSound("sounds/take-damage.ogg");
 
@@ -712,16 +748,23 @@ public class Assets {
 	}
 
     public static void changeMusic(Music newMusic) {
-        currentMusic.stop();
+
+        if(currentMusic != null) {
+            currentMusic.stop();
+        }
 
         currentMusic = newMusic;
 
         if(Settings.soundEnabled) {
-            currentMusic.play();
+            if(currentMusic != null) {
+                currentMusic.play();
+            }
         }
     }
 
     public static void playSound(Sound sound) {
+
+
         if(Settings.soundEnabled) {
             sound.play(1);
         }

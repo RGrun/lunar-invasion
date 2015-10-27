@@ -1,18 +1,10 @@
 package r3software.org.lunarinvasion.screens;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
 import r3software.org.lunarinvasion.Assets;
-import r3software.org.lunarinvasion.CannonGameActivity;
 import r3software.org.lunarinvasion.Settings;
 import r3software.org.lunarinvasion.engine.framework.Camera2D;
 import r3software.org.lunarinvasion.engine.framework.Game;
@@ -22,6 +14,7 @@ import r3software.org.lunarinvasion.engine.impl.GLScreen;
 import r3software.org.lunarinvasion.engine.math.OverlapTester;
 import r3software.org.lunarinvasion.engine.math.Rectangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
+import r3software.org.lunarinvasion.screens.story.StoryScreen1;
 
 /**
  * Created by Jeff on 7/2/2015.
@@ -75,19 +68,17 @@ public class HelpScreen extends GLScreen {
             touchPoint.y =
                     (1 - event.y / (float) guiCam.glGraphics.getHeight()) * Settings.WORLD_HEIGHT;
 
-            if(event.type == Input.TouchEvent.TOUCH_UP && Settings.logging) {
-
-                Log.i(MainMenuScreen.TAG, "X: " + touchPoint.x + " Y: " + touchPoint.y);
-            }
 
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 
                 if(OverlapTester.pointInRectangle(story, touchPoint)) {
                     Assets.playSound(Assets.menuClick);
-                    //game.setScreen(new StoryPage1(game));
+                    game.setScreen(new StoryScreen1(game));
 
-                    // open the phone's web browser to this url
-                    String url = "http://google.com";
+
+
+                    // open the phone's web browser to this url (for free version of game)
+                    /*String url = "http://google.com";
 
                     Bundle bundle = new Bundle();
                     bundle.putString("browserUri", url);
@@ -95,7 +86,7 @@ public class HelpScreen extends GLScreen {
                     Message msg = Message.obtain();
                     msg.setData(bundle);
 
-                    ((CannonGameActivity)game).responseHandler.sendMessage(msg);
+                    ((CannonGameActivity)game).responseHandler.sendMessage(msg);*/
                     return;
                 }
 
@@ -127,7 +118,10 @@ public class HelpScreen extends GLScreen {
                     Assets.playSound(Assets.menuClick);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
-                         Assets.currentMusic.play();
+                        if(Settings.soundEnabled) {
+                            Assets.changeMusic(Assets.menuMusic);
+                        }
+                        Assets.currentMusic.play();
                     } else {
                          Assets.currentMusic.pause();
                     }

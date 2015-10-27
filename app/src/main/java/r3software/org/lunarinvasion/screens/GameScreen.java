@@ -10,7 +10,6 @@ import r3software.org.lunarinvasion.Settings;
 import r3software.org.lunarinvasion.World;
 import r3software.org.lunarinvasion.WorldRenderer;
 import r3software.org.lunarinvasion.engine.framework.Camera2D;
-import r3software.org.lunarinvasion.engine.framework.FPSCounter;
 import r3software.org.lunarinvasion.engine.framework.Game;
 import r3software.org.lunarinvasion.engine.framework.SpriteBatcher;
 import r3software.org.lunarinvasion.engine.impl.GLScreen;
@@ -44,7 +43,7 @@ public class GameScreen extends GLScreen {
     SpriteBatcher UIbatcher;
     World world; //Game world
     WorldRenderer renderer;   //renders game sprites, not UI sprites
-    FPSCounter counter;
+    //FPSCounter counter;
 
     public GameScreen(Game game, Level levelToLoad) {
         super(game);
@@ -57,7 +56,7 @@ public class GameScreen extends GLScreen {
 
         world = new World(game, this, guiCam, levelToLoad);
         renderer = new WorldRenderer(glGraphics, batcher, world);
-        counter = new FPSCounter();
+        //counter = new FPSCounter();
     }
 
     @Override
@@ -94,7 +93,7 @@ public class GameScreen extends GLScreen {
 
         world.update(deltaTime); //game updated here
 
-        counter.logFrame();
+        //counter.logFrame();
 
 
     }
@@ -240,7 +239,7 @@ public class GameScreen extends GLScreen {
 
         gl.glDisable(GL10.GL_BLEND); //disable blending
 
-        counter.logFrame();
+        //counter.logFrame();
     }
 
     private void presentReady() {

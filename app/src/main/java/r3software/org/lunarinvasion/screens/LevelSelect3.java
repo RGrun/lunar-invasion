@@ -16,12 +16,6 @@ import r3software.org.lunarinvasion.engine.impl.GLScreen;
 import r3software.org.lunarinvasion.engine.math.OverlapTester;
 import r3software.org.lunarinvasion.engine.math.Rectangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
-import r3software.org.lunarinvasion.levels.L_ChaosTheroy;
-import r3software.org.lunarinvasion.levels.L_Dig;
-import r3software.org.lunarinvasion.levels.L_Double_Helix;
-import r3software.org.lunarinvasion.levels.L_Entropy;
-import r3software.org.lunarinvasion.levels.L_Factory;
-import r3software.org.lunarinvasion.levels.L_Gauntlet;
 import r3software.org.lunarinvasion.levels.L_Highway;
 import r3software.org.lunarinvasion.levels.L_Honeypot;
 import r3software.org.lunarinvasion.levels.L_Hourglass;
@@ -154,6 +148,9 @@ public class LevelSelect3 extends GLScreen {
                     Assets.playSound(Assets.menuClick);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
+                        if(Settings.soundEnabled) {
+                            Assets.changeMusic(Assets.menuMusic);
+                        }
                         Assets.currentMusic.play();
                     } else {
                         Assets.currentMusic.pause();

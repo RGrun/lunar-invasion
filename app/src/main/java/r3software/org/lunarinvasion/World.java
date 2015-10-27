@@ -1,7 +1,6 @@
 package r3software.org.lunarinvasion;
 
 import android.util.FloatMath;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +46,9 @@ import static r3software.org.lunarinvasion.engine.math.Vector2.sub;
  */
 
 //TODO: make pages have higher res b/c they're pixely on big tablets atm
-//TODO: fix angled 6x6 texture
-//TODO: do green projectiles get stuck in non-angled platforms during separation?
 
 
-@SuppressWarnings({"deprecation", "ConstantConditions"})
+@SuppressWarnings({"deprecation", "ConstantConditions", "StatementWithEmptyBody"})
 public class World {
 
     public static final String TAG = "lunarinvasion";
@@ -758,7 +755,6 @@ public class World {
 
                     } else if (payload > 0.33f) {
                         //drop nothing
-                        Assets.playSound(Assets.satellite_destroy_no_pu);
                     }
 
                     drones.remove(i);
@@ -842,7 +838,7 @@ public class World {
 
             if(event.type == Input.TouchEvent.TOUCH_UP) {
 
-                Log.i(TAG, "X: " + humanTouchPoint.x + " Y: " + humanTouchPoint.y);
+                //Log.i(TAG, "X: " + humanTouchPoint.x + " Y: " + humanTouchPoint.y);
             }
 
             //check for move button press
@@ -899,7 +895,7 @@ public class World {
                 cannon.setTarget(B);
 
                 if(event.type == Input.TouchEvent.TOUCH_UP) {
-                    Log.d(TAG, "Entering H_SHOOT");
+                    //Log.d(TAG, "Entering H_SHOOT");
                     fire(); //fire switches state to shoot
                 }
 
@@ -1119,7 +1115,7 @@ public class World {
 
         if(projectiles.size() == 0) {
 
-            Log.d(TAG, "Entering A_CANNON_AIM");
+            //Log.d(TAG, "Entering A_CANNON_AIM");
             game.getInput().getTouchEvents().clear();
 
             Cannon cannon = cannons.get(HUMAN_CANNON);
@@ -1223,7 +1219,7 @@ public class World {
                 cannon.setTarget(B);
 
                 if (event.type == Input.TouchEvent.TOUCH_UP) {
-                    Log.d(TAG, "Entering A_SHOOT");
+                    //Log.d(TAG, "Entering A_SHOOT");
                     fire(); //fire switches state to shoot
                 }
 
@@ -1422,7 +1418,7 @@ public class World {
 
         if(projectiles.size() == 0) {
 
-            Log.d(TAG, "Entering H_CANNON_AIM");
+            //Log.d(TAG, "Entering H_CANNON_AIM");
             game.getInput().getTouchEvents().clear();
 
             Cannon cannon = cannons.get(ALIEN_CANNON);
@@ -1490,7 +1486,7 @@ public class World {
                     pausedTouchPoint)) {
                 Assets.playSound(Assets.menuClose);
                 game.getInput().getTouchEvents().clear();
-                Assets.changeMusic(Assets.menuMusic);
+                //Assets.changeMusic(Assets.menuMusic);
                 game.setScreen(new MainMenuScreen(game));
                 break;
             }
@@ -1543,7 +1539,7 @@ public class World {
 
             float speedFromLen = distFromCannon.len() * POWER_SCALE;
 
-            Log.d(TAG, "Speed From Len: " + speedFromLen);
+            //Log.d(TAG, "Speed From Len: " + speedFromLen);
 
             Projectile.TYPE projType = hCannon.curWeapon;
 
@@ -1647,7 +1643,7 @@ public class World {
 
             float speedFromLen = distFromCannon.len() * POWER_SCALE;
 
-            Log.d(TAG, "Speed From Len: " + speedFromLen);
+            //Log.d(TAG, "Speed From Len: " + speedFromLen);
 
             Projectile.TYPE projType = aCannon.curWeapon;
 
@@ -1917,6 +1913,7 @@ public class World {
 
                 if(OverlapTester.overlapCircles(dr.boundingCircle,
                         proj.boundingCircle)) {
+                    Assets.playSound(Assets.blockDestroy);
                     dr.explode();
                     if(proj.projType == Projectile.TYPE.BLUE) {
                         checkBlueShotExplosionRadius((Proj_Blue) proj);
@@ -1936,6 +1933,7 @@ public class World {
 
                 if(OverlapTester.overlapCircles(dr.boundingCircle,
                         cannon.cannonCircle)) {
+                    Assets.playSound(Assets.blockDestroy);
                     dr.explode();
                     cannon.damage(10);
                 }
@@ -2363,10 +2361,10 @@ public class World {
                                 proj.position = proj.lastNonCollidingPosition;
 
                                 //corner hit
-                                Log.d(TAG, "!!!!CORNER HIT!!!!");
-                                Log.d(TAG, "!!!!CORNER HIT!!!!");
-                                Log.d(TAG, "!!!!CORNER HIT!!!!");
-                                Log.d(TAG, "!!!!CORNER HIT!!!!");
+                                //Log.d(TAG, "!!!!CORNER HIT!!!!");
+                                //Log.d(TAG, "!!!!CORNER HIT!!!!");
+                                //Log.d(TAG, "!!!!CORNER HIT!!!!");
+                                //Log.d(TAG, "!!!!CORNER HIT!!!!");
 
                                 float angle = (float) Math.atan2(ptfm.pos().y - proj.pos().y,
                                         ptfm.pos().x - proj.pos().x);

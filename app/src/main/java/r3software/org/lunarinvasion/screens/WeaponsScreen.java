@@ -125,7 +125,10 @@ public class WeaponsScreen extends GLScreen {
                     Assets.playSound(Assets.menuClick);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
-                         Assets.currentMusic.play();
+                        if(Settings.soundEnabled) {
+                            Assets.changeMusic(Assets.menuMusic);
+                        }
+                        Assets.currentMusic.play();
                     } else {
                          Assets.currentMusic.pause();
                     }

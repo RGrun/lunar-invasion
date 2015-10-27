@@ -12,7 +12,7 @@ public class Settings {
     public static final float WORLD_HEIGHT = 40;
 
     //enable / disable logging
-    public static boolean logging = true;
+    public static boolean logging = false;
 
     public static final float DEFAULT_VOLUME = 0.4f;
 }

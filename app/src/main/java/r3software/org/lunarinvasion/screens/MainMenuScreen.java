@@ -1,6 +1,5 @@
 package r3software.org.lunarinvasion.screens;
 
-import android.os.Handler;
 import android.util.Log;
 
 import java.util.List;
@@ -10,7 +9,6 @@ import javax.microedition.khronos.opengles.GL10;
 import r3software.org.lunarinvasion.Assets;
 import r3software.org.lunarinvasion.Settings;
 import r3software.org.lunarinvasion.engine.framework.Camera2D;
-import r3software.org.lunarinvasion.engine.framework.FPSCounter;
 import r3software.org.lunarinvasion.engine.framework.Game;
 import r3software.org.lunarinvasion.engine.framework.Input;
 import r3software.org.lunarinvasion.engine.framework.SpriteBatcher;
@@ -35,9 +33,7 @@ public class MainMenuScreen extends GLScreen {
     Rectangle help;
     Rectangle credits;
     Rectangle soundToggle;
-    FPSCounter counter;
-
-    Handler uiResponseHandler;
+    //FPSCounter counter;
 
     public MainMenuScreen(Game game) {
         super(game);
@@ -52,7 +48,11 @@ public class MainMenuScreen extends GLScreen {
 
         touchPoint = new Vector2();
 
-        counter = new FPSCounter();
+        //counter = new FPSCounter();
+
+        if(Settings.soundEnabled) {
+            Assets.changeMusic(Assets.menuMusic);
+        }
     }
 
     @Override
@@ -100,6 +100,10 @@ public class MainMenuScreen extends GLScreen {
                     Assets.playSound(Assets.menuClick);
                     Settings.soundEnabled = !Settings.soundEnabled;
                     if(Settings.soundEnabled) {
+
+                        if(Settings.soundEnabled) {
+                            Assets.changeMusic(Assets.menuMusic);
+                        }
                         Assets.currentMusic.play();
                     } else {
                         Assets.currentMusic.pause();
@@ -113,7 +117,7 @@ public class MainMenuScreen extends GLScreen {
 
         }
 
-        counter.logFrame();
+        //counter.logFrame();
 
     }
 

@@ -1,4 +1,4 @@
-package r3software.org.lunarinvasion.screens;
+package r3software.org.lunarinvasion.screens.story;
 
 import android.util.Log;
 
@@ -16,29 +16,32 @@ import r3software.org.lunarinvasion.engine.impl.GLScreen;
 import r3software.org.lunarinvasion.engine.math.OverlapTester;
 import r3software.org.lunarinvasion.engine.math.Rectangle;
 import r3software.org.lunarinvasion.engine.math.Vector2;
+import r3software.org.lunarinvasion.screens.MainMenuScreen;
 
 /**
- * Created by richard on 8/11/15.
+ * Created by richard on 10/26/15.
  *
- * Shooting tutorial
+ * Story screen #6
  */
-public class ShootingPage extends GLScreen {
+public class StoryScreen6 extends GLScreen {
 
     Vector2 touchPoint;
     Camera2D guiCam;
     SpriteBatcher batcher;
     Rectangle back;
     Rectangle toMenu;
+    //Rectangle nextScreen;
     Rectangle soundToggle;
 
-    public ShootingPage(Game game) {
+    public StoryScreen6(Game game) {
 
         super(game);
         guiCam = new Camera2D(glGraphics, 720, 1280);
         batcher = new SpriteBatcher(glGraphics, 100);
 
-        back = new Rectangle(2, 5, 4, 4);
+        back = new Rectangle(2, 2, 4, 4);
         toMenu = new Rectangle(9f, 0f, 4, 4);
+      //nextScreen = new Rectangle(17, 2, 4, 4);
         soundToggle = new Rectangle(0, 0, 2, 2);
 
 
@@ -70,7 +73,7 @@ public class ShootingPage extends GLScreen {
 
                 if (OverlapTester.pointInRectangle(back, touchPoint)) {
                     Assets.playSound(Assets.menuClick);
-                    game.setScreen(new GamePlayScreen(game));
+                    game.setScreen(new StoryScreen5(game));
                     return;
                 }
 
@@ -79,6 +82,14 @@ public class ShootingPage extends GLScreen {
                     game.setScreen(new MainMenuScreen(game));
                     return;
                 }
+
+                /*if(OverlapTester.pointInRectangle(nextScreen, touchPoint)) {
+                    Assets.playSound(Assets.menuClick);
+                    game.setScreen(new StoryScreen3(game));
+                    return;
+                }*/
+
+
 
                 if(OverlapTester.pointInRectangle(soundToggle, touchPoint)) {
                     Assets.playSound(Assets.menuClick);
@@ -96,6 +107,7 @@ public class ShootingPage extends GLScreen {
         }
     }
 
+
     @Override
     public void present(float deltaTime) {
         GL10 gl = glGraphics.getGL();
@@ -104,8 +116,8 @@ public class ShootingPage extends GLScreen {
 
         gl.glEnable(GL10.GL_TEXTURE_2D);
 
-        batcher.beginBatch(Assets.shootingPage);
-        batcher.drawSprite(360, 640, 720, 1280, Assets.shootingPageRegion);
+        batcher.beginBatch(Assets.story6);
+        batcher.drawSprite(360, 640, 720, 1280, Assets.story6Region);
         batcher.endBatch();
 
         gl.glEnable(GL10.GL_BLEND);
@@ -113,8 +125,9 @@ public class ShootingPage extends GLScreen {
 
         batcher.beginBatch(Assets.menuAtlas);
 
-        batcher.drawSprite(128, 224, 128, 128, Assets.left_arrow);
+        batcher.drawSprite(128, 4 * 32, 128, 128, Assets.left_arrow);
         batcher.drawSprite(360, 2.5f * 32, 128, 128, Assets.down_arrow);
+        //batcher.drawSprite(18 * 32, 4 * 32, 128, 128, Assets.right_arrow);
 
         batcher.drawSprite(32, 32, 64, 64, (Settings.soundEnabled ?
                 Assets.soundOn : Assets.soundOff));

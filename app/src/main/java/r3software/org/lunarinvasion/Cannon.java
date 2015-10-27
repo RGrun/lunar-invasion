@@ -114,12 +114,11 @@ public class Cannon extends GameObject {
         // cannon starts with orange weapon type selected by default
         this.curWeapon = Projectile.TYPE.ORANGE;
 
-        //TODO: Remove in full game
         // starting ammo
-        this.blueAmmo = 3;
-        this.greenAmmo = 3;
-        this.redAmmo = 3;
-        this.missileAmmo = 3;
+        this.blueAmmo = 0;
+        this.greenAmmo = 0;
+        this.redAmmo = 0;
+        this.missileAmmo = 0;
 
         this.shieldOn = false;
 
