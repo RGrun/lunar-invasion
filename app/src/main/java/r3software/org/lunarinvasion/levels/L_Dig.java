@@ -1,21 +1,9 @@
 package r3software.org.lunarinvasion.levels;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import r3software.org.lunarinvasion.Assets;
 import r3software.org.lunarinvasion.Cannon;
-import r3software.org.lunarinvasion.Drone;
 import r3software.org.lunarinvasion.World;
-import r3software.org.lunarinvasion.engine.math.Triangle;
-import r3software.org.lunarinvasion.engine.math.Vector2;
 import r3software.org.lunarinvasion.platforms.Platform_2X2;
-import r3software.org.lunarinvasion.platforms.Platform_4X2;
-import r3software.org.lunarinvasion.platforms.Platform_6X2;
-import r3software.org.lunarinvasion.platforms.Platform_Angled_2X2;
-import r3software.org.lunarinvasion.powerups.HealthPU;
-import r3software.org.lunarinvasion.powerups.ShieldPU;
-import r3software.org.lunarinvasion.powerups.WeaponPU;
 
 /**
  * Created by richard on 9/1/15.
@@ -51,7 +39,9 @@ public class L_Dig implements Level {
             }
         }
 
-        //TODO: Give players more starting blue shots
+        // players start with more blue ammo on this level
+        world.hCannon.blueAmmo = 4;
+        world.aCannon.blueAmmo = 4;
 
         Assets.randomSong();
 
