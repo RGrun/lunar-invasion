@@ -504,7 +504,6 @@ public class WorldRenderer {
         //render things from the first sprite sheet
         batcher.beginBatch(Assets.atlas);
 
-        renderPowerUps();
         renderPlatforms();
         renderDrones();
         renderProjectiles();
@@ -512,10 +511,11 @@ public class WorldRenderer {
         renderProjectileTails();
         renderShotBounces();
         renderCannons();
-        renderTargets();
         renderTeleportEffects();
         renderShieldEffects();
+        renderTargets();
         renderBlueShotExplosion();
+        renderPowerUps();
         batcher.endBatch();
 
 

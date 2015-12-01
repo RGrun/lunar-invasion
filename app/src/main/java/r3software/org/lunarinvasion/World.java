@@ -224,6 +224,7 @@ public class World {
 
         this.curLevel = gameLevel;
 
+
         //set up obstacle blocks and everything else
         curLevel.loadLevel(this);
 
