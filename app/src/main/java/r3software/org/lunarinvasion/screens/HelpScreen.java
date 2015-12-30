@@ -110,7 +110,7 @@ public class HelpScreen extends GLScreen {
 
                 if (OverlapTester.pointInRectangle(back, touchPoint)) {
                     Assets.playSound(Assets.menuClick);
-                    game.setScreen(new MainMenuScreen(game));
+                    game.setScreen(new MainMenuScreen(game, true));
                     return;
                 }
 

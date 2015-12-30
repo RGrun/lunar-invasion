@@ -55,6 +55,24 @@ public class MainMenuScreen extends GLScreen {
         }
     }
 
+    // This constructor exists to fix a bug where the menu music
+    // restarts itself when navigating to the main menu screen from
+    // another menu screen.
+    public MainMenuScreen(Game game, boolean fromOtherMenuPage) {
+        super(game);
+        guiCam = new Camera2D(glGraphics, 720, 1280);
+        batcher = new SpriteBatcher(glGraphics, 100);
+
+        play = new Rectangle(5, 17, 12, 4);
+        help = new Rectangle(6, 12, 10, 4);
+        credits = new Rectangle(6.625f, 7, 10, 4);
+        soundToggle = new Rectangle(0, 0, 2, 2);
+
+
+        touchPoint = new Vector2();
+
+    }
+
     @Override
     public void update(float deltaTime) {
 
